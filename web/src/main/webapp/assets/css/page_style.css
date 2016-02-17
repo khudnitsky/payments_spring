@@ -5,7 +5,8 @@ body {
 	padding: 0;
 	background-color:transparent;
 	background-position:center;
-	background-image: url(/payments/assets/img/money-wallpaper-1920x1200-01.png);
+	background-image: url(../img/money-wallpaper-1920x1200-01.png);
+			/*url(/payments/assets/img/money-wallpaper-1920x1200-01.png);*/
 }
 
 /* ~~ Селекторы элементов/тегов ~~ */
@@ -63,7 +64,7 @@ a:hover, a:active, a:focus { /* эта группа селекторов обе�
 	width: 180px;
 }
 .content {
-
+	margin-left: 30%;
 	padding: 10px 0;
 	width: 780px;
 	float: left;
@@ -78,7 +79,7 @@ a:hover, a:active, a:focus { /* эта группа селекторов обе�
 ul.nav {
 	list-style: none; /* удаляет маркер списка */
 	border-top: 1px solid #666; /* создает верхнюю границу ссылок — все остальные размещаются с использованием нижней границы в LI */
-	margin-bottom: 15px; /* создает пространство между навигацией по содержимому ниже */
+	/*margin-bottom: 15px; !* создает пространство между навигацией по содержимому ниже *!*/
 }
 ul.nav li {
 	border-bottom: 1px solid #666; /* разделяет кнопки */
