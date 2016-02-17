@@ -1,0 +1,9 @@
+@charset "utf-8";
+
+.inputStyle{
+	size: 20px;
+	background-color:#F9F9F9;
+	border-radius : 6px;
+	text-align:center;
+	font-size:18px;
+}

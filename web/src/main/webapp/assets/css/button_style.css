@@ -1,0 +1,26 @@
+@charset "utf-8";
+
+input[type=submit] {
+   border : solid 1px #e6e6e6;
+	border-radius : 6px;
+	moz-border-radius : 6px;
+	-webkit-box-shadow : 2px 2px 8px rgba(0,0,0,0.7);
+	-moz-box-shadow : 2px 2px 8px rgba(0,0,0,0.7);
+	box-shadow : 2px 2px 8px rgba(0,0,0,0.7);
+	font-size : 20px;
+	color : #4f4f4f;
+	padding : 1px 17px;
+	background : #ffffff;
+	background : -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(49%,#f1f1f1), color-stop(51%,#e1e1e1), color-stop(100%,#b0aeb0));
+	background : -moz-linear-gradient(top, #ffffff 0%, #f1f1f1 49%, #e1e1e1 51%, #b0aeb0 100%);
+	background : -webkit-linear-gradient(top, #ffffff 0%, #f1f1f1 49%, #e1e1e1 51%, #b0aeb0 100%);
+	background : -o-linear-gradient(top, #ffffff 0%, #f1f1f1 49%, #e1e1e1 51%, #b0aeb0 100%);
+	background : -ms-linear-gradient(top, #ffffff 0%, #f1f1f1 49%, #e1e1e1 51%, #b0aeb0 100%);
+	background : linear-gradient(top, #ffffff 0%, #f1f1f1 49%, #e1e1e1 51%, #b0aeb0 100%);
+	filter : progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#b0aeb0',GradientType=0 );
+}
+
+input[type=submit]:active {
+	position:relative;
+	top:1px;
+}

@@ -1,0 +1,58 @@
+@charset "utf-8";
+
+body {
+	font: 100%/1.4 Verdana, Arial, Helvetica, sans-serif;
+	background-color:transparent;
+	background-position:center;
+	background-image: url(../../img/background_wall.png);  
+	margin: 0;
+	padding: 0;
+	color: #000;
+}
+
+/* ~~ этот контейнер фиксированной ширины окружает все остальные DIV ~~ */
+.container {
+	width: 90%;
+	margin: 0 auto; /* автоматическое задание величин по бокам в совокупности с шириной центрирует макет */
+}
+
+.header {
+}
+
+.content {
+	background-image: url(../../img/background.png);
+	margin-left: 30%;
+	width:40%;
+}
+
+.footer {
+	margin-bottom: 10%
+	padding: 10px 0;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+	margin-top: 0;	 
+	padding-right: 15px;
+	padding-left: 15px;
+}
+a img { /* этот селектор убирает стандартную синюю рамку, которая появляется у изображений в некоторых браузерах, если вокруг изображения есть ссылка */
+	border: none;
+}
+
+a:link {
+	color: #42413C;
+	text-decoration: underline; 
+	/* если только ссылки не должны выглядеть исключительно своеобразно, то для быстрого зрительного распознавания рекомендуется использовать подчеркивание */
+}
+
+a:visited {
+	color: #6E6C64;
+	text-decoration: underline;
+}
+
+a:hover, a:active, a:focus { 
+/* эта группа селекторов обеспечивает пользователю, работающему с клавиатурой, такие же возможности наведения, как и при использовании мыши. */
+	text-decoration: none;
+}
+
+

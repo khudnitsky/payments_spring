@@ -1,0 +1,29 @@
+@charset "utf-8";
+
+
+.sidebar {
+	float: left;
+	width: 30%;
+}
+
+ul.nav {
+	list-style: none; /* удаляет маркер списка */
+}
+ul.nav li {
+	border-bottom: 1px solid #666; /* разделяет кнопки */
+	border-left: 1px solid #666;
+	border-right: 1px solid #666;
+}
+ul.nav a, ul.nav a:visited { 
+/* группировка этих селекторов гарантирует, что ссылки будут выглядеть как кнопки даже после того, как пользователь перейдет по ним */
+	padding: 5px 5px 5px 15px;
+	display: block; /* наделяет ссылку свойствами блока, из-за чего она заполняет весь содержащий ее элемент LI. При этом вся область реагирует на щелчок мышью. */
+	text-decoration: none;
+	background-image: url(../../img/background.png);
+	color: #000;
+}
+ul.nav a:hover, ul.nav a:active, ul.nav a:focus { 
+/* изменяет цвет текста и фона при навигации с помощью клавиатуры и мыши */
+	background: #6F7D94;
+	color: #FFF;
+}
