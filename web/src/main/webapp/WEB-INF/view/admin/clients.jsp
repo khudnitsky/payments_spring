@@ -18,15 +18,12 @@
 			</div>
 
 			<div class="sidebar">
-				<%@include file="../elements/sidebar_admin_page.jsp" %>
-				<ul class="nav">
-					<li><a href="controller?command=backadmin">Вернуться обратно</a></li>
-				</ul>
+				<%@include file="../elements/admin/mini_sidebar.jsp" %>
 				<!-- end .sidebar1 -->
 			</div>
 
 			<div class="content">
-				<table border="1" align="center">
+				<table border="1" align="left">
 					<tr bgcolor="#CCCCCC">
 						<td align="center"><strong>Фамилия</strong></td>
 						<td align="center"><strong>Имя</strong></td>

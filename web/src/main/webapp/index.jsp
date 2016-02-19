@@ -23,16 +23,11 @@
 <div class="container">
 
     <div class="header">
-        <%@include file="WEB-INF/view/elements/header.jsp" %>
+        <%@include file="WEB-INF/view/elements/index/header.jsp" %>
     </div> <!-- end of header -->
 
     <div class="sidebar">
-        <ul class="nav">
-            <li><a href="controller?command=gotoregistration">Регистрация</a></li>
-            <li><a href="http://select.by/kurs/" target="_blank">Курсы валют</a></li>
-            <li><a href="#">Информация о банке</a></li>
-            <li><a href="#">Новости</a></li>
-        </ul>
+        <%@include file="WEB-INF/view/elements/index/sidebar.jsp"%>
         <!-- end .sidebar -->
     </div>
 
@@ -79,7 +74,7 @@
     </div>
 
     <div class="footer">
-        <%@include file="WEB-INF/view/elements/footer.jsp" %>
+        <%@include file="WEB-INF/view/elements/index/footer.jsp" %>
         <!-- end .footer -->
     </div>
     <!-- end .container -->

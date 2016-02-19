@@ -1,12 +1,28 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java"
+		 contentType="text/html; charset=UTF-8"
+		 pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<!DOCTYPE HTML>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Разблокировка счета</title>
-	</head>
-	<body>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Разблокировка счета</title>
+	<link href="../../../assets/css/page_style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<div class="container">
+	<div class="header">
+		<%@include file="../elements/header_pages.jsp" %>
+		<!-- end .header -->
+	</div>
+
+	<div class="sidebar">
+		<%@include file="../elements/admin/mini_sidebar.jsp" %>
+		<!-- end .sidebar1 -->
+	</div>
+
+	<div class="content">
 		<form name="unblockForm" method="POST" action="controller">
 			<input type="hidden" name="command" value="unblock" />
 			Выберите счет для разблокировки
@@ -31,6 +47,10 @@
 		</form>
 		<a href="controller?command=backadmin">Вернуться обратно</a>
 		<a href="controller?command=logout">Выйти из системы</a>
-	</body>
+		<!-- end .content -->
+	</div>
+	<!-- end .container -->
+</div>
+</body>
 </html>
 

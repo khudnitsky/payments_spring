@@ -34,7 +34,7 @@
             <input type="hidden" name="command" value="registration"/>
             <p align="center"><b>Введите ваши данные: </b></p>
             <br>
-            <table align="center" cellpadding="5" cellspacing="5">
+            <table align="left" cellpadding="5" cellspacing="5">
                 <tr>
                     <td>Имя:</td>
                     <td><input type="text" id="firstName" name="firstname" value="" class="inputStyle"/></td>
