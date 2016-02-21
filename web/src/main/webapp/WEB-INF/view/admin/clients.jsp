@@ -8,6 +8,7 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 		<title>Клиенты</title>
 		<link href="../../../assets/css/page_style.css" rel="stylesheet" type="text/css">
+		<link href="../../../assets/css/sidebar_style.css" rel="stylesheet" type="text/css">
 	</head>
 
 	<body>

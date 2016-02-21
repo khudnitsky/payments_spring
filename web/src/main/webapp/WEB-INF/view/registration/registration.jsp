@@ -9,6 +9,7 @@
     <link href="../../../assets/css/page_style.css" rel="stylesheet" type="text/css">
     <link href="../../../assets/css/button_style.css" rel="stylesheet" type="text/css">
     <link href="../../../assets/css/input_style.css" rel="stylesheet" type="text/css">
+    <link href="../../../assets/css/sidebar_style.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
