@@ -1,0 +1,50 @@
+<!--
+  User: lexxa
+  Date: 22.02.2016
+  Time: 13:43
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns="http://www.w3.org/1999/xhtml"
+          version="2.0">
+    <div class="content">
+        <form name="loginForm" method="POST" action="controller" onSubmit="return validateForm()">
+            <input type="hidden" name="command" value="login"/>
+            <br>
+            <p align="center"><b>Введите ваш логин и пароль:</b></p>
+            <table align="center" cellpadding="5" cellspacing="5">
+                <tr>
+                    <td>
+                        <input type="text" id="login" name="login" class="inputStyle" placeholder="Логин"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20" align="center">
+                        <span id="emptyLogin"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="password" id="password" name="password" class="inputStyle" placeholder="Пароль"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20" align="center">
+                        <span id="emptyPassword"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td width="20">
+                        <label id="label">
+                            ${errorLoginOrPassword}
+                        </label>
+                    </td>
+                </tr>
+            </table>
+            <p align="center">
+                <input type="submit" value="Войти" onClick="clearResult()"/>
+            </p>
+        </form>
+        <br>
+
+    </div>
+</jsp:root>

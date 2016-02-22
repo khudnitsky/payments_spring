@@ -1,0 +1,26 @@
+<!--
+  User: lexxa
+  Date: 22.02.2016
+  Time: 15:31
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+          version="2.0" >
+    <div class="content">
+        <h3>${sessionScope.userName}</h3>
+        <table border="1">
+            <tr>
+                <td>У вас на счету:</td>
+                <td><fmt:formatNumber value="${sessionScope.balance}" type="currency" currencySymbol=""/></td>
+            </tr>
+            <tr>
+                <td>Валюта:</td>
+                <td>${sessionScope.currency} </td>
+            </tr>
+        </table>
+    </div>
+</jsp:root>
+
+
+

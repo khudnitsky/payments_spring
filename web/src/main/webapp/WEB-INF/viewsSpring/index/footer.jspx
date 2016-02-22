@@ -1,0 +1,22 @@
+<!--
+  User: lexxa
+  Date: 22.02.2016
+  Time: 14:41
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns="http://www.w3.org/1999/xhtml"
+          version="2.0">
+    <div class="footer">
+        <p align="center">
+            <span style="font-size: smaller; ">
+                <i>&copy; Khudnitsky inc. 2016</i>
+                <br/>
+                <span>
+	                <a href="mailto:khudnitsky@gmail.com">khudnitsky@gmail.com</a>
+                </span>
+            </span>
+        </p>
+    </div>
+</jsp:root>
+
+

@@ -1,0 +1,25 @@
+<!--
+  User: lexxa
+  Date: 22.02.2016
+  Time: 15:09
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          version="2.0" >
+    <div class="content">
+        <table border="1" align="left">
+            <tr bgcolor="#CCCCCC">
+                <td align="center"><strong>Фамилия</strong></td>
+                <td align="center"><strong>Имя</strong></td>
+            </tr>
+            <c:forEach var="client" items="${sessionScope.userList}">
+                <tr>
+                    <td><c:out value="${client.lastName}" /></td>
+                    <td><c:out value="${client.firstName}" /></td>
+                </tr>
+            </c:forEach>
+        </table>
+    </div>
+</jsp:root>
+

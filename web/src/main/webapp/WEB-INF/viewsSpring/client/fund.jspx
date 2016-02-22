@@ -1,0 +1,21 @@
+<!--
+  User: lexxa
+  Date: 22.02.2016
+  Time: 15:31
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns="http://www.w3.org/1999/xhtml"
+          version="2.0">
+    <div class="content">
+        <form name="addFundsForm" method="POST" action="controller">
+            <input type="hidden" name="command" value="addFunds"/>
+            Введите сумму:<br/>
+            <input type="text" name="addFunds" value=""/>
+            <input type="submit" value="Пополнить"/> <br/>
+            ${sessionScope.operationMessage} <br/>
+        </form>
+    </div>
+</jsp:root>
+
+
+

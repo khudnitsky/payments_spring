@@ -1,0 +1,36 @@
+<!--
+  User: lexxa
+  Date: 22.02.2016
+  Time: 15:20
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          version="2.0" >
+    <div class="content">
+        <form name="unblockForm" method="POST" action="controller">
+            <input type="hidden" name="command" value="unblock" />
+            Выберите счет для разблокировки
+            <table border="1">
+                <tr bgcolor="#CCCCCC">
+                    <td align="center"><strong>№ Счета</strong></td>
+                    <td align="center"><strong>Сумма</strong></td>
+                    <td align="center"><strong>Валюта</strong></td>
+                </tr>
+                <c:forEach var="account" items="${sessionScope.accountsList}">
+                    <tr>
+                        <td><c:out value="${ account.id }" /></td>
+                        <td><c:out value="${ account.deposit }" /></td>
+                        <td><c:out value="${ account.currency.currencyType }" /></td>
+                        <td><input type="radio" name="toUnblock" value="${ account.id }"/></td>
+                    </tr>
+                </c:forEach>
+            </table>
+            ${sessionScope.errorEmptyChoice}
+            ${sessionScope.errorEmptyList} <br/>
+            <input type="submit" value="Разблокировать"/>  <br/>
+        </form>
+        <a href="controller?command=backadmin">Вернуться обратно</a>
+        <a href="controller?command=logout">Выйти из системы</a>
+    </div>
+</jsp:root>

@@ -1,0 +1,18 @@
+<!--
+  User: lexxa
+  Date: 22.02.2016
+  Time: 13:53
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns="http://www.w3.org/1999/xhtml"
+          version="2.0">
+    <div class="header">
+        <br/>
+        <p align="center">
+            <a href="../../../index.jsp">
+                <img src="../../../assets/img/main_logo_3.png" class="logoStyle"/>
+            </a>
+        </p>
+        <br/>
+    </div>
+</jsp:root>

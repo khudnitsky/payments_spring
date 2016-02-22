@@ -1,0 +1,19 @@
+<!--
+  User: lexxa
+  Date: 22.02.2016
+  Time: 14:39
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns="http://www.w3.org/1999/xhtml"
+          version="2.0">
+    <div class="sidebar">
+        <br/>
+        <ul class="nav">
+            <li><a href="controller?command=balance">Баланс</a></li>
+            <li><a href="controller?command=gotopayment">Совершить платеж</a></li>
+            <li><a href="controller?command=gotoaddfunds">Пополнить счет</a></li>
+            <li><a href="controller?command=block">Заблокировать счет</a></li>
+            <li><a href="controller?command=logout">Выйти из системы</a></li>
+        </ul>
+    </div>
+</jsp:root>

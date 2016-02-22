@@ -1,0 +1,24 @@
+<!--
+  User: lexxa
+  Date: 22.02.2016
+  Time: 13:53
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns="http://www.w3.org/1999/xhtml"
+          version="2.0">
+    <div class="header">
+        <br/>
+        <a href="/index.jsp">
+            <img src="../../../assets/img/mini_logo.png"
+                 alt="logo"
+                 name="Insert_logo"
+                 height="90"
+                 id="Insert_logo"
+                 style="display:block;"
+            />
+        </a>
+        <br/>
+    </div>
+</jsp:root>
+
+

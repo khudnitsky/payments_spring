@@ -1,0 +1,15 @@
+<!--
+  User: lexxa
+  Date: 22.02.2016
+  Time: 15:09
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns="http://www.w3.org/1999/xhtml"
+          version="2.0">
+    <div class="content">
+        <br/>
+        <h2 align="left">${sessionScope.user.firstName} ${sessionScope.user.lastName}</h2>
+        <h3 align="left">Вы вошли в систему как клиент</h3>
+    </div>
+</jsp:root>
+

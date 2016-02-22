@@ -1,0 +1,101 @@
+<!--
+  User: lexxa
+  Date: 22.02.2016
+  Time: 15:16
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:c="http://java.sun.com/jsp/jstl/core"
+          xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+          version="2.0" >
+    <div class="content">
+        <table border="1">
+            <tr bgcolor="#CCCCCC">
+                <td align="center"><strong>Дата</strong></td>
+                <td align="center"><strong>Описание</strong></td>
+                <td align="center"><strong>Сумма</strong></td>
+                <td align="center"><strong>Клиент</strong></td>
+                <td align="center"><strong>Счет</strong></td>
+            </tr>
+
+            <c:forEach var="operation" items="${sessionScope.operationsList}">
+                <tr>
+                    <td><c:out value="${ operation.operationDate }"/></td>
+                    <td><c:out value="${ operation.description }" /></td>
+                    <td align="right">
+                        <fmt:formatNumber value="${ operation.amount }" type="currency" minFractionDigits="2"  currencySymbol=""/>
+                    </td>
+                    <td align="center"><c:out value="${ operation.userLastName }" /></td>
+                    <td align="center"><c:out value="${ operation.accountNumber }" /></td>
+                </tr>
+            </c:forEach>
+        </table>
+        <br/>
+
+        <c:choose>
+            <c:when test="${sessionScope.currentPage != 1}">
+                <td><a href="controller?command=operations&currentPage=${sessionScope.currentPage - 1}">На предыдущую</a></td>
+            </c:when>
+            <c:otherwise>
+                <td></td>
+            </c:otherwise>
+        </c:choose>
+
+
+        <table border="1" cellpadding="5" cellspacing="5">
+            <tr>
+                <c:forEach begin="1" end="${sessionScope.numberOfPages}" var="i">
+                    <c:choose>
+                        <c:when test="${sessionScope.currentPage eq i}">
+                            <td>${i}</td>
+                        </c:when>
+                        <c:otherwise>
+                            <td><a href="controller?command=operations&currentPage=${i}">${i}</a></td>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </tr>
+        </table>
+
+        <c:choose>
+            <c:when test="${sessionScope.currentPage lt sessionScope.numberOfPages}">
+                <td><a href="controller?command=operations&currentPage=${sessionScope.currentPage + 1}">На следующую</a></td>
+            </c:when>
+            <c:otherwise>
+                <td></td>
+            </c:otherwise>
+        </c:choose>
+
+        <form name="operationsForm" method="post" action="controller">
+            <input type="hidden" name="command" value="operations" />
+            <input type="text" name="currentPage" value="" size="3"/>
+            <input type="submit" value="Перейти" />
+        </form>
+
+        <form name="recordsPerPageForm" method="post" action="controller">
+            <input type="hidden" name="command" value="operations"/>
+            <select name="recordsPerPage">
+                <option value="3">3</option>
+                <option value="5">5</option>
+                <option value="10">10</option>
+            </select>
+            <input type="submit" value="Обновить" />
+        </form>
+
+        <form name="orderingForm" method="post" action="controller">
+            <input type="hidden" name="command" value="operations"/>
+            <select name="ordering">
+                <option value="date">по дате</option>
+                <option value="description">по описанию</option>
+                <option value="amount">по сумме</option>
+                <option value="client">по клиенту</option>
+                <option value="account">по счету</option>
+            </select>
+            <input type="submit" value="Обновить" />
+        </form>
+
+        <br/>
+        <a href="controller?command=backadmin">Вернуться обратно</a>
+        <a href="controller?command=logout">Выйти из системы</a>
+    </div>
+</jsp:root>
