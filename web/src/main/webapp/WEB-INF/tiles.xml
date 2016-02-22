@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
+        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
+<tiles-definitions>
+
+    <!-- USER'S PAGES TEMPLATE -->
+    <definition name="default" template="/WEB-INF/viewsSpring/layouts/default_layout.jspx">
+        <put-attribute name="title"/>
+        <put-attribute name="header" value="/WEB-INF/viewsSpring/common/header.jspx"/>
+        <put-attribute name="sidebar"/>
+        <put-attribute name="content"/>
+    </definition>
+
+    <!-- ADMIN PAGES -->
+    <definition name="admin_default" extends="default">
+        <put-attribute name="sidebar" value="/WEB-INF/viewsSpring/admin/sidebar.jspx"/>
+    </definition>
+
+    <definition name="admin/main" extends="admin_default">
+        <put-attribute name="title" value="Добро пожаловать"/>
+        <put-attribute name="content" value="/WEB-INF/viewsSpring/admin/main.jspx"/>
+    </definition>
+
+    <definition name="admin/clients" extends="admin_default">
+        <put-attribute name="title" value="Клиенты"/>
+        <put-attribute name="content" value="/WEB-INF/viewsSpring/admin/clients.jspx"/>
+    </definition>
+
+    <definition name="admin/operations" extends="admin_default">
+        <put-attribute name="title" value="Операции"/>
+        <put-attribute name="content" value="/WEB-INF/viewsSpring/admin/operations.jspx"/>
+    </definition>
+
+    <definition name="admin/unblock" extends="admin_default">
+        <put-attribute name="title" value="Разблокировка счета"/>
+        <put-attribute name="content" value="/WEB-INF/viewsSpring/admin/unblock.jspx"/>
+    </definition>
+
+    <!-- CLIENT PAGES -->
+    <definition name="client_default" extends="default">
+        <put-attribute name="sidebar" value="/WEB-INF/viewsSpring/client/sidebar.jspx"/>
+    </definition>
+
+    <definition name="client/main" extends="client_default">
+        <put-attribute name="title" value="Добро пожаловать"/>
+        <put-attribute name="content" value="/WEB-INF/viewsSpring/client/main.jspx"/>
+    </definition>
+
+    <definition name="client/fund" extends="client_default">
+        <put-attribute name="title" value="Пополнение счета"/>
+        <put-attribute name="content" value="/WEB-INF/viewsSpring/client/fund.jspx"/>
+    </definition>
+
+    <definition name="client/balance" extends="client_default">
+        <put-attribute name="title" value="Баланс"/>
+        <put-attribute name="content" value="/WEB-INF/viewsSpring/client/balance.jspx"/>
+    </definition>
+
+    <definition name="client/payment" extends="client_default">
+        <put-attribute name="title" value="Платежи"/>
+        <put-attribute name="content" value="/WEB-INF/viewsSpring/client/payment.jspx"/>
+    </definition>
+
+    <definition name="client/block" extends="client_default">
+        <put-attribute name="title" value="Блокировка счета"/>
+        <put-attribute name="content" value="/WEB-INF/viewsSpring/client/block.jspx"/>
+    </definition>
+
+    <!-- ERROR PAGE -->
+    <definition name="error" extends="default">
+        <put-attribute name="title" value="Ошибка"/>
+        <put-attribute name="sidebar" value="/WEB-INF/viewsSpring/common/sidebar.jspx"/>
+        <put-attribute name="content" value="/WEB-INF/viewsSpring/errors/error.jspx"/>
+    </definition>
+
+    <!-- REGISTRATION PAGE -->
+    <definition name="registration" extends="default">
+        <put-attribute name="title" value="Регистрация"/>
+        <put-attribute name="sidebar" value="/WEB-INF/viewsSpring/common/sidebar.jspx"/>
+    </definition>
+
+    <!-- INDEX PAGE -->
+    <definition name="index" template="/WEB-INF/viewsSpring/layouts/index_layout.jspx">
+        <put-attribute name="title" value="Авторизация"/>
+        <put-attribute name="header" value="/WEB-INF/viewsSpring/index/header.jspx"/>
+        <put-attribute name="sidebar" value="/WEB-INF/viewsSpring/index/sidebar.jspx"/>
+        <put-attribute name="content" value="/WEB-INF/viewsSpring/index/content.jspx"/>
+        <put-attribute name="footer" value="/WEB-INF/viewsSpring/index/footer.jspx"/>
+    </definition>
+
+</tiles-definitions>
+
