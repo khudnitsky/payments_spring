@@ -7,6 +7,7 @@
           xmlns="http://www.w3.org/1999/xhtml"
           xmlns:c="http://java.sun.com/jsp/jstl/core"
           xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+          xmlns:sf="http://www.springframework.org/tags/form"
           version="2.0" >
     <div class="content">
         <table border="1">
@@ -18,7 +19,7 @@
                 <td align="center"><strong>Счет</strong></td>
             </tr>
 
-            <c:forEach var="operation" items="${sessionScope.operationsList}">
+            <c:forEach var="operation" items="${requestScope.operationsList}">
                 <tr>
                     <td><c:out value="${ operation.operationDate }"/></td>
                     <td><c:out value="${ operation.description }" /></td>
@@ -34,23 +35,24 @@
 
         <c:choose>
             <c:when test="${sessionScope.currentPage != 1}">
-                <td><a href="controller?command=operations&currentPage=${sessionScope.currentPage - 1}">На предыдущую</a></td>
+                <td><a href="/admin/operations?currentPage=${requestScope.currentPage - 1}">На предыдущую</a></td>
+                <!--<td><a href="controller?command=operations&currentPage=${sessionScope.currentPage - 1}">На предыдущую</a></td>-->
             </c:when>
             <c:otherwise>
-                <td></td>
+                <td><br/></td>
             </c:otherwise>
         </c:choose>
 
-
         <table border="1" cellpadding="5" cellspacing="5">
             <tr>
-                <c:forEach begin="1" end="${sessionScope.numberOfPages}" var="i">
+                <c:forEach begin="1" end="${requestScope.numberOfPages}" var="i">
                     <c:choose>
-                        <c:when test="${sessionScope.currentPage eq i}">
+                        <c:when test="${requestScope.currentPage eq i}">
                             <td>${i}</td>
                         </c:when>
                         <c:otherwise>
-                            <td><a href="controller?command=operations&currentPage=${i}">${i}</a></td>
+                            <td><a href="/admin/operations?currentPage=${i}">${i}</a></td>
+                            <!--<td><a href="controller?command=operations&currentPage=${i}">${i}</a></td>-->
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
@@ -58,22 +60,22 @@
         </table>
 
         <c:choose>
-            <c:when test="${sessionScope.currentPage lt sessionScope.numberOfPages}">
-                <td><a href="controller?command=operations&currentPage=${sessionScope.currentPage + 1}">На следующую</a></td>
+            <c:when test="${sessionScope.currentPage lt requestScope.numberOfPages}">
+                <td><a href="/admin/operations?currentPage=${requestScope.currentPage + 1}">На следующую</a></td>
+                <!--<td><a href="controller?command=operations&currentPage=${sessionScope.currentPage + 1}">На следующую</a></td>-->
             </c:when>
             <c:otherwise>
-                <td></td>
+                <td><br/></td>
             </c:otherwise>
         </c:choose>
 
-        <form name="operationsForm" method="post" action="controller">
-            <input type="hidden" name="command" value="operations" />
-            <input type="text" name="currentPage" value="" size="3"/>
+        <form name="operationsForm" method="post" action="/admin/operations">
+            <sf:input path="currentPage" cssClass="inputStyle" size="3"/>
+            <!--<input type="text" name="currentPage" value="" size="3"/>-->
             <input type="submit" value="Перейти" />
         </form>
 
-        <form name="recordsPerPageForm" method="post" action="controller">
-            <input type="hidden" name="command" value="operations"/>
+        <form name="recordsPerPageForm" method="post" action="/admin/operations">
             <select name="recordsPerPage">
                 <option value="3">3</option>
                 <option value="5">5</option>
@@ -82,8 +84,7 @@
             <input type="submit" value="Обновить" />
         </form>
 
-        <form name="orderingForm" method="post" action="controller">
-            <input type="hidden" name="command" value="operations"/>
+        <form name="orderingForm" method="post" action="/admin/operations">
             <select name="ordering">
                 <option value="date">по дате</option>
                 <option value="description">по описанию</option>
@@ -93,9 +94,5 @@
             </select>
             <input type="submit" value="Обновить" />
         </form>
-
-        <br/>
-        <a href="controller?command=backadmin">Вернуться обратно</a>
-        <a href="controller?command=logout">Выйти из системы</a>
     </div>
 </jsp:root>
