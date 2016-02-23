@@ -49,10 +49,10 @@ public class AddFundsCommand extends AbstractCommand {
                         String description = type.getValue();
                         AccountServiceImpl.getInstance().addFunds(user, description, amount);
                         request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.SUCCESS_OPERATION));
-                        page = PagePathManager.getInstance().getProperty(PagePath.CLIENT_ADDFUNDS_PAGE_PATH);
+                        page = PagePathManager.getInstance().getProperty(PagePath.CLIENT_FUND_PAGE_PATH);
                     } else {
                         request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.NEGATIVE_ARGUMENT));
-                        page = PagePathManager.getInstance().getProperty(PagePath.CLIENT_ADDFUNDS_PAGE_PATH);
+                        page = PagePathManager.getInstance().getProperty(PagePath.CLIENT_FUND_PAGE_PATH);
                     }
                 } else {
                     page = PagePathManager.getInstance().getProperty(PagePath.CLIENT_BLOCK_PAGE_PATH);
@@ -63,7 +63,7 @@ public class AddFundsCommand extends AbstractCommand {
                 request.setAttribute(Parameters.ERROR_DATABASE, MessageManager.getInstance().getProperty(MessageConstants.ERROR_DATABASE));
             } catch (NumberFormatException e) {
                 request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.INVALID_NUMBER_FORMAT));
-                page = PagePathManager.getInstance().getProperty(PagePath.CLIENT_ADDFUNDS_PAGE_PATH);
+                page = PagePathManager.getInstance().getProperty(PagePath.CLIENT_FUND_PAGE_PATH);
 
             }
         }

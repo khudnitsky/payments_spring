@@ -19,7 +19,7 @@ public class PagePath {
     public static final String CLIENT_PAGE_PATH = "path.page.client";
     public static final String CLIENT_BALANCE_PAGE_PATH = "path.page.client.balance";
     public static final String CLIENT_PAYMENT_PAGE_PATH = "path.page.client.payment";
-    public static final String CLIENT_ADDFUNDS_PAGE_PATH = "path.page.client.addfunds";
+    public static final String CLIENT_FUND_PAGE_PATH = "path.page.client.fund";
     public static final String CLIENT_BLOCK_PAGE_PATH = "path.page.client.block";
 
     private PagePath(){}

@@ -25,7 +25,7 @@ public class GoToAddFundsCommand extends AbstractCommand {
         HttpSession session = request.getSession();
         AccessLevelType accessLevelType = RequestParameterParser.getUserType(request);
         if(accessLevelType == AccessLevelType.CLIENT){
-            page = PagePathManager.getInstance().getProperty(PagePath.CLIENT_ADDFUNDS_PAGE_PATH);
+            page = PagePathManager.getInstance().getProperty(PagePath.CLIENT_FUND_PAGE_PATH);
         }
         else{
             page = PagePathManager.getInstance().getProperty(PagePath.INDEX_PAGE_PATH);
