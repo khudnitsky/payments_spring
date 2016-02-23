@@ -3,7 +3,7 @@ package by.pvt.khudnitsky.payments.utils;
 import by.pvt.khudnitsky.payments.commands.ICommand;
 import by.pvt.khudnitsky.payments.commands.factory.CommandFactory;
 import by.pvt.khudnitsky.payments.enums.PagePath;
-import by.pvt.khudnitsky.payments.managers.ConfigurationManager;
+import by.pvt.khudnitsky.payments.managers.PagePathManager;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -26,7 +26,7 @@ public class RequestHandler {
             RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher(page);
             dispatcher.forward(request, response);
         } else {
-            page = ConfigurationManager.getInstance().getProperty(PagePath.INDEX_PAGE_PATH);
+            page = PagePathManager.getInstance().getProperty(PagePath.INDEX_PAGE_PATH);
             response.sendRedirect(request.getContextPath() + page);
         }
     }
