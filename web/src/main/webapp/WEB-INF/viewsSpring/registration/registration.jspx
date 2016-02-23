@@ -5,80 +5,93 @@
 -->
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
           xmlns="http://www.w3.org/1999/xhtml"
+          xmlns:sf="http://www.springframework.org/tags/form"
           version="2.0" >
     <div class="content">
-
-        <form name="registrationForm" method="post" action="controller" onSubmit="return validateForm()">
-            <input type="hidden" name="command" value="registration"/>
+        <sf:form name="registrationForm"
+                 action="/registration_add"
+                 method="post"
+                 modelAttribute="newUser"
+                 onsubmit="validateForm()">
+            <fieldset>
             <p align="center"><b>Введите ваши данные: </b></p>
             <br/>
-            <table align="left" cellpadding="5" cellspacing="5">
-                <tr>
-                    <td>Имя:</td>
-                    <td><input type="text" id="firstName" name="firstname" value="" class="inputStyle"/></td>
-                    <td>
-                        <span id="emptyFirstName"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Фамилия:</td>
-                    <td><input type="text" id="lastName" name="lastname" value="" class="inputStyle"/></td>
-                    <td>
-                        <span id="emptyLastName"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Логин:</td>
-                    <td><input type="text" id="login" name="login" value="" class="inputStyle"/></td>
-                    <td>
-                        <span id="emptyLogin"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Пароль 1:</td>
-                    <td><input type="password" id="password_1" name="password" value="" class="inputStyle"/></td>
-                    <td>
-                        <span id="emptyPassword_1"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Пароль 2:</td>
-                    <td><input type="password" id="password_2" value="" class="inputStyle"/></td>
-                    <td>
-                        <span id="emptyPassword_2"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>№ Счета:</td>
-                    <td><input type="text" id="accountId" name="accountid" value="" class="inputStyle"/></td>
-                    <td>
-                        <span id="emptyAccountId"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Валюта Счета:</td>
-                    <td>
-                        <input type="radio" name="currency" value="BYR" checked="checked"/>BYR
-                        <input type="radio" name="currency" value="USD"/>USD
-                        <input type="radio" name="currency" value="EUR"/>EUR<br/>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="2" align="center">
-                        <span id="inputError"></span>
-                        <label id="label">
-                            ${operationMessage}
-                            ${errorUserExists}
-                        </label>
-                    </td>
-                </tr>
-            </table>
-            <br/>
-
-            <p align="center">
-                <input type="submit" value="Зарегистрировать" onClick="clearResult()"/>
-            </p>
-            <br/>
-        </form>
+                <table align="left" cellpadding="5" cellspacing="5">
+                    <tr>
+                        <td><label for="firstName">Имя:</label></td>
+                        <td><sf:input path="firstName" cssClass="inputStyle" id="firstName"/></td>
+                        <td>
+                            <span id="emptyFirstName"></span>
+                            <sf:errors path="firstName"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="lastName">Фамилия:</label></td>
+                        <td><sf:input path="lastName" cssClass="inputStyle" id="lastName"/></td>
+                        <td>
+                            <span id="emptyLastName"></span>
+                            <sf:errors path="lastName"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="login">Логин:</label></td>
+                        <td><sf:input path="login" cssClass="inputStyle" id="login"/></td>
+                        <td>
+                            <span id="emptyLogin"></span>
+                            <sf:errors path="login"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="password_1">Пароль 1:</label></td>
+                        <td><sf:password path="password_1" cssClass="inputStyle" id="password_1"/></td>
+                        <td>
+                            <span id="emptyPassword_1"></span>
+                            <sf:errors path="password_1"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="password_2">Пароль 2:</label></td>
+                        <td><sf:password path="password_2" cssClass="inputStyle" id="password_2"/></td>
+                        <td>
+                            <span id="emptyPassword_2"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="accountId">№ Счета:</label></td>
+                        <td><sf:password path="accountId" cssClass="inputStyle" id="accountId"/></td>
+                        <td>
+                            <span id="emptyAccountId"></span>
+                            <sf:errors path="accountId"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Валюта Счета:</td>
+                        <td>
+                            <sf:radiobutton path="currency" value="BYR"/>BYR
+                            <sf:radiobutton path="currency" value="USD"/>USD
+                            <sf:radiobutton path="currency" value="EUR"/>EUR
+                            <!--<input type="radio" name="currency" value="BYR" checked="checked"/>BYR-->
+                            <!--<input type="radio" name="currency" value="USD"/>USD-->
+                            <!--<input type="radio" name="currency" value="EUR"/>EUR-->
+                            <br/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2" align="center">
+                            <span id="inputError"></span>
+                            <label id="label">
+                                ${operationMessage}
+                                ${errorUserExists}
+                            </label>
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+                <p align="center">
+                    <input type="submit" value="Зарегистрировать" onClick="clearResult()"/>
+                </p>
+                <br/>
+            </fieldset>
+        </sf:form>
     </div>
 </jsp:root>
