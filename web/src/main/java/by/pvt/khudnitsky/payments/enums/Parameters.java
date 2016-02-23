@@ -44,5 +44,7 @@ public class Parameters {
     public static final String RECORDS_PER_PAGE = "recordsPerPage";
     public static final String ORDERING = "ordering";
 
+    public static final String NEW_USER = "newUser";
+
     private Parameters(){}
 }
