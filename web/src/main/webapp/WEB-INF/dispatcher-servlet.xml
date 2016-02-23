@@ -16,12 +16,6 @@
     <mvc:resources mapping="/resources/**" location="assets"/>
     <mvc:annotation-driven/>
 
-    <bean id="viewResolver"
-          class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-          p:prefix="/WEB_INF/views"
-          p:suffix=".jspx"
-    />
-
     <bean id="tilesConfigurer"
           class="org.springframework.web.servlet.view.tiles3.TilesConfigurer"
           p:definitions="/WEB-INF/tiles.xml"
