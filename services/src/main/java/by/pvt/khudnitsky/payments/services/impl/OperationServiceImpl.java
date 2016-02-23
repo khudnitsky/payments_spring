@@ -2,7 +2,7 @@ package by.pvt.khudnitsky.payments.services.impl;
 
 import by.pvt.khudnitsky.payments.dao.impl.OperationDaoImpl;
 import by.pvt.khudnitsky.payments.entities.Operation;
-import by.pvt.khudnitsky.payments.entities.OperationDTO;
+import by.pvt.khudnitsky.payments.dto.OperationDTO;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
 import by.pvt.khudnitsky.payments.exceptions.ServiceException;
 import by.pvt.khudnitsky.payments.services.AbstractService;

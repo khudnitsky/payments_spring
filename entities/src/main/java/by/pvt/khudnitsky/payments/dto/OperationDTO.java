@@ -1,4 +1,4 @@
-package by.pvt.khudnitsky.payments.entities;
+package by.pvt.khudnitsky.payments.dto;
 
 /**
  * Created by: khudnitsky

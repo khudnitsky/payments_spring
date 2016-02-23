@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import by.pvt.khudnitsky.payments.commands.AbstractCommand;
-import by.pvt.khudnitsky.payments.entities.OperationDTO;
+import by.pvt.khudnitsky.payments.dto.OperationDTO;
 import by.pvt.khudnitsky.payments.enums.*;
 import by.pvt.khudnitsky.payments.exceptions.ServiceException;
 import by.pvt.khudnitsky.payments.managers.MessageManager;
