@@ -8,7 +8,7 @@
           version="2.0">
     <div class="header">
         <br/>
-        <a href="/index.jsp">
+        <a href="/index">
             <img src="../../../assets/img/mini_logo.png"
                  alt="logo"
                  name="Insert_logo"
