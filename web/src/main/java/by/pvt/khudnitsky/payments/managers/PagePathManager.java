@@ -12,15 +12,15 @@ import by.pvt.khudnitsky.payments.enums.ConfigConstant;
  * @version 1.0
  *
  */
-public class ConfigurationManager {
+public class PagePathManager {
     private final ResourceBundle bundle = ResourceBundle.getBundle(ConfigConstant.CONFIGS_SOURCE);
-    private static ConfigurationManager instance;
+    private static PagePathManager instance;
 
-    private ConfigurationManager(){}
+    private PagePathManager(){}
 
-    public static synchronized ConfigurationManager getInstance(){
+    public static synchronized PagePathManager getInstance(){
         if(instance == null){
-            instance = new ConfigurationManager();
+            instance = new PagePathManager();
         }
         return instance;
     }

@@ -3,7 +3,6 @@
  */
 package by.pvt.khudnitsky.payments.commands.impl.client;
 
-import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -16,9 +15,9 @@ import by.pvt.khudnitsky.payments.entities.Account;
 import by.pvt.khudnitsky.payments.entities.User;
 import by.pvt.khudnitsky.payments.exceptions.ServiceException;
 import by.pvt.khudnitsky.payments.managers.MessageManager;
+import by.pvt.khudnitsky.payments.managers.PagePathManager;
 import by.pvt.khudnitsky.payments.services.impl.AccountServiceImpl;
 import by.pvt.khudnitsky.payments.utils.RequestParameterParser;
-import by.pvt.khudnitsky.payments.managers.ConfigurationManager;
 
 /**
  * @author khudnitsky
@@ -46,15 +45,15 @@ public class BalanceCommand extends AbstractCommand {
                 Account account = AccountServiceImpl.getInstance().getById(accountId);
                 request.setAttribute(Parameters.OPERATION_BALANCE, account.getDeposit());
                 request.setAttribute(Parameters.ACCOUNT_CURRENCY, account.getCurrency().getCurrencyType());
-                page = ConfigurationManager.getInstance().getProperty(PagePath.CLIENT_BALANCE_PAGE_PATH);
+                page = PagePathManager.getInstance().getProperty(PagePath.CLIENT_BALANCE_PAGE_PATH);
             }
             catch (ServiceException e) {
-                page = ConfigurationManager.getInstance().getProperty(PagePath.ERROR_PAGE_PATH);
+                page = PagePathManager.getInstance().getProperty(PagePath.ERROR_PAGE_PATH);
                 request.setAttribute(Parameters.ERROR_DATABASE, MessageManager.getInstance().getProperty(MessageConstants.ERROR_DATABASE));
             }
         }
         else{
-            page = ConfigurationManager.getInstance().getProperty(PagePath.INDEX_PAGE_PATH);
+            page = PagePathManager.getInstance().getProperty(PagePath.INDEX_PAGE_PATH);
             session.invalidate();
         }
         return page;

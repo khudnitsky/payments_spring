@@ -3,7 +3,6 @@
  */
 package by.pvt.khudnitsky.payments.commands.impl.admin;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +12,7 @@ import by.pvt.khudnitsky.payments.commands.AbstractCommand;
 import by.pvt.khudnitsky.payments.enums.*;
 import by.pvt.khudnitsky.payments.entities.Account;
 import by.pvt.khudnitsky.payments.exceptions.ServiceException;
-import by.pvt.khudnitsky.payments.managers.ConfigurationManager;
+import by.pvt.khudnitsky.payments.managers.PagePathManager;
 import by.pvt.khudnitsky.payments.managers.MessageManager;
 import by.pvt.khudnitsky.payments.services.impl.AccountServiceImpl;
 import by.pvt.khudnitsky.payments.utils.RequestParameterParser;
@@ -34,15 +33,15 @@ public class GoToUnblockCommand extends AbstractCommand {
             try {
                 List<Account> list = AccountServiceImpl.getInstance().getBlockedAccounts();
                 session.setAttribute(Parameters.ACCOUNTS_LIST, list);
-                page = ConfigurationManager.getInstance().getProperty(PagePath.ADMIN_UNBLOCK_PAGE);
+                page = PagePathManager.getInstance().getProperty(PagePath.ADMIN_UNBLOCK_PAGE);
             }
             catch (ServiceException e) {
-                page = ConfigurationManager.getInstance().getProperty(PagePath.ERROR_PAGE_PATH);
+                page = PagePathManager.getInstance().getProperty(PagePath.ERROR_PAGE_PATH);
                 request.setAttribute(Parameters.ERROR_DATABASE, MessageManager.getInstance().getProperty(MessageConstants.ERROR_DATABASE));
             }
         }
         else{
-            page = ConfigurationManager.getInstance().getProperty(PagePath.INDEX_PAGE_PATH);
+            page = PagePathManager.getInstance().getProperty(PagePath.INDEX_PAGE_PATH);
             session.invalidate();
         }
         return page;

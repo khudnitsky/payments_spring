@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import by.pvt.khudnitsky.payments.commands.AbstractCommand;
 import by.pvt.khudnitsky.payments.enums.PagePath;
-import by.pvt.khudnitsky.payments.managers.ConfigurationManager;
+import by.pvt.khudnitsky.payments.managers.PagePathManager;
 
 /**
  * @author khudnitsky
@@ -18,7 +18,7 @@ public class LogoutUserCommand extends AbstractCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        String page = ConfigurationManager.getInstance().getProperty(PagePath.INDEX_PAGE_PATH);
+        String page = PagePathManager.getInstance().getProperty(PagePath.INDEX_PAGE_PATH);
         request.getSession().invalidate();
         return page;
     }

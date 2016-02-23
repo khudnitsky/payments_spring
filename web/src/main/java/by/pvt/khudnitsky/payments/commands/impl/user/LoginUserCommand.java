@@ -3,8 +3,6 @@
  */
 package by.pvt.khudnitsky.payments.commands.impl.user;
 
-import java.sql.SQLException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -12,7 +10,7 @@ import by.pvt.khudnitsky.payments.commands.AbstractCommand;
 import by.pvt.khudnitsky.payments.enums.*;
 import by.pvt.khudnitsky.payments.entities.User;
 import by.pvt.khudnitsky.payments.exceptions.ServiceException;
-import by.pvt.khudnitsky.payments.managers.ConfigurationManager;
+import by.pvt.khudnitsky.payments.managers.PagePathManager;
 import by.pvt.khudnitsky.payments.managers.MessageManager;
 import by.pvt.khudnitsky.payments.services.impl.UserServiceImpl;
 import by.pvt.khudnitsky.payments.utils.RequestParameterParser;
@@ -37,19 +35,19 @@ public class LoginUserCommand extends AbstractCommand {
                 session.setAttribute(Parameters.USER, user);
                 session.setAttribute(Parameters.USERTYPE, accessLevelType);
                 if(AccessLevelType.CLIENT.equals(accessLevelType)){
-                    page = ConfigurationManager.getInstance().getProperty(PagePath.CLIENT_PAGE_PATH);
+                    page = PagePathManager.getInstance().getProperty(PagePath.CLIENT_PAGE_PATH);
                 }
                 else{
-                    page = ConfigurationManager.getInstance().getProperty(PagePath.ADMIN_PAGE_PATH);
+                    page = PagePathManager.getInstance().getProperty(PagePath.ADMIN_PAGE_PATH);
                 }
             }
             else{
-                page = ConfigurationManager.getInstance().getProperty(PagePath.INDEX_PAGE_PATH);
-                request.setAttribute(Parameters.ERROR_LOGIN_OR_PASSWORD, MessageManager.getInstance().getProperty(MessageConstants.WRONG_LOGIN_OR_PASSWORD));
+                page = PagePathManager.getInstance().getProperty(PagePath.INDEX_PAGE_PATH);
+                request.setAttribute(Parameters.WRONG_LOGIN_OR_PASSWORD, MessageManager.getInstance().getProperty(MessageConstants.WRONG_LOGIN_OR_PASSWORD));
             }
         }
         catch (ServiceException e) {
-            page = ConfigurationManager.getInstance().getProperty(PagePath.ERROR_PAGE_PATH);
+            page = PagePathManager.getInstance().getProperty(PagePath.ERROR_PAGE_PATH);
             request.setAttribute(Parameters.ERROR_DATABASE, MessageManager.getInstance().getProperty(MessageConstants.ERROR_DATABASE));
         }
         return page;

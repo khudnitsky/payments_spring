@@ -4,10 +4,7 @@
 package by.pvt.khudnitsky.payments.filters;
 
 import by.pvt.khudnitsky.payments.entities.User;
-import by.pvt.khudnitsky.payments.enums.PagePath;
-import by.pvt.khudnitsky.payments.managers.ConfigurationManager;
 import by.pvt.khudnitsky.payments.utils.HibernateUtil;
-import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -21,8 +18,6 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author khudnitsky

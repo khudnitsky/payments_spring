@@ -9,12 +9,12 @@ import by.pvt.khudnitsky.payments.enums.PagePath;
 import by.pvt.khudnitsky.payments.entities.Account;
 import by.pvt.khudnitsky.payments.entities.User;
 import by.pvt.khudnitsky.payments.exceptions.ServiceException;
+import by.pvt.khudnitsky.payments.managers.PagePathManager;
 import by.pvt.khudnitsky.payments.services.impl.UserServiceImpl;
 import by.pvt.khudnitsky.payments.commands.AbstractCommand;
 import by.pvt.khudnitsky.payments.enums.MessageConstants;
 import by.pvt.khudnitsky.payments.enums.Parameters;
 import by.pvt.khudnitsky.payments.utils.RequestParameterParser;
-import by.pvt.khudnitsky.payments.managers.ConfigurationManager;
 import by.pvt.khudnitsky.payments.managers.MessageManager;
 
 /**
@@ -37,30 +37,30 @@ public class RegistrationCommand extends AbstractCommand {
                 account = RequestParameterParser.getAccount(request);
                 if(UserServiceImpl.getInstance().checkIsNewUser(user)){
                     UserServiceImpl.getInstance().bookUser(user, account);
-                    page = ConfigurationManager.getInstance().getProperty(PagePath.REGISTRATION_PAGE_PATH);
+                    page = PagePathManager.getInstance().getProperty(PagePath.REGISTRATION_PAGE_PATH);
                     request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.SUCCESS_OPERATION));
                 }
                 else{
-                    page = ConfigurationManager.getInstance().getProperty(PagePath.REGISTRATION_PAGE_PATH);
+                    page = PagePathManager.getInstance().getProperty(PagePath.REGISTRATION_PAGE_PATH);
                     request.setAttribute(Parameters.ERROR_USER_EXISTS, MessageManager.getInstance().getProperty(MessageConstants.USER_EXISTS));
                 }
             //}
 //            else{
 //                request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.EMPTY_FIELDS));
-//                page = ConfigurationManager.getInstance().getProperty(PagePath.REGISTRATION_PAGE_PATH);
+//                page = PagePathManager.getInstance().getProperty(PagePath.REGISTRATION_PAGE_PATH);
 //            }
         }
         catch (ServiceException e) {
-            page = ConfigurationManager.getInstance().getProperty(PagePath.ERROR_PAGE_PATH);
+            page = PagePathManager.getInstance().getProperty(PagePath.ERROR_PAGE_PATH);
             request.setAttribute(Parameters.ERROR_DATABASE, MessageManager.getInstance().getProperty(MessageConstants.ERROR_DATABASE));
         }
         catch (NumberFormatException e) {
             request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.INVALID_NUMBER_FORMAT));
-            page = ConfigurationManager.getInstance().getProperty(PagePath.REGISTRATION_PAGE_PATH);
+            page = PagePathManager.getInstance().getProperty(PagePath.REGISTRATION_PAGE_PATH);
         }
         // TODO исправить
         catch(NullPointerException e){
-            page = ConfigurationManager.getInstance().getProperty(PagePath.INDEX_PAGE_PATH);
+            page = PagePathManager.getInstance().getProperty(PagePath.INDEX_PAGE_PATH);
         }
         return page;
     }

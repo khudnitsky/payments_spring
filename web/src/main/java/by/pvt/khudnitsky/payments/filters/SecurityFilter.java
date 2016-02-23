@@ -6,7 +6,7 @@ package by.pvt.khudnitsky.payments.filters;
 import by.pvt.khudnitsky.payments.commands.factory.CommandType;
 import by.pvt.khudnitsky.payments.enums.PagePath;
 import by.pvt.khudnitsky.payments.enums.AccessLevelType;
-import by.pvt.khudnitsky.payments.managers.ConfigurationManager;
+import by.pvt.khudnitsky.payments.managers.PagePathManager;
 import by.pvt.khudnitsky.payments.utils.RequestParameterParser;
 
 import java.io.IOException;
@@ -39,7 +39,7 @@ public class SecurityFilter implements Filter {
                 } else if (commandType == CommandType.REGISTRATION) {
                     chain.doFilter(request, response);
                 } else {
-                    String page = ConfigurationManager.getInstance().getProperty(PagePath.INDEX_PAGE_PATH);
+                    String page = PagePathManager.getInstance().getProperty(PagePath.INDEX_PAGE_PATH);
                     RequestDispatcher dispatcher = request.getRequestDispatcher(page);
                     dispatcher.forward(httpRequest, httpResponse);
                     session.invalidate();
@@ -49,7 +49,7 @@ public class SecurityFilter implements Filter {
             }
         }
         catch(IllegalArgumentException e) {
-            String page = ConfigurationManager.getInstance().getProperty(PagePath.INDEX_PAGE_PATH);
+            String page = PagePathManager.getInstance().getProperty(PagePath.INDEX_PAGE_PATH);
             RequestDispatcher dispatcher = request.getRequestDispatcher(page);
             dispatcher.forward(httpRequest, httpResponse);
         }
