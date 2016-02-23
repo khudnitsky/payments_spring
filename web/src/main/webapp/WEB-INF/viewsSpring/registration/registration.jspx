@@ -1,0 +1,84 @@
+<!--
+  User: lexxa
+  Date: 22.02.2016
+  Time: 18:38
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns="http://www.w3.org/1999/xhtml"
+          version="2.0" >
+    <div class="content">
+
+        <form name="registrationForm" method="post" action="controller" onSubmit="return validateForm()">
+            <input type="hidden" name="command" value="registration"/>
+            <p align="center"><b>Введите ваши данные: </b></p>
+            <br/>
+            <table align="left" cellpadding="5" cellspacing="5">
+                <tr>
+                    <td>Имя:</td>
+                    <td><input type="text" id="firstName" name="firstname" value="" class="inputStyle"/></td>
+                    <td>
+                        <span id="emptyFirstName"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Фамилия:</td>
+                    <td><input type="text" id="lastName" name="lastname" value="" class="inputStyle"/></td>
+                    <td>
+                        <span id="emptyLastName"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Логин:</td>
+                    <td><input type="text" id="login" name="login" value="" class="inputStyle"/></td>
+                    <td>
+                        <span id="emptyLogin"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Пароль 1:</td>
+                    <td><input type="password" id="password_1" name="password" value="" class="inputStyle"/></td>
+                    <td>
+                        <span id="emptyPassword_1"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Пароль 2:</td>
+                    <td><input type="password" id="password_2" value="" class="inputStyle"/></td>
+                    <td>
+                        <span id="emptyPassword_2"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>№ Счета:</td>
+                    <td><input type="text" id="accountId" name="accountid" value="" class="inputStyle"/></td>
+                    <td>
+                        <span id="emptyAccountId"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Валюта Счета:</td>
+                    <td>
+                        <input type="radio" name="currency" value="BYR" checked="checked"/>BYR
+                        <input type="radio" name="currency" value="USD"/>USD
+                        <input type="radio" name="currency" value="EUR"/>EUR<br/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <span id="inputError"></span>
+                        <label id="label">
+                            ${operationMessage}
+                            ${errorUserExists}
+                        </label>
+                    </td>
+                </tr>
+            </table>
+            <br/>
+
+            <p align="center">
+                <input type="submit" value="Зарегистрировать" onClick="clearResult()"/>
+            </p>
+            <br/>
+        </form>
+    </div>
+</jsp:root>

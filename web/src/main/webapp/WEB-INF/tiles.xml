@@ -78,6 +78,7 @@
     <definition name="registration" extends="default">
         <put-attribute name="title" value="Регистрация"/>
         <put-attribute name="sidebar" value="/WEB-INF/viewsSpring/common/sidebar.jspx"/>
+        <put-attribute name="content" value="/WEB-INF/viewsSpring/registration/registration.jspx"/>
     </definition>
 
     <!-- INDEX PAGE -->

@@ -24,6 +24,8 @@
             <link href="../../../assets/css/logo_style.css" rel="stylesheet" type="text/css">
             <link href="../../../assets/css/button_style.css" rel="stylesheet" type="text/css">
             <link href="../../../assets/css/input_style.css" rel="stylesheet" type="text/css">
+            <script type="text/javascript" src="../../../assets/js/registration_form_validation.js"></script>
+            <script type="text/javascript" src="../../../assets/js/clear_result.js"></script>
         ]]>
 
         <tiles:insertAttribute name="title"/>
