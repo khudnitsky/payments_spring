@@ -220,18 +220,18 @@ public class UserServiceImpl extends AbstractService<User> implements IUserServi
         //TODO сделать множественность ролей
     }
 
-    public boolean checkIsNewUser(User user) throws ServiceException {
+    public boolean checkIsNewUser(String login) throws ServiceException {
         boolean isNew = false;
         Session session = util.getSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            if((userDao.getByLogin(user.getLogin()) == null) /*& (user.getAccounts() == null)*/){
+            if((userDao.getByLogin(login) == null) /*& (user.getAccounts() == null)*/){
                 isNew = true;
             }
             transaction.commit();
             logger.info(TRANSACTION_SUCCEEDED);
-            logger.info("User " + user + " is new");
+            logger.info("User with login " + login + " is new");
         }
         catch (DaoException e) {
             TransactionUtil.rollback(transaction, e);
