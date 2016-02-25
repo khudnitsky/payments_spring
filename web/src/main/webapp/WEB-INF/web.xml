@@ -26,38 +26,38 @@
         <!--<param-value></param-value>-->
     <!--</context-param>-->
 
-    <servlet>
-        <servlet-name>Controller</servlet-name>
-        <servlet-class>by.pvt.khudnitsky.payments.controllers.Controller</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>Controller</servlet-name>
-        <url-pattern>/controller</url-pattern>
-    </servlet-mapping>
+    <!--<servlet>-->
+        <!--<servlet-name>Controller</servlet-name>-->
+        <!--<servlet-class>by.pvt.khudnitsky.payments.controllers.Controller</servlet-class>-->
+    <!--</servlet>-->
+    <!--<servlet-mapping>-->
+        <!--<servlet-name>Controller</servlet-name>-->
+        <!--<url-pattern>/controller</url-pattern>-->
+    <!--</servlet-mapping>-->
 
     <session-config>
         <session-timeout>10</session-timeout>
     </session-config>
 
-    <filter>
-        <filter-name>SecurityFilter</filter-name>
-        <filter-class>by.pvt.khudnitsky.payments.filters.SecurityFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>SecurityFilter</filter-name>
-        <servlet-name>Controller</servlet-name>
-    </filter-mapping>
+    <!--<filter>-->
+        <!--<filter-name>SecurityFilter</filter-name>-->
+        <!--<filter-class>by.pvt.khudnitsky.payments.filters.SecurityFilter</filter-class>-->
+    <!--</filter>-->
+    <!--<filter-mapping>-->
+        <!--<filter-name>SecurityFilter</filter-name>-->
+        <!--<servlet-name>Controller</servlet-name>-->
+    <!--</filter-mapping>-->
 
-    <filter>
-        <filter-name>SessionClosing</filter-name>
-        <filter-class>by.pvt.khudnitsky.payments.filters.SessionClosingFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>SessionClosing</filter-name>
-        <servlet-name>Controller</servlet-name>
-    </filter-mapping>
+    <!--<filter>-->
+        <!--<filter-name>SessionClosing</filter-name>-->
+        <!--<filter-class>by.pvt.khudnitsky.payments.filters.SessionClosingFilter</filter-class>-->
+    <!--</filter>-->
+    <!--<filter-mapping>-->
+        <!--<filter-name>SessionClosing</filter-name>-->
+        <!--<servlet-name>dispatcher</servlet-name>-->
+    <!--</filter-mapping>-->
 
-    <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
-    </welcome-file-list>
+    <!--<welcome-file-list>-->
+        <!--<welcome-file>index.jsp</welcome-file>-->
+    <!--</welcome-file-list>-->
 </web-app>

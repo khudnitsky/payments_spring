@@ -42,7 +42,7 @@ public class LoginUserCommand extends AbstractCommand {
                 }
             }
             else{
-                page = PagePathManager.getInstance().getProperty(PagePath.INDEX_PAGE_PATH);
+                page = PagePathManager.getInstance().getProperty(PagePath.HOME_PAGE_PATH);
                 request.setAttribute(Parameters.WRONG_LOGIN_OR_PASSWORD, MessageManager.getInstance().getProperty(MessageConstants.WRONG_LOGIN_OR_PASSWORD));
             }
         }

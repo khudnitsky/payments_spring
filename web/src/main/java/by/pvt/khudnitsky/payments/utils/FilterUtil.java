@@ -8,13 +8,13 @@ import by.pvt.khudnitsky.payments.enums.Parameters;
  * Time: 15:53
  */
 public class FilterUtil {
-    private final String ORDER_BY_DATE = "ORDER BY operationDate";
-    private final String ORDER_BY_DESCRIPTION = "ORDER BY description";
-    private final String ORDER_BY_AMOUNT = "ORDER BY amount";
-    private final String ORDER_BY_CLIENT = "ORDER BY userLastName";
-    private final String ORDER_BY_ACCOUNT = "ORDER BY accountNumber";
-    private final String ORDER_ASC = "ASC";
-    private final String ORDER_DESC = "DESC";
+    private static final String ORDER_BY_DATE = "ORDER BY operationDate";
+    private static final String ORDER_BY_DESCRIPTION = "ORDER BY description";
+    private static final String ORDER_BY_AMOUNT = "ORDER BY amount";
+    private static final String ORDER_BY_CLIENT = "ORDER BY userLastName";
+    private static final String ORDER_BY_ACCOUNT = "ORDER BY accountNumber";
+    private static final String ORDER_ASC = "ASC";
+    private static final String ORDER_DESC = "DESC";
 
 
     public static PaginationFilter defineParameters(String ordering, String orderingType, int currentPage, int recordsPerPage){

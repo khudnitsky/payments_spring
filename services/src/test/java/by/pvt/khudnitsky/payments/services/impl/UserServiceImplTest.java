@@ -135,7 +135,7 @@ public class UserServiceImplTest {
     @Test
     public void testCheckIsNewUser() throws Exception {
         boolean expected = false;
-        boolean actual = userService.checkIsNewUser(expectedUser);
+        boolean actual = userService.checkIsNewUser(expectedUser.getLogin());
         delete();
         Assert.assertEquals(new Boolean(expected), new Boolean(actual));
     }

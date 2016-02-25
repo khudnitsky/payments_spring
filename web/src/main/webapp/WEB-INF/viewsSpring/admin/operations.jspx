@@ -19,7 +19,7 @@
                 <td align="center"><strong>Счет</strong></td>
             </tr>
 
-            <c:forEach var="operation" items="${requestScope.operationsList}">
+            <c:forEach var="operation" items="${operationsList}">
                 <tr>
                     <td><c:out value="${ operation.operationDate }"/></td>
                     <td><c:out value="${ operation.description }" /></td>
@@ -34,8 +34,8 @@
         <br/>
 
         <c:choose>
-            <c:when test="${sessionScope.currentPage != 1}">
-                <td><a href="/admin/operations?currentPage=${requestScope.currentPage - 1}">На предыдущую</a></td>
+            <c:when test="${currentPage != 1}">
+                <td><a href="/admin/operations?currentPage=${currentPage - 1}">На предыдущую</a></td>
                 <!--<td><a href="controller?command=operations&currentPage=${sessionScope.currentPage - 1}">На предыдущую</a></td>-->
             </c:when>
             <c:otherwise>
@@ -45,9 +45,9 @@
 
         <table border="1" cellpadding="5" cellspacing="5">
             <tr>
-                <c:forEach begin="1" end="${requestScope.numberOfPages}" var="i">
+                <c:forEach begin="1" end="${numberOfPages}" var="i">
                     <c:choose>
-                        <c:when test="${requestScope.currentPage eq i}">
+                        <c:when test="${currentPage eq i}">
                             <td>${i}</td>
                         </c:when>
                         <c:otherwise>
@@ -60,8 +60,8 @@
         </table>
 
         <c:choose>
-            <c:when test="${sessionScope.currentPage lt requestScope.numberOfPages}">
-                <td><a href="/admin/operations?currentPage=${requestScope.currentPage + 1}">На следующую</a></td>
+            <c:when test="${currentPage lt numberOfPages}">
+                <td><a href="/admin/operations?currentPage=${currentPage + 1}">На следующую</a></td>
                 <!--<td><a href="controller?command=operations&currentPage=${sessionScope.currentPage + 1}">На следующую</a></td>-->
             </c:when>
             <c:otherwise>

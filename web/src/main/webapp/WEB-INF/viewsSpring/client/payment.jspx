@@ -11,7 +11,7 @@
             Введите сумму платежа:<br />
             <input type="text" name="payment" value="" />
             <input type="submit" value="Оплатить" /> <br />
-            ${sessionScope.operationMessage} <br />
+            ${operationMessage} <br />
         </form>
     </div>
 </jsp:root>

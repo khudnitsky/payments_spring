@@ -7,7 +7,7 @@
           xmlns="http://www.w3.org/1999/xhtml"
           version="2.0" >
     <div class="content">
-        <h3>${sessionScope.userName}</h3>
+        <h3>${userName}</h3>
         Ваш счет заблокирован <br/>
         Операции по снятию/пополнению средств невозможны <br/>
         Для разблокировки счета обратитесь к администратору <br/>

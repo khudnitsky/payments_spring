@@ -12,18 +12,16 @@ import by.pvt.khudnitsky.payments.services.IOperationService;
 import by.pvt.khudnitsky.payments.services.IUserService;
 import by.pvt.khudnitsky.payments.services.impl.AccountServiceImpl;
 import by.pvt.khudnitsky.payments.services.impl.OperationServiceImpl;
+import by.pvt.khudnitsky.payments.services.impl.UserServiceImpl;
 import by.pvt.khudnitsky.payments.utils.FilterUtil;
 import by.pvt.khudnitsky.payments.utils.PaginationFilter;
-import by.pvt.khudnitsky.payments.utils.RequestParameterParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -35,18 +33,11 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-    private IUserService userService;
-    private IOperationService operationService;
-    private IAccountService accountService;
+    private IUserService userService = UserServiceImpl.getInstance();
+    private IOperationService operationService = OperationServiceImpl.getInstance();
+    private IAccountService accountService = AccountServiceImpl.getInstance();
     private PagePathManager pagePathManager = PagePathManager.getInstance();
     private MessageManager messageManager = MessageManager.getInstance();
-
-    //@Inject
-    public AdminController(IUserService userService, IOperationService operationService, IAccountService accountService){
-        this.userService = userService;
-        this.operationService = operationService;
-        this.accountService = accountService;
-    }
 
     // todo НАДО?
     @RequestMapping(value = "/main", method = RequestMethod.GET)
@@ -54,7 +45,7 @@ public class AdminController {
         return pagePathManager.getProperty(PagePath.ADMIN_PAGE_PATH);
     }
 
-    @RequestMapping(value = "/clients", method = RequestMethod.POST)         // TODO GET?
+    @RequestMapping(value = "/clients", method = RequestMethod.GET)
     public String showClients(ModelMap model, HttpServletRequest request) {
         String pagePath;
 
@@ -73,13 +64,13 @@ public class AdminController {
         }
         // TODO ПРОВверить, возможно отработает фильтр
         else{
-            pagePath = pagePathManager.getProperty(PagePath.INDEX_PAGE_PATH);
+            pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
             request.getSession().invalidate();   //TODO
         }
         return pagePath;
     }
 
-    @RequestMapping(value = "/operations", method = RequestMethod.POST)
+    @RequestMapping(value = "/operations", method = RequestMethod.GET)
     public String showOperations(ModelMap model,
                                  @RequestParam(value = Parameters.CURRENT_PAGE) int currentPage,
                                  @RequestParam(value = Parameters.RECORDS_PER_PAGE) int recordsPerPage,
@@ -105,13 +96,13 @@ public class AdminController {
             }
         }
         else{
-            pagePath = pagePathManager.getProperty(PagePath.INDEX_PAGE_PATH);
+            pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
             request.getSession().invalidate();   // TODO
         }
         return pagePath;
     }
 
-    @RequestMapping(value = "/unblock", method = RequestMethod.POST)
+    @RequestMapping(value = "/unblock", method = RequestMethod.GET)
     public String showUnblockPage(ModelMap model,
                                   HttpServletRequest request){
         String pagePath;
@@ -128,7 +119,7 @@ public class AdminController {
             }
         }
         else{
-            pagePath = pagePathManager.getProperty(PagePath.INDEX_PAGE_PATH);
+            pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
             request.getSession().invalidate();  // TODO
         }
         return pagePath;
@@ -164,7 +155,7 @@ public class AdminController {
             }
         }
         else{
-            pagePath = pagePathManager.getProperty(PagePath.INDEX_PAGE_PATH);
+            pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
             request.getSession().invalidate();
         }
         return pagePath;

@@ -1,6 +1,5 @@
 package by.pvt.khudnitsky.payments.controllers;
 
-import by.pvt.khudnitsky.payments.commands.factory.CommandType;
 import by.pvt.khudnitsky.payments.entities.Account;
 import by.pvt.khudnitsky.payments.entities.User;
 import by.pvt.khudnitsky.payments.enums.AccessLevelType;
@@ -12,18 +11,15 @@ import by.pvt.khudnitsky.payments.managers.MessageManager;
 import by.pvt.khudnitsky.payments.managers.PagePathManager;
 import by.pvt.khudnitsky.payments.services.IAccountService;
 import by.pvt.khudnitsky.payments.services.impl.AccountServiceImpl;
-import by.pvt.khudnitsky.payments.utils.RequestParameterParser;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
-import javax.inject.Inject;
-import javax.jws.WebParam;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -35,14 +31,14 @@ import java.util.Set;
 @Component
 @RequestMapping(value = "/client")
 public class ClientController {
-    private IAccountService accountService;
+    private IAccountService accountService = AccountServiceImpl.getInstance();
 
     private PagePathManager pagePathManager = PagePathManager.getInstance();
     private MessageManager messageManager = MessageManager.getInstance();
 
-    //@Inject
-    public ClientController(IAccountService accountService){
-        this.accountService = accountService;
+    @RequestMapping(value = "/main", method = RequestMethod.GET)
+    public String showClientMainPage(ModelMap model){
+        return pagePathManager.getProperty(PagePath.CLIENT_PAGE_PATH);
     }
 
     @RequestMapping(value = "/balance", method = GET)
@@ -71,7 +67,7 @@ public class ClientController {
             }
         }
         else{
-            pagePath = pagePathManager.getProperty(PagePath.INDEX_PAGE_PATH);
+            pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
             request.getSession().invalidate();
         }
         return pagePath;
@@ -121,13 +117,13 @@ public class ClientController {
             }
         }
         else{
-            pagePath = pagePathManager.getProperty(PagePath.INDEX_PAGE_PATH);
+            pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
             request.getSession().invalidate();
         }
         return pagePath;
     }
 
-    @RequestMapping(value = "/block", method = POST)
+    @RequestMapping(value = "/block", method = GET)
     public String blockAccount(ModelMap model,
                                @RequestParam(Parameters.USER_ACCESS_LEVEL) AccessLevelType accessLevelType,
                                @RequestParam(Parameters.USER) User user,
@@ -158,7 +154,7 @@ public class ClientController {
             }
         }
         else{
-            pagePath = pagePathManager.getProperty(PagePath.INDEX_PAGE_PATH);
+            pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
             request.getSession().invalidate();
         }
         return pagePath;
@@ -218,7 +214,7 @@ public class ClientController {
             }
         }
         else{
-            pagePath = pagePathManager.getProperty(PagePath.INDEX_PAGE_PATH);
+            pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
             request.getSession().invalidate();
         }
         return pagePath;

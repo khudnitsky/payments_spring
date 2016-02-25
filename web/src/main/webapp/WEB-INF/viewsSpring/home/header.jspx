@@ -9,7 +9,7 @@
     <div class="header">
         <br/>
         <p align="center">
-            <a href="../../../index.jsp">
+            <a href="/home">
                 <img src="../../../assets/img/main_logo_3.png" class="logoStyle"/>
             </a>
         </p>

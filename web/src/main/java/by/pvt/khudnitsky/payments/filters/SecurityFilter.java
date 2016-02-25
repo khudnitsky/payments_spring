@@ -39,7 +39,7 @@ public class SecurityFilter implements Filter {
                 } else if (commandType == CommandType.REGISTRATION) {
                     chain.doFilter(request, response);
                 } else {
-                    String page = PagePathManager.getInstance().getProperty(PagePath.INDEX_PAGE_PATH);
+                    String page = PagePathManager.getInstance().getProperty(PagePath.HOME_PAGE_PATH);
                     RequestDispatcher dispatcher = request.getRequestDispatcher(page);
                     dispatcher.forward(httpRequest, httpResponse);
                     session.invalidate();
@@ -49,7 +49,7 @@ public class SecurityFilter implements Filter {
             }
         }
         catch(IllegalArgumentException e) {
-            String page = PagePathManager.getInstance().getProperty(PagePath.INDEX_PAGE_PATH);
+            String page = PagePathManager.getInstance().getProperty(PagePath.HOME_PAGE_PATH);
             RequestDispatcher dispatcher = request.getRequestDispatcher(page);
             dispatcher.forward(httpRequest, httpResponse);
         }

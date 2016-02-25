@@ -17,7 +17,7 @@
                     <td align="center"><strong>Сумма</strong></td>
                     <td align="center"><strong>Валюта</strong></td>
                 </tr>
-                <c:forEach var="account" items="${sessionScope.accountsList}">
+                <c:forEach var="account" items="${accountsList}">
                     <tr>
                         <td><c:out value="${ account.id }" /></td>
                         <td><c:out value="${ account.deposit }" /></td>
@@ -27,8 +27,8 @@
                     </tr>
                 </c:forEach>
             </table>
-            ${sessionScope.errorEmptyChoice}
-            ${sessionScope.errorEmptyList} <br/>
+            ${errorEmptyChoice}
+            ${errorEmptyList} <br/>
             <input type="submit" value="Разблокировать"/>  <br/>
         </form>
     </div>

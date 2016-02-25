@@ -18,7 +18,7 @@ public class LogoutUserCommand extends AbstractCommand {
 
     @Override
     public String execute(HttpServletRequest request) {
-        String page = PagePathManager.getInstance().getProperty(PagePath.INDEX_PAGE_PATH);
+        String page = PagePathManager.getInstance().getProperty(PagePath.HOME_PAGE_PATH);
         request.getSession().invalidate();
         return page;
     }

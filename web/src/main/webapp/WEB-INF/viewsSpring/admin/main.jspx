@@ -8,7 +8,7 @@
           version="2.0">
     <div class="content">
         <br/>
-        <h2 align="left">${sessionScope.user.firstName} ${sessionScope.user.lastName}</h2>
+        <h2 align="left">${user.firstName} ${user.lastName}</h2>
         <h3 align="left">Вы вошли в систему как администратор</h3>
     </div>
 </jsp:root>

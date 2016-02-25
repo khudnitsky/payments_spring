@@ -35,7 +35,7 @@ public class RegistrationCommand extends AbstractCommand {
             accountIdString = request.getParameter(Parameters.ACCOUNT_NUMBER);
             //if(areFieldsFullStocked()){
                 account = RequestParameterParser.getAccount(request);
-                if(UserServiceImpl.getInstance().checkIsNewUser(user)){
+                if(UserServiceImpl.getInstance().checkIsNewUser(user.getLogin())){
                     UserServiceImpl.getInstance().bookUser(user, account);
                     page = PagePathManager.getInstance().getProperty(PagePath.REGISTRATION_PAGE_PATH);
                     request.setAttribute(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.SUCCESS_OPERATION));
@@ -60,7 +60,7 @@ public class RegistrationCommand extends AbstractCommand {
         }
         // TODO исправить
         catch(NullPointerException e){
-            page = PagePathManager.getInstance().getProperty(PagePath.INDEX_PAGE_PATH);
+            page = PagePathManager.getInstance().getProperty(PagePath.HOME_PAGE_PATH);
         }
         return page;
     }

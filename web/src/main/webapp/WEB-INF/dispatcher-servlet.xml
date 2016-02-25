@@ -23,7 +23,7 @@
 
     <bean id="tilesViewResolver"
           class="org.springframework.web.servlet.view.UrlBasedViewResolver"
-          p:viewClass="org.springframework.web.servlet.view.tiles3.TilesViewResolver"
+          p:viewClass="org.springframework.web.servlet.view.tiles3.TilesView"
     />
 
     <!--<bean id="localeResolver"-->

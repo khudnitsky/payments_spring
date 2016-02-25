@@ -11,7 +11,7 @@
             Введите сумму:<br/>
             <input type="text" name="addFunds" value=""/>
             <input type="submit" value="Пополнить"/> <br/>
-            ${sessionScope.operationMessage} <br/>
+            ${operationMessage} <br/>
         </form>
     </div>
 </jsp:root>

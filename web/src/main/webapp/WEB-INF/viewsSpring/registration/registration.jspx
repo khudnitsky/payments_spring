@@ -57,11 +57,11 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><label for="accountId">№ Счета:</label></td>
-                        <td><sf:password path="accountId" cssClass="inputStyle" id="accountId"/></td>
+                        <td><label for="accountNumber">№ Счета:</label></td>
+                        <td><sf:password path="accountNumber" cssClass="inputStyle" id="accountNumber"/></td>
                         <td>
                             <span id="emptyAccountId"></span>
-                            <sf:errors path="accountId"/>
+                            <sf:errors path="accountNumber"/>
                         </td>
                     </tr>
                     <tr>

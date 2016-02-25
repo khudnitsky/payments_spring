@@ -1,7 +1,6 @@
 package by.pvt.khudnitsky.payments.controllers;
 
 import by.pvt.khudnitsky.payments.dto.UserDTO;
-import by.pvt.khudnitsky.payments.entities.AccessLevel;
 import by.pvt.khudnitsky.payments.entities.Account;
 import by.pvt.khudnitsky.payments.entities.Currency;
 import by.pvt.khudnitsky.payments.entities.User;
@@ -12,7 +11,6 @@ import by.pvt.khudnitsky.payments.managers.MessageManager;
 import by.pvt.khudnitsky.payments.services.IUserService;
 import by.pvt.khudnitsky.payments.services.impl.UserServiceImpl;
 import by.pvt.khudnitsky.payments.utils.EntityBuilder;
-import by.pvt.khudnitsky.payments.utils.RequestParameterParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -32,19 +29,15 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class UserController {
-    private IUserService userService;
     private PagePathManager pagePathManager = PagePathManager.getInstance();
     private MessageManager messageManager = MessageManager.getInstance();
+    private IUserService userService = UserServiceImpl.getInstance();
+
     private User user;
 
-    //@Inject
-    public UserController(IUserService userService){
-        this.userService = userService;
-    }
-
-    @RequestMapping(value = {"/", "/index"}, method = RequestMethod.GET)
+    @RequestMapping(value = "/home" , method = RequestMethod.GET)
     public String showHomePage(){
-        return pagePathManager.getProperty(PagePath.INDEX_PAGE_PATH);
+        return pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
     }
 
     @RequestMapping(value = "/login_user", method = RequestMethod.POST)
@@ -66,7 +59,7 @@ public class UserController {
                 }
             }
             else{
-                pagePath = pagePathManager.getProperty(PagePath.INDEX_PAGE_PATH);
+                pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
                 model.put(Parameters.WRONG_LOGIN_OR_PASSWORD, messageManager.getProperty(MessageConstants.WRONG_LOGIN_OR_PASSWORD));
             }
         }
@@ -77,9 +70,9 @@ public class UserController {
         return pagePath;
     }
 
-    @RequestMapping(value = "/logout_user", method = RequestMethod.POST)
+    @RequestMapping(value = "/logout_user", method = RequestMethod.GET)
     public String logoutUser(HttpServletRequest request) {
-        String pagePath = pagePathManager.getProperty(PagePath.INDEX_PAGE_PATH);
+        String pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
         request.getSession().invalidate();        // TODO как правильно инвалидировать сессию?
         return pagePath;
     }
@@ -91,11 +84,12 @@ public class UserController {
     }
 
     @RequestMapping(value = "/registration_add", method = RequestMethod.POST)
-    public String registrateUser(UserDTO userDTO, BindingResult bindingResult, ModelMap model) {
+    public String registrateUser(@ModelAttribute UserDTO userDTO,
+                                 BindingResult bindingResult, ModelMap model) {
         String pagePath;
         try{
             // TODO Transformer from DTO to Entity
-            user = EntityBuilder.buildUser(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getLogin(), userDTO.getPassword(), null, null, null);
+            user = EntityBuilder.buildUser(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getLogin(), userDTO.getPassword_1(), null, null, null);
             Currency currency = EntityBuilder.buildCurrency(CurrencyType.valueOf(userDTO.getCurrency()));
             Account account = EntityBuilder.buildAccount(userDTO.getAccountNumber(), 0D, AccountStatusType.UNBLOCKED, currency, user);
             user.addAccount(account);
@@ -116,7 +110,7 @@ public class UserController {
             model.put(Parameters.ERROR_DATABASE, MessageManager.getInstance().getProperty(MessageConstants.ERROR_DATABASE));
         }
         catch(NullPointerException e){  // TODO исправить
-            pagePath = PagePathManager.getInstance().getProperty(PagePath.INDEX_PAGE_PATH);
+            pagePath = PagePathManager.getInstance().getProperty(PagePath.HOME_PAGE_PATH);
         }
         return pagePath;
     }

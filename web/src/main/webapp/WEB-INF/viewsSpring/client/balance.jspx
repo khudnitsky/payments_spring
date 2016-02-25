@@ -8,15 +8,15 @@
           xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
           version="2.0" >
     <div class="content">
-        <h3>${sessionScope.userName}</h3>
+        <h3>${userName}</h3>
         <table border="1">
             <tr>
                 <td>У вас на счету:</td>
-                <td><fmt:formatNumber value="${sessionScope.balance}" type="currency" currencySymbol=""/></td>
+                <td><fmt:formatNumber value="${balance}" type="currency" currencySymbol=""/></td>
             </tr>
             <tr>
                 <td>Валюта:</td>
-                <td>${sessionScope.currency} </td>
+                <td>${currency} </td>
             </tr>
         </table>
     </div>

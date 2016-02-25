@@ -11,7 +11,8 @@ public class UserDTO {
     private String firstName;
     private String lastName;
     private String login;
-    private String password;
+    private String password_1;
+    private String password_2;
     private Long accountNumber;
     private String currency;
 
@@ -27,7 +28,8 @@ public class UserDTO {
         if (firstName != null ? !firstName.equals(userDTO.firstName) : userDTO.firstName != null) return false;
         if (lastName != null ? !lastName.equals(userDTO.lastName) : userDTO.lastName != null) return false;
         if (login != null ? !login.equals(userDTO.login) : userDTO.login != null) return false;
-        if (password != null ? !password.equals(userDTO.password) : userDTO.password != null) return false;
+        if (password_1 != null ? !password_1.equals(userDTO.password_1) : userDTO.password_1 != null) return false;
+        if (password_2 != null ? !password_2.equals(userDTO.password_2) : userDTO.password_2 != null) return false;
         if (accountNumber != null ? !accountNumber.equals(userDTO.accountNumber) : userDTO.accountNumber != null)
             return false;
         return currency != null ? currency.equals(userDTO.currency) : userDTO.currency == null;
@@ -39,7 +41,8 @@ public class UserDTO {
         int result = firstName != null ? firstName.hashCode() : 0;
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (login != null ? login.hashCode() : 0);
-        result = 31 * result + (password != null ? password.hashCode() : 0);
+        result = 31 * result + (password_1 != null ? password_1.hashCode() : 0);
+        result = 31 * result + (password_2 != null ? password_2.hashCode() : 0);
         result = 31 * result + (accountNumber != null ? accountNumber.hashCode() : 0);
         result = 31 * result + (currency != null ? currency.hashCode() : 0);
         return result;
@@ -85,11 +88,19 @@ public class UserDTO {
         this.login = login;
     }
 
-    public String getPassword() {
-        return password;
+    public String getPassword_1() {
+        return password_1;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setPassword_1(String password_1) {
+        this.password_1 = password_1;
+    }
+
+    public String getPassword_2() {
+        return password_2;
+    }
+
+    public void setPassword_2(String password_2) {
+        this.password_2 = password_2;
     }
 }
