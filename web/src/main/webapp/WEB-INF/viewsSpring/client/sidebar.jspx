@@ -9,11 +9,11 @@
     <div class="sidebar">
         <br/>
         <ul class="nav">
-            <li><a href="controller?command=balance">Баланс</a></li>
-            <li><a href="controller?command=gotopayment">Совершить платеж</a></li>
-            <li><a href="controller?command=gotoaddfunds">Пополнить счет</a></li>
-            <li><a href="controller?command=block">Заблокировать счет</a></li>
-            <li><a href="controller?command=logout">Выйти из системы</a></li>
+            <li><a href="/client/balance">Баланс</a></li>
+            <li><a href="/client/payments">Совершить платеж</a></li>
+            <li><a href="/client/funds">Пополнить счет</a></li>
+            <li><a href="/client/block">Заблокировать счет</a></li>
+            <li><a href="/logout_user">Выйти из системы</a></li>
         </ul>
     </div>
 </jsp:root>

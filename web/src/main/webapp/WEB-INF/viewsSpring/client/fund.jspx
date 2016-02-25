@@ -7,8 +7,7 @@
           xmlns="http://www.w3.org/1999/xhtml"
           version="2.0">
     <div class="content">
-        <form name="addFundsForm" method="POST" action="controller">
-            <input type="hidden" name="command" value="addFunds"/>
+        <form name="addFundsForm" method="post" action="/client/funds/add">
             Введите сумму:<br/>
             <input type="text" name="addFunds" value=""/>
             <input type="submit" value="Пополнить"/> <br/>
