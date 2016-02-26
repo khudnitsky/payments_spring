@@ -74,6 +74,10 @@
             <groupId>org.apache.tiles</groupId>
             <artifactId>tiles-template</artifactId>
         </dependency>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+        </dependency>
     </dependencies>
 
     <name>web</name>
