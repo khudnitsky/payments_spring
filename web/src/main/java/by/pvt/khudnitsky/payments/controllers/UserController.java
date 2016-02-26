@@ -44,14 +44,15 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String loginUser(@RequestParam(Parameters.USER_LOGIN) String login,
                             @RequestParam(Parameters.USER_PASSWORD) String password,
-                            ModelMap model) {
+                            ModelMap model,
+                            HttpSession session) {
         String pagePath;
         try {
             if(userService.checkUserAuthorization(login, password)){
                 user = userService.getUserByLogin(login);
                 AccessLevelType accessLevelType = userService.checkAccessLevel(user);
-                model.addAttribute(Parameters.USER, user);
-                model.addAttribute(Parameters.USERTYPE, accessLevelType);       // TODO УБрать, там уже есть user
+                session.setAttribute(Parameters.USER, user);
+                session.setAttribute(Parameters.USERTYPE, accessLevelType);       // TODO УБрать, там уже есть user
                 if(AccessLevelType.CLIENT.equals(accessLevelType)){
                     pagePath = pagePathManager.getProperty(PagePath.CLIENT_PAGE_PATH);
                 }
@@ -85,8 +86,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registrateUser(@ModelAttribute @Valid UserDTO userDTO,
-                                 BindingResult bindingResult, ModelMap model) {
+    public String registrateUser(@ModelAttribute("newUser") @Valid UserDTO userDTO,
+                                 BindingResult bindingResult,
+                                 ModelMap model) {
         String pagePath;
         if(!bindingResult.hasErrors()) {
             try {

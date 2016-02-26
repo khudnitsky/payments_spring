@@ -13,15 +13,13 @@ import by.pvt.khudnitsky.payments.services.IUserService;
 import by.pvt.khudnitsky.payments.services.impl.AccountServiceImpl;
 import by.pvt.khudnitsky.payments.services.impl.OperationServiceImpl;
 import by.pvt.khudnitsky.payments.services.impl.UserServiceImpl;
-import by.pvt.khudnitsky.payments.utils.FilterUtil;
+import by.pvt.khudnitsky.payments.utils.PaginationFilterUtil;
 import by.pvt.khudnitsky.payments.utils.PaginationFilter;
+import by.pvt.khudnitsky.payments.utils.OrderingUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.List;
 
@@ -33,12 +31,18 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/admin")
+@SessionAttributes("filter")
 public class AdminController {
     private IUserService userService = UserServiceImpl.getInstance();
     private IOperationService operationService = OperationServiceImpl.getInstance();
     private IAccountService accountService = AccountServiceImpl.getInstance();
     private PagePathManager pagePathManager = PagePathManager.getInstance();
     private MessageManager messageManager = MessageManager.getInstance();
+
+    @ModelAttribute("filter")
+    public PaginationFilter createFilter(){
+        return new PaginationFilter();
+    }
 
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String showAdminMainPage(){
@@ -51,7 +55,8 @@ public class AdminController {
         String pagePath;
 
         //TODO исправить
-        AccessLevelType accessLevelType = (AccessLevelType) model.get(Parameters.USER_ACCESS_LEVEL);
+        AccessLevelType accessLevelType = (AccessLevelType) session.getAttribute(Parameters.USERTYPE);
+//        AccessLevelType accessLevelType = (AccessLevelType) model.get(Parameters.USER_ACCESS_LEVEL);
         if(accessLevelType == AccessLevelType.ADMINISTRATOR){
             try{
                 List<User> list = userService.getAll();
@@ -71,25 +76,30 @@ public class AdminController {
         return pagePath;
     }
 
-    @RequestMapping(value = "/operations", method = RequestMethod.GET)
+    @RequestMapping(value = "/operations", method = {RequestMethod.GET, RequestMethod.POST})
     public String showOperations(ModelMap model,
-                                 @RequestParam(value = Parameters.CURRENT_PAGE) int currentPage,
-                                 @RequestParam(value = Parameters.RECORDS_PER_PAGE) int recordsPerPage,
-                                 @RequestParam(value = Parameters.ORDERING) String ordering,
+                                 /*@RequestParam(value = Parameters.CURRENT_PAGE, required = false) Integer currentPage,
+                                 @RequestParam(value = Parameters.RECORDS_PER_PAGE, required = false) Integer recordsPerPage,
+                                 @RequestParam(value = Parameters.ORDERING, required = false) String ordering,*/
+                                 @ModelAttribute ("filter") PaginationFilter filter,
                                  HttpSession session) {
         String pagePath;
-        PaginationFilter filter = FilterUtil.defineParameters(ordering, null, currentPage, recordsPerPage);
-        AccessLevelType accessLevelType = (AccessLevelType) model.get(Parameters.USERTYPE);
+        Integer currentPage = filter.getCurrentPage();
+        Integer recordsPerPage = filter.getRecordsPerPage();
+        String ordering = filter.getOrdering();
+        filter = PaginationFilterUtil.defineParameters(ordering, null, currentPage, recordsPerPage);
+        AccessLevelType accessLevelType = (AccessLevelType) session.getAttribute(Parameters.USERTYPE);
         if(accessLevelType == AccessLevelType.ADMINISTRATOR){
             try{
-                int numberOfPages = operationService.getNumberOfPages(recordsPerPage);
-                List<OperationDTO> list = operationService.getAllToPage(recordsPerPage, currentPage, ordering);
+                int numberOfPages = operationService.getNumberOfPages(filter.getRecordsPerPage());
+                List<OperationDTO> list = operationService.getAllToPage(filter.getRecordsPerPage(), filter.getCurrentPage(), OrderingUtil.defineOrderingType(filter.getOrdering()));
                 model.addAttribute(Parameters.OPERATIONS_LIST, list);
                 model.addAttribute(Parameters.NUMBER_OF_PAGES, numberOfPages);
-                model.addAttribute(Parameters.CURRENT_PAGE, filter.getCurrentPage());
-                model.addAttribute(Parameters.RECORDS_PER_PAGE, filter.getRecordsPerPage());
-                model.addAttribute(Parameters.ORDERING, filter.getOrdering());
-                pagePath = pagePathManager.getProperty(PagePath.ADMIN_SHOW_OPERATIONS_PAGE);
+//                model.addAttribute(Parameters.CURRENT_PAGE, filter.getCurrentPage());
+//                model.addAttribute(Parameters.RECORDS_PER_PAGE, filter.getRecordsPerPage());
+//                model.addAttribute(Parameters.ORDERING, ordering);
+                model.addAttribute("filter", filter);
+                pagePath = /*"redirect:" +*/ pagePathManager.getProperty(PagePath.ADMIN_SHOW_OPERATIONS_PAGE);
             }
             catch (ServiceException e) {
                 model.addAttribute(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
@@ -107,7 +117,7 @@ public class AdminController {
     public String showUnblockPage(ModelMap model,
                                   HttpSession session){
         String pagePath;
-        AccessLevelType accessLevelType = (AccessLevelType) model.get(Parameters.USER_ACCESS_LEVEL);
+        AccessLevelType accessLevelType = (AccessLevelType) session.getAttribute(Parameters.USERTYPE);
         if(accessLevelType == AccessLevelType.ADMINISTRATOR){
             try {
                 List<Account> list = accountService.getBlockedAccounts();
@@ -126,13 +136,13 @@ public class AdminController {
         return pagePath;
     }
 
-    @RequestMapping(value = "/unblockAccount", method = RequestMethod.POST)
+    @RequestMapping(value = "/unblock", method = RequestMethod.POST)
     public String unblockAccount(ModelMap model,
                                  @RequestParam(value = Parameters.OPERATION_UNBLOCK) Long accountNumber,
                                  @RequestParam(value = Parameters.ACCOUNTS_LIST) List<Account> accountList,
                                  HttpSession session){
         String pagePath;
-        AccessLevelType accessLevelType = (AccessLevelType) model.get(Parameters.USERTYPE);
+        AccessLevelType accessLevelType = (AccessLevelType) session.getAttribute(Parameters.USERTYPE);
         if(accessLevelType == AccessLevelType.ADMINISTRATOR){
             try{
                 accountService.updateAccountStatus(accountNumber, AccountStatusType.UNBLOCKED);

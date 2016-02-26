@@ -79,7 +79,7 @@ public class ClientController {
         return pagePathManager.getProperty(PagePath.CLIENT_FUND_PAGE_PATH);
     }
 
-    @RequestMapping(value = "funds/add", method = POST)
+    @RequestMapping(value = "funds", method = POST)
     public String addFund(ModelMap model,
                           @RequestParam(Parameters.USER_ACCESS_LEVEL) AccessLevelType accessLevelType,
                           @RequestParam(Parameters.USER) User user,
@@ -166,7 +166,7 @@ public class ClientController {
         return pagePathManager.getProperty(PagePath.CLIENT_PAYMENT_PAGE_PATH);
     }
 
-    @RequestMapping(value = "/payments/payment", method = POST)
+    @RequestMapping(value = "/payments", method = POST)
     public String payment(ModelMap model,
                           @RequestParam(Parameters.USER_ACCESS_LEVEL) AccessLevelType accessLevelType,
                           @RequestParam(Parameters.USER) User user,

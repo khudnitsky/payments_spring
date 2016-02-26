@@ -9,7 +9,7 @@
           xmlns:sf="http://www.springframework.org/tags/form"
           version="2.0" >
     <div class="content">
-        <form name="unblockForm" method="post" action="/admin/unblockAccount">
+        <form name="unblockForm" method="post" action="/unblock">
             Выберите счет для разблокировки
             <table border="1">
                 <tr bgcolor="#CCCCCC">

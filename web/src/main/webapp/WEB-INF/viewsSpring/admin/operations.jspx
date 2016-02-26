@@ -33,15 +33,15 @@
         </table>
         <br/>
 
-        <c:choose>
-            <c:when test="${currentPage != 1}">
-                <td><a href="/admin/operations?currentPage=${currentPage - 1}">На предыдущую</a></td>
-                <!--<td><a href="controller?command=operations&currentPage=${sessionScope.currentPage - 1}">На предыдущую</a></td>-->
-            </c:when>
-            <c:otherwise>
-                <td><br/></td>
-            </c:otherwise>
-        </c:choose>
+        <!--<c:choose>-->
+            <!--<c:when test="${currentPage != 1}">-->
+                <!--<td><a href="/admin/operations?currentPage=${currentPage - 1}">На предыдущую</a></td>-->
+                <!--&lt;!&ndash;<td><a href="controller?command=operations&currentPage=${sessionScope.currentPage - 1}">На предыдущую</a></td>&ndash;&gt;-->
+            <!--</c:when>-->
+            <!--<c:otherwise>-->
+                <!--<td><br/></td>-->
+            <!--</c:otherwise>-->
+        <!--</c:choose>-->
 
         <table border="1" cellpadding="5" cellspacing="5">
             <tr>
@@ -59,40 +59,57 @@
             </tr>
         </table>
 
-        <c:choose>
-            <c:when test="${currentPage lt numberOfPages}">
-                <td><a href="/admin/operations?currentPage=${currentPage + 1}">На следующую</a></td>
-                <!--<td><a href="controller?command=operations&currentPage=${sessionScope.currentPage + 1}">На следующую</a></td>-->
-            </c:when>
-            <c:otherwise>
-                <td><br/></td>
-            </c:otherwise>
-        </c:choose>
+        <!--<c:choose>-->
+            <!--<c:when test="${currentPage lt numberOfPages}">-->
+                <!--<td><a href="/admin/operations?currentPage=${currentPage + 1}">На следующую</a></td>-->
+                <!--&lt;!&ndash;<td><a href="controller?command=operations&currentPage=${sessionScope.currentPage + 1}">На следующую</a></td>&ndash;&gt;-->
+            <!--</c:when>-->
+            <!--<c:otherwise>-->
+                <!--<td><br/></td>-->
+            <!--</c:otherwise>-->
+        <!--</c:choose>-->
 
-        <form name="operationsForm" method="post" action="/admin/operations">
-            <sf:input path="currentPage" cssClass="inputStyle" size="3"/>
-            <!--<input type="text" name="currentPage" value="" size="3"/>-->
-            <input type="submit" value="Перейти" />
-        </form>
-
-        <form name="recordsPerPageForm" method="post" action="/admin/operations">
-            <select name="recordsPerPage">
-                <option value="3">3</option>
-                <option value="5">5</option>
-                <option value="10">10</option>
-            </select>
+        <sf:form name="filterForm"
+                 method="post"
+                 action="/admin/operations"
+                 modelAttribute="filter">
+            <table>
+                <tr>
+                    <td>
+                        <sf:input path="currentPage" value="" size="3"/>
+                        <!--<input type="text" name="currentPage" value="1" size="3"/>-->
+                    </td>
+                    <td>
+                        <sf:select path="recordsPerPage">
+                            <sf:option value="3">3</sf:option>
+                            <sf:option value="5">5</sf:option>
+                            <sf:option value="10">10</sf:option>
+                        </sf:select>
+                        <!--<select name="recordsPerPage">-->
+                            <!--<option value="3" selected="selected">3</option>-->
+                            <!--<option value="5">5</option>-->
+                            <!--<option value="10">10</option>-->
+                        <!--</select>-->
+                    </td>
+                    <td>
+                        <sf:select path="ordering">
+                            <sf:option value="date">по дате</sf:option>
+                            <sf:option value="description">по описанию</sf:option>
+                            <sf:option value="amount">по сумме</sf:option>
+                            <sf:option value="client">по клиенту</sf:option>
+                            <sf:option value="account">по счету</sf:option>
+                        </sf:select>
+                        <!--<select name="ordering">-->
+                            <!--<option value="date" selected="selected">по дате</option>-->
+                            <!--<option value="description">по описанию</option>-->
+                            <!--<option value="amount">по сумме</option>-->
+                            <!--<option value="client">по клиенту</option>-->
+                            <!--<option value="account">по счету</option>-->
+                        <!--</select>-->
+                    </td>
+                </tr>
+            </table>
             <input type="submit" value="Обновить" />
-        </form>
-
-        <form name="orderingForm" method="post" action="/admin/operations">
-            <select name="ordering">
-                <option value="date">по дате</option>
-                <option value="description">по описанию</option>
-                <option value="amount">по сумме</option>
-                <option value="client">по клиенту</option>
-                <option value="account">по счету</option>
-            </select>
-            <input type="submit" value="Обновить" />
-        </form>
+        </sf:form>
     </div>
 </jsp:root>

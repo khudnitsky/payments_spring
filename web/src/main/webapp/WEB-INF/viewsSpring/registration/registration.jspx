@@ -12,7 +12,7 @@
                  action="/registration"
                  method="post"
                  modelAttribute="newUser"
-                 onsubmit="validateForm()">
+                 onsubmit="return validateForm()">
             <fieldset>
             <p align="center"><b>Введите ваши данные: </b></p>
             <br/>
@@ -21,7 +21,7 @@
                         <td><label for="firstName">Имя:</label></td>
                         <td><sf:input path="firstName" cssClass="inputStyle" id="firstName"/></td>
                         <td>
-                            <span id="emptyFirstName"></span>
+                            <span id="emptyFirstName"/>
                             <sf:errors path="firstName"/>
                         </td>
                     </tr>
@@ -29,7 +29,7 @@
                         <td><label for="lastName">Фамилия:</label></td>
                         <td><sf:input path="lastName" cssClass="inputStyle" id="lastName"/></td>
                         <td>
-                            <span id="emptyLastName"></span>
+                            <span id="emptyLastName"/>
                             <sf:errors path="lastName"/>
                         </td>
                     </tr>
@@ -37,7 +37,7 @@
                         <td><label for="login">Логин:</label></td>
                         <td><sf:input path="login" cssClass="inputStyle" id="login"/></td>
                         <td>
-                            <span id="emptyLogin"></span>
+                            <span id="emptyLogin"/>
                             <sf:errors path="login"/>
                         </td>
                     </tr>
@@ -45,7 +45,7 @@
                         <td><label for="password_1">Пароль 1:</label></td>
                         <td><sf:password path="password_1" cssClass="inputStyle" id="password_1"/></td>
                         <td>
-                            <span id="emptyPassword_1"></span>
+                            <span id="emptyPassword_1"/>
                             <sf:errors path="password_1"/>
                         </td>
                     </tr>
@@ -53,15 +53,15 @@
                         <td><label for="password_2">Пароль 2:</label></td>
                         <td><sf:password path="password_2" cssClass="inputStyle" id="password_2"/></td>
                         <td>
-                            <span id="emptyPassword_2"></span>
+                            <span id="emptyPassword_2"/>
                             <sf:errors path="password_2"/>
                         </td>
                     </tr>
                     <tr>
                         <td><label for="accountNumber">№ Счета:</label></td>
-                        <td><sf:password path="accountNumber" cssClass="inputStyle" id="accountNumber"/></td>
+                        <td><sf:input path="accountNumber" cssClass="inputStyle" id="accountNumber"/></td>
                         <td>
-                            <span id="emptyAccountId"></span>
+                            <span id="emptyAccountNumber"/>
                             <sf:errors path="accountNumber"/>
                         </td>
                     </tr>
@@ -77,13 +77,13 @@
                             <br/>
                         </td>
                         <td>
-                            <span id="emptyCurrency"></span>
+                            <span id="emptyCurrency"/>
                             <sf:errors path="currency"/>
                         </td>
                     </tr>
                     <tr>
                         <td colspan="2" align="center">
-                            <span id="inputError"></span>
+                            <span id="inputError"/>
                             <label id="label">
                                 ${operationMessage}
                                 ${errorUserExists}
@@ -93,7 +93,7 @@
                 </table>
                 <br/>
                 <p align="center">
-                    <input type="submit" value="Зарегистрировать" onClick="clearResult()"/>
+                    <input type="submit" value="Зарегистрировать" onclick="clearResult()"/>
                 </p>
                 <br/>
             </fieldset>

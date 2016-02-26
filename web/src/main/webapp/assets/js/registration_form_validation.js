@@ -6,7 +6,7 @@ function validateForm()
 	var messageLogin = document.getElementById("emptyLogin");
 	var messagePassword_1 = document.getElementById("emptyPassword_1");
 	var messagePassword_2 = document.getElementById("emptyPassword_2");
-	var messageAccountId = document.getElementById("emptyAccountId");
+	var messageAccountNumber = document.getElementById("emptyAccountNumber");
 	var message = document.getElementById("inputError");
 	
 	var firstName = document.getElementById("firstName").value;
@@ -14,7 +14,7 @@ function validateForm()
 	var login = document.getElementById("login").value;
 	var password_1 = document.getElementById("password_1").value;
 	var password_2 = document.getElementById("password_2").value;
-	var accountId = document.getElementById("accountId").value;
+	var accountNumber = document.getElementById("accountNumber").value;
 	
 	var point = "*";
 	var emptyField = "Поле не заполнено";
@@ -23,7 +23,7 @@ function validateForm()
 
 	var templateNames = /^[a-zA-Zа-яА-Я ]{2,30}$/;
 	var templatePassword = /\w*/g;
-	var templateAccountId = /^[0-9]{1,10}$/;
+	var templateAccountNumber = /^[0-9]{1,10}$/;
 
 	// проверка заполненности полей
 	if (firstName == ""){
@@ -68,7 +68,7 @@ function validateForm()
 	}
 	if (password_1 == ""){
 		messagePassword_1.innerHTML = point;
-		message.innerHTML = emptyField;;
+		message.innerHTML = emptyField;
 		flag = false;
 	}
 	else{
@@ -90,20 +90,20 @@ function validateForm()
 			messagePassword_2.innerHTML = "";
 		}
 	}
-	if (accountId == ""){
-		messageAccountId.innerHTML = point;
+	if (accountNumber == ""){
+		messageAccountNumber.innerHTML = point;
 		message.innerHTML = emptyField;
 		flag = false;
 	}
 	else{
 		// проверка валидности данных
-		if (!templateAccountId.exec(accountId)){
-			messageAccountId.innerHTML = point;
+		if (!templateAccountNumber.exec(accountNumber)){
+			messageAccountNumber.innerHTML = point;
 			message.innerHTML = invalidSymbols + "(только цифры)";
 			flag = false;	
 		}
 		else{
-			messageAccountId.innerHTML = "";
+			messageAccountNumber.innerHTML = "";
 		}
 	}
 	

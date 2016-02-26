@@ -8,16 +8,16 @@ package by.pvt.khudnitsky.payments.utils;
 public class PaginationFilter {
     private String ordering;
     private String orderingType;
-    private int currentPage;
-    private int recordsPerPage;
+    private Integer currentPage;
+    private Integer recordsPerPage;
 
     public PaginationFilter() {}
 
-    public int getCurrentPage() {
+    public Integer getCurrentPage() {
         return currentPage;
     }
 
-    public void setCurrentPage(int currentPage) {
+    public void setCurrentPage(Integer currentPage) {
         this.currentPage = currentPage;
     }
 
@@ -26,14 +26,14 @@ public class PaginationFilter {
     }
 
     public void setOrdering(String ordering) {
-        this.ordering = ordering;
+       this.ordering = ordering;
     }
 
-    public int getRecordsPerPage() {
+    public Integer getRecordsPerPage() {
         return recordsPerPage;
     }
 
-    public void setRecordsPerPage(int recordsPerPage) {
+    public void setRecordsPerPage(Integer recordsPerPage) {
         this.recordsPerPage = recordsPerPage;
     }
 
