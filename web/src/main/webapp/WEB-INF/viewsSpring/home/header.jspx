@@ -10,7 +10,14 @@
         <br/>
         <p align="center">
             <a href="/home">
-                <img src="../../../assets/img/main_logo_3.png" class="logoStyle"/>
+                <img src="../../../assets/img/main_logo_3.png"
+                     alt="logo"
+                     name="Insert_logo"
+                     height="120"
+                     id="Insert_logo"
+                     style="display:block;"
+                />
+                <!--<img src="../../../assets/img/main_logo_3.png" class="logoStyle"/>-->
             </a>
         </p>
         <br/>

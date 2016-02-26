@@ -18,13 +18,15 @@
     <jsp:directive.page pageEncoding="UTF-8" contentType="text/html; UTF-8"/>
 
     <head>
-        <!--<![CDATA[-->
-            <!--<link href="../../../assets/css/page_style.css" rel="stylesheet" type="text/css"/>-->
-            <!--<link href="../../../assets/css/sidebar_style.css" rel="stylesheet" type="text/css"/>-->
-            <!--<link href="../../../assets/css/logo_style.css" rel="stylesheet" type="text/css"/>-->
-            <!--<link href="../../../assets/css/button_style.css" rel="stylesheet" type="text/css"/>-->
-            <!--<link href="../../../assets/css/input_style.css" rel="stylesheet" type="text/css"/>-->
-        <!--]]>-->
+        <![CDATA[
+            <link href="../assets/css/page_style.css" rel="stylesheet" type="text/css"/>
+            <link href="../assets/css/sidebar_style.css" rel="stylesheet" type="text/css"/>
+            <link href="../assets/css/logo_style.css" rel="stylesheet" type="text/css"/>
+            <link href="../assets/css/button_style.css" rel="stylesheet" type="text/css"/>
+            <link href="../assets/css/input_style.css" rel="stylesheet" type="text/css"/>
+            <script type="text/javascript" src="../assets/js/registration_form_validation.js"><jsp:text/></script>
+            <script type="text/javascript" src="../assets/js/clear_result.js"><jsp:text/></script>
+        ]]>
 
         <title>
             <tiles:insertAttribute name="title"/>
@@ -35,11 +37,6 @@
     </head>
 
     <body>
-    <!--<![CDATA[-->
-            <!--<script type="text/javascript" src="../../../assets/js/registration_form_validation.js"></script>-->
-            <!--<script type="text/javascript" src="../../../assets/js/clear_result.js"></script>-->
-        <!--]]>-->
-
         <div class="container">
             <tiles:insertAttribute name="header"/>
             <tiles:insertAttribute name="sidebar"/>
