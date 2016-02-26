@@ -39,6 +39,7 @@ public class UserDTO {
 
     @Pattern(regexp = "BYR|EUR|USD")
     @Size(min = 3, max = 3, message = "Incorrect value of the currency")
+    @NotNull(message = "Currency cannot be empty")
     private String currency;
 
     public UserDTO() {}
