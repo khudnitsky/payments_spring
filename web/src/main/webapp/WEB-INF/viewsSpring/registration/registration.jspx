@@ -54,6 +54,7 @@
                         <td><sf:password path="password_2" cssClass="inputStyle" id="password_2"/></td>
                         <td>
                             <span id="emptyPassword_2"></span>
+                            <sf:errors path="password_2"/>
                         </td>
                     </tr>
                     <tr>
@@ -74,6 +75,10 @@
                             <!--<input type="radio" name="currency" value="USD"/>USD-->
                             <!--<input type="radio" name="currency" value="EUR"/>EUR-->
                             <br/>
+                        </td>
+                        <td>
+                            <span id="emptyCurrency"></span>
+                            <sf:errors path="currency"/>
                         </td>
                     </tr>
                     <tr>
