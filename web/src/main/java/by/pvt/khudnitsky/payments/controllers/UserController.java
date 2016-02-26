@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 /**
@@ -72,9 +72,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logoutUser(HttpServletRequest request) {
+    public String logoutUser(HttpSession session) {
         String pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
-        request.getSession().invalidate();        // TODO как правильно инвалидировать сессию?
+        session.invalidate();
         return pagePath;
     }
 

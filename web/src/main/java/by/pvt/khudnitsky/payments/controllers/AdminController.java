@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /**
@@ -45,7 +46,8 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/clients", method = RequestMethod.GET)
-    public String showClients(ModelMap model, HttpServletRequest request) {
+    public String showClients(ModelMap model,
+                              HttpSession session) {
         String pagePath;
 
         //TODO исправить
@@ -64,7 +66,7 @@ public class AdminController {
         // TODO ПРОВверить, возможно отработает фильтр
         else{
             pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
-            request.getSession().invalidate();   //TODO
+            session.invalidate();
         }
         return pagePath;
     }
@@ -74,7 +76,7 @@ public class AdminController {
                                  @RequestParam(value = Parameters.CURRENT_PAGE) int currentPage,
                                  @RequestParam(value = Parameters.RECORDS_PER_PAGE) int recordsPerPage,
                                  @RequestParam(value = Parameters.ORDERING) String ordering,
-                                 HttpServletRequest request) {
+                                 HttpSession session) {
         String pagePath;
         PaginationFilter filter = FilterUtil.defineParameters(ordering, null, currentPage, recordsPerPage);
         AccessLevelType accessLevelType = (AccessLevelType) model.get(Parameters.USERTYPE);
@@ -96,14 +98,14 @@ public class AdminController {
         }
         else{
             pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
-            request.getSession().invalidate();   // TODO
+            session.invalidate();
         }
         return pagePath;
     }
 
     @RequestMapping(value = "/unblock", method = RequestMethod.GET)
     public String showUnblockPage(ModelMap model,
-                                  HttpServletRequest request){
+                                  HttpSession session){
         String pagePath;
         AccessLevelType accessLevelType = (AccessLevelType) model.get(Parameters.USER_ACCESS_LEVEL);
         if(accessLevelType == AccessLevelType.ADMINISTRATOR){
@@ -119,7 +121,7 @@ public class AdminController {
         }
         else{
             pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
-            request.getSession().invalidate();  // TODO
+            session.invalidate();
         }
         return pagePath;
     }
@@ -128,7 +130,7 @@ public class AdminController {
     public String unblockAccount(ModelMap model,
                                  @RequestParam(value = Parameters.OPERATION_UNBLOCK) Long accountNumber,
                                  @RequestParam(value = Parameters.ACCOUNTS_LIST) List<Account> accountList,
-                                 HttpServletRequest request){
+                                 HttpSession session){
         String pagePath;
         AccessLevelType accessLevelType = (AccessLevelType) model.get(Parameters.USERTYPE);
         if(accessLevelType == AccessLevelType.ADMINISTRATOR){
@@ -155,7 +157,7 @@ public class AdminController {
         }
         else{
             pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
-            request.getSession().invalidate();
+            session.invalidate();
         }
         return pagePath;
     }

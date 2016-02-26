@@ -20,6 +20,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -44,7 +45,7 @@ public class ClientController {
     @RequestMapping(value = "/balance", method = GET)
     public String showBalance(ModelMap model,
                               @RequestParam(value = Parameters.USER) User user,
-                              HttpServletRequest request) {
+                              HttpSession session) {
         String pagePath;
         AccessLevelType accessLevelType = (AccessLevelType) model.get(Parameters.USER_ACCESS_LEVEL);
         if(accessLevelType == AccessLevelType.CLIENT){
@@ -68,7 +69,7 @@ public class ClientController {
         }
         else{
             pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
-            request.getSession().invalidate();
+            session.invalidate();
         }
         return pagePath;
     }
@@ -83,7 +84,7 @@ public class ClientController {
                           @RequestParam(Parameters.USER_ACCESS_LEVEL) AccessLevelType accessLevelType,
                           @RequestParam(Parameters.USER) User user,
                           @RequestParam(Parameters.OPERATION_ADD_FUNDS) double amount,
-                          HttpServletRequest request) {
+                          HttpSession session) {
         String pagePath;
         if(accessLevelType == AccessLevelType.CLIENT) {
             try {
@@ -118,7 +119,7 @@ public class ClientController {
         }
         else{
             pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
-            request.getSession().invalidate();
+            session.invalidate();
         }
         return pagePath;
     }
@@ -127,7 +128,7 @@ public class ClientController {
     public String blockAccount(ModelMap model,
                                @RequestParam(Parameters.USER_ACCESS_LEVEL) AccessLevelType accessLevelType,
                                @RequestParam(Parameters.USER) User user,
-                               HttpServletRequest request) {
+                               HttpSession session) {
         String pagePath;
         if(accessLevelType == AccessLevelType.CLIENT){
             String description = "Блокировка счета";   // TODO
@@ -155,7 +156,7 @@ public class ClientController {
         }
         else{
             pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
-            request.getSession().invalidate();
+            session.invalidate();
         }
         return pagePath;
     }
@@ -170,7 +171,7 @@ public class ClientController {
                           @RequestParam(Parameters.USER_ACCESS_LEVEL) AccessLevelType accessLevelType,
                           @RequestParam(Parameters.USER) User user,
                           @RequestParam(Parameters.OPERATION_PAYMENT) double amount,
-                          HttpServletRequest request) {
+                          HttpSession session) {
         String pagePath;
         if(accessLevelType == AccessLevelType.CLIENT){
             try {
@@ -215,7 +216,7 @@ public class ClientController {
         }
         else{
             pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
-            request.getSession().invalidate();
+            session.invalidate();
         }
         return pagePath;
     }
