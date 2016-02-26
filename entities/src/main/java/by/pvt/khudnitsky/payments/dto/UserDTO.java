@@ -2,18 +2,43 @@ package by.pvt.khudnitsky.payments.dto;
 
 import by.pvt.khudnitsky.payments.entities.Currency;
 
+import javax.validation.constraints.*;
+
 /**
  * Created by: khudnitsky
  * Date: 23.02.2016
  * Time: 11:52
  */
 public class UserDTO {
+    @Size(min = 2, max = 20, message = "First name should be between 2 and 20 characters long") // TODO локализация
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я0-9]+$", message = "First name should be alphanumeric with no spaces")
+    @NotNull(message = "First name cannot be empty")
     private String firstName;
+
+    @Size(min = 3, max = 50, message = "Last name should be between 3 and 50 characters long")
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я0-9-/s]+$", message = "First name should be alphanumeric with no spaces") // TODO добавить пробелы и тире
+    @NotNull(message = "Last name cannot be empty")
     private String lastName;
+
+    @Size(min = 3, max = 20, message = "Login should be between 3 and 20 characters long")
+    @NotNull(message = "Login cannot be empty")
     private String login;
+
+    @Size(min = 6, max = 20, message = "Password should be between 3 and 20 characters long")
+    @NotNull(message = "Password cannot be empty")
     private String password_1;
+
+    @Size(min = 6, max = 20, message = "Password should be between 3 and 20 characters long")
+    @NotNull(message = "Password cannot be empty")
     private String password_2;
+
+    @DecimalMax(value = "100000000", message = "Account number must be a less than 100000000")
+    @DecimalMin(value = "1000", message = "Account number must be a greater than 1000")
+    @NotNull(message = "Account number cannot be empty")
     private Long accountNumber;
+
+    @Pattern(regexp = "BYR|EUR|USD")
+    @Size(min = 3, max = 3, message = "Incorrect value of the currency")
     private String currency;
 
     public UserDTO() {}
