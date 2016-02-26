@@ -39,9 +39,8 @@ public class AdminController {
     private PagePathManager pagePathManager = PagePathManager.getInstance();
     private MessageManager messageManager = MessageManager.getInstance();
 
-    // todo НАДО?
     @RequestMapping(value = "/main", method = RequestMethod.GET)
-    public String showAdminMainPage(ModelMap model){
+    public String showAdminMainPage(){
         return pagePathManager.getProperty(PagePath.ADMIN_PAGE_PATH);
     }
 
@@ -54,12 +53,12 @@ public class AdminController {
         if(accessLevelType == AccessLevelType.ADMINISTRATOR){
             try{
                 List<User> list = userService.getAll();
-                model.put(Parameters.USER_LIST, list);
+                model.addAttribute(Parameters.USER_LIST, list);
                 pagePath = pagePathManager.getProperty(PagePath.ADMIN_SHOW_CLIENTS_PAGE);
             }
             catch (ServiceException e) {
+                model.addAttribute(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
                 pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
-                model.put(Parameters.ERROR_DATABASE, MessageManager.getInstance().getProperty(MessageConstants.ERROR_DATABASE));
             }
         }
         // TODO ПРОВверить, возможно отработает фильтр
@@ -83,16 +82,16 @@ public class AdminController {
             try{
                 int numberOfPages = operationService.getNumberOfPages(recordsPerPage);
                 List<OperationDTO> list = operationService.getAllToPage(recordsPerPage, currentPage, ordering);
-                model.put(Parameters.OPERATIONS_LIST, list);
-                model.put(Parameters.NUMBER_OF_PAGES, numberOfPages);
-                model.put(Parameters.CURRENT_PAGE, filter.getCurrentPage());
-                model.put(Parameters.RECORDS_PER_PAGE, filter.getRecordsPerPage());
-                model.put(Parameters.ORDERING, filter.getOrdering());
+                model.addAttribute(Parameters.OPERATIONS_LIST, list);
+                model.addAttribute(Parameters.NUMBER_OF_PAGES, numberOfPages);
+                model.addAttribute(Parameters.CURRENT_PAGE, filter.getCurrentPage());
+                model.addAttribute(Parameters.RECORDS_PER_PAGE, filter.getRecordsPerPage());
+                model.addAttribute(Parameters.ORDERING, filter.getOrdering());
                 pagePath = pagePathManager.getProperty(PagePath.ADMIN_SHOW_OPERATIONS_PAGE);
             }
             catch (ServiceException e) {
+                model.addAttribute(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
                 pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
-                model.put(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
             }
         }
         else{
@@ -110,12 +109,12 @@ public class AdminController {
         if(accessLevelType == AccessLevelType.ADMINISTRATOR){
             try {
                 List<Account> list = accountService.getBlockedAccounts();
-                model.put(Parameters.ACCOUNTS_LIST, list);
+                model.addAttribute(Parameters.ACCOUNTS_LIST, list);
                 pagePath = pagePathManager.getProperty(PagePath.ADMIN_UNBLOCK_PAGE);
             }
             catch (ServiceException e) {
+                model.addAttribute(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
                 pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
-                model.put(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
             }
         }
         else{
@@ -136,21 +135,21 @@ public class AdminController {
             try{
                 accountService.updateAccountStatus(accountNumber, AccountStatusType.UNBLOCKED);
                 accountList = accountService.getBlockedAccounts();
-                model.put(Parameters.ACCOUNTS_LIST, accountList);
+                model.addAttribute(Parameters.ACCOUNTS_LIST, accountList);
                 pagePath = pagePathManager.getProperty(PagePath.ADMIN_UNBLOCK_PAGE);
             }
             catch(NumberFormatException e){
                 if(!accountList.isEmpty()){
-                    model.put(Parameters.ERROR_EMPTY_CHOICE, messageManager.getProperty(MessageConstants.EMPTY_CHOICE));
+                    model.addAttribute(Parameters.ERROR_EMPTY_CHOICE, messageManager.getProperty(MessageConstants.EMPTY_CHOICE));
                     pagePath = pagePathManager.getProperty(PagePath.ADMIN_UNBLOCK_PAGE);
                 }
                 else{
-                    model.put(Parameters.ERROR_EMPTY_LIST, messageManager.getProperty(MessageConstants.EMPTY_LIST));
+                    model.addAttribute(Parameters.ERROR_EMPTY_LIST, messageManager.getProperty(MessageConstants.EMPTY_LIST));
                     pagePath = pagePathManager.getProperty(PagePath.ADMIN_UNBLOCK_PAGE);
                 }
             }
             catch (ServiceException e) {
-                model.put(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
+                model.addAttribute(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
                 pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
             }
         }

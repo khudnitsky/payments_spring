@@ -60,13 +60,13 @@ public class UserController {
                 }
             }
             else{
-                pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
                 model.addAttribute(Parameters.WRONG_LOGIN_OR_PASSWORD, messageManager.getProperty(MessageConstants.WRONG_LOGIN_OR_PASSWORD));
+                pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
             }
         }
         catch (ServiceException e) {
-            pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
             model.addAttribute(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
+            pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
         }
         return pagePath;
     }
@@ -99,16 +99,18 @@ public class UserController {
 
                 if (userService.checkIsNewUser(user.getLogin())) {
                     userService.bookUser(user, account);
-                    pagePath = pagePathManager.getProperty(PagePath.REGISTRATION_PAGE_PATH);
                     model.addAttribute(Parameters.OPERATION_MESSAGE, messageManager.getProperty(MessageConstants.SUCCESS_OPERATION));
-                } else {
                     pagePath = pagePathManager.getProperty(PagePath.REGISTRATION_PAGE_PATH);
+                } else {
                     model.addAttribute(Parameters.ERROR_USER_EXISTS, messageManager.getProperty(MessageConstants.USER_EXISTS));
+                    pagePath = pagePathManager.getProperty(PagePath.REGISTRATION_PAGE_PATH);
                 }
-            } catch (ServiceException e) {
-                pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
+            }
+            catch (ServiceException e) {
                 model.addAttribute(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
-            } catch (NullPointerException e) {  // TODO исправить
+                pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
+            }
+            catch (NullPointerException e) {  // TODO исправить
                 pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
             }
         }

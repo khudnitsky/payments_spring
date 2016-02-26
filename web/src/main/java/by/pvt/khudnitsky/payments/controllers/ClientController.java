@@ -37,7 +37,7 @@ public class ClientController {
     private MessageManager messageManager = MessageManager.getInstance();
 
     @RequestMapping(value = "/main", method = RequestMethod.GET)
-    public String showClientMainPage(ModelMap model){
+    public String showClientMainPage(){
         return pagePathManager.getProperty(PagePath.CLIENT_PAGE_PATH);
     }
 
@@ -57,13 +57,13 @@ public class ClientController {
                     accountId = iterator.next().getId();
                 }
                 Account account = accountService.getById(accountId);
-                model.put(Parameters.OPERATION_BALANCE, account.getDeposit());
-                model.put(Parameters.ACCOUNT_CURRENCY, account.getCurrency().getCurrencyType());
+                model.addAttribute(Parameters.OPERATION_BALANCE, account.getDeposit());
+                model.addAttribute(Parameters.ACCOUNT_CURRENCY, account.getCurrency().getCurrencyType());
                 pagePath = pagePathManager.getProperty(PagePath.CLIENT_BALANCE_PAGE_PATH);
             }
             catch (ServiceException e) {
+                model.addAttribute(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
                 pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
-                model.put(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
             }
         }
         else{
@@ -74,7 +74,7 @@ public class ClientController {
     }
 
     @RequestMapping(value = "/funds", method = GET)
-    public String showFundsPage(ModelMap model){
+    public String showFundsPage(){
         return pagePathManager.getProperty(PagePath.CLIENT_FUND_PAGE_PATH);
     }
 
@@ -98,10 +98,10 @@ public class ClientController {
                     if (amount > 0) {
                         String description = "Платеж"; // TODO вынести
                         accountService.addFunds(user, description, amount);
-                        model.put(Parameters.OPERATION_MESSAGE, messageManager.getProperty(MessageConstants.SUCCESS_OPERATION));
+                        model.addAttribute(Parameters.OPERATION_MESSAGE, messageManager.getProperty(MessageConstants.SUCCESS_OPERATION));
                         pagePath = pagePathManager.getProperty(PagePath.CLIENT_FUND_PAGE_PATH);
                     } else {
-                        model.put(Parameters.OPERATION_MESSAGE, messageManager.getProperty(MessageConstants.NEGATIVE_ARGUMENT));
+                        model.addAttribute(Parameters.OPERATION_MESSAGE, messageManager.getProperty(MessageConstants.NEGATIVE_ARGUMENT));
                         pagePath = pagePathManager.getProperty(PagePath.CLIENT_FUND_PAGE_PATH);
                     }
                 } else {
@@ -109,10 +109,10 @@ public class ClientController {
                 }
             }
             catch (ServiceException e) {
-                model.put(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
+                model.addAttribute(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
                 pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
             } catch (NumberFormatException e) {
-                model.put(Parameters.OPERATION_MESSAGE, messageManager.getProperty(MessageConstants.INVALID_NUMBER_FORMAT));
+                model.addAttribute(Parameters.OPERATION_MESSAGE, messageManager.getProperty(MessageConstants.INVALID_NUMBER_FORMAT));
                 pagePath = pagePathManager.getProperty(PagePath.CLIENT_FUND_PAGE_PATH);
             }
         }
@@ -141,7 +141,7 @@ public class ClientController {
                 }
                 if(!accountService.checkAccountStatus(accountId)){
                     accountService.blockAccount(user, description);
-                    model.put(Parameters.OPERATION_MESSAGE, messageManager.getProperty(MessageConstants.SUCCESS_OPERATION));
+                    model.addAttribute(Parameters.OPERATION_MESSAGE, messageManager.getProperty(MessageConstants.SUCCESS_OPERATION));
                     pagePath = pagePathManager.getProperty(PagePath.CLIENT_BLOCK_PAGE_PATH);
                 }
                 else{
@@ -161,7 +161,7 @@ public class ClientController {
     }
 
     @RequestMapping(value = "/payments", method = GET)
-    public String showPaymentsPage(ModelMap model){
+    public String showPaymentsPage(){
         return pagePathManager.getProperty(PagePath.CLIENT_PAYMENT_PAGE_PATH);
     }
 
@@ -192,7 +192,7 @@ public class ClientController {
                         }
                         else{
                             model.addAttribute(Parameters.OPERATION_MESSAGE, messageManager.getProperty(MessageConstants.FAILED_OPERATION));
-                            pagePath = PagePathManager.getInstance().getProperty(PagePath.CLIENT_PAYMENT_PAGE_PATH);
+                            pagePath = pagePathManager.getProperty(PagePath.CLIENT_PAYMENT_PAGE_PATH);
                         }
                     }
                     else{
