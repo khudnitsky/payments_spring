@@ -149,6 +149,7 @@
                 <version>${inject.version}</version>
             </dependency>
 
+            <!-- Validation -->
             <dependency>
                 <groupId>javax</groupId>
                 <artifactId>javaee-api</artifactId>
