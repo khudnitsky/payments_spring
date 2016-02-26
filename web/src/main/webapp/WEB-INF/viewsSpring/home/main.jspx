@@ -8,7 +8,7 @@
           version="2.0">
     <div class="content">
 
-        <form name="loginForm" method="post" action="/login_user" onSubmit="return validateForm()">
+        <form name="loginForm" method="post" action="/login" onSubmit="return validateForm()">
             <br/>
             <p align="center"><b>Введите ваш логин и пароль:</b></p>
             <table align="center" cellpadding="5" cellspacing="5">

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 /**
  * Created by: khudnitsky
@@ -40,7 +41,7 @@ public class UserController {
         return pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
     }
 
-    @RequestMapping(value = "/login_user", method = RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String loginUser(@RequestParam(Parameters.USER_LOGIN) String login,
                             @RequestParam(Parameters.USER_PASSWORD) String password,
                             ModelMap model) {
@@ -49,8 +50,8 @@ public class UserController {
             if(userService.checkUserAuthorization(login, password)){
                 user = userService.getUserByLogin(login);
                 AccessLevelType accessLevelType = userService.checkAccessLevel(user);
-                model.put(Parameters.USER, user);
-                model.put(Parameters.USERTYPE, accessLevelType);       // TODO УБрать, там уже есть user
+                model.addAttribute(Parameters.USER, user);
+                model.addAttribute(Parameters.USERTYPE, accessLevelType);       // TODO УБрать, там уже есть user
                 if(AccessLevelType.CLIENT.equals(accessLevelType)){
                     pagePath = pagePathManager.getProperty(PagePath.CLIENT_PAGE_PATH);
                 }
@@ -60,57 +61,59 @@ public class UserController {
             }
             else{
                 pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
-                model.put(Parameters.WRONG_LOGIN_OR_PASSWORD, messageManager.getProperty(MessageConstants.WRONG_LOGIN_OR_PASSWORD));
+                model.addAttribute(Parameters.WRONG_LOGIN_OR_PASSWORD, messageManager.getProperty(MessageConstants.WRONG_LOGIN_OR_PASSWORD));
             }
         }
         catch (ServiceException e) {
             pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
-            model.put(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
+            model.addAttribute(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
         }
         return pagePath;
     }
 
-    @RequestMapping(value = "/logout_user", method = RequestMethod.GET)
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logoutUser(HttpServletRequest request) {
         String pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
         request.getSession().invalidate();        // TODO как правильно инвалидировать сессию?
         return pagePath;
     }
 
-    @RequestMapping(value = "/registration", method = RequestMethod.GET)
+    @RequestMapping(value = "/registration", method = RequestMethod.GET, params = "new")
     public String showRegistrationForm(ModelMap model){
-        model.put(Parameters.NEW_USER, new UserDTO());
+        model.addAttribute(Parameters.NEW_USER, new UserDTO());
         return pagePathManager.getProperty(PagePath.REGISTRATION_PAGE_PATH);
     }
 
-    @RequestMapping(value = "/registration_add", method = RequestMethod.POST)
-    public String registrateUser(@ModelAttribute UserDTO userDTO,
+    @RequestMapping(value = "/registration", method = RequestMethod.POST)
+    public String registrateUser(@ModelAttribute @Valid UserDTO userDTO,
                                  BindingResult bindingResult, ModelMap model) {
         String pagePath;
-        try{
-            // TODO Transformer from DTO to Entity
-            user = EntityBuilder.buildUser(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getLogin(), userDTO.getPassword_1(), null, null, null);
-            Currency currency = EntityBuilder.buildCurrency(CurrencyType.valueOf(userDTO.getCurrency()));
-            Account account = EntityBuilder.buildAccount(userDTO.getAccountNumber(), 0D, AccountStatusType.UNBLOCKED, currency, user);
-            user.addAccount(account);
-            user.addAccessLevel(EntityBuilder.buildAccessLevel(AccessLevelType.CLIENT));
+        if(!bindingResult.hasErrors()) {
+            try {
+                // TODO Transformer from DTO to Entity
+                user = EntityBuilder.buildUser(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getLogin(), userDTO.getPassword_1(), null, null, null);
+                Currency currency = EntityBuilder.buildCurrency(CurrencyType.valueOf(userDTO.getCurrency()));
+                Account account = EntityBuilder.buildAccount(userDTO.getAccountNumber(), 0D, AccountStatusType.UNBLOCKED, currency, user);
+                user.addAccount(account);
+                user.addAccessLevel(EntityBuilder.buildAccessLevel(AccessLevelType.CLIENT));
 
-            if(userService.checkIsNewUser(user.getLogin())){
-                userService.bookUser(user, account);
-                pagePath = pagePathManager.getProperty(PagePath.REGISTRATION_PAGE_PATH);
-                model.put(Parameters.OPERATION_MESSAGE, MessageManager.getInstance().getProperty(MessageConstants.SUCCESS_OPERATION));
-            }
-            else{
-                pagePath = PagePathManager.getInstance().getProperty(PagePath.REGISTRATION_PAGE_PATH);
-                model.put(Parameters.ERROR_USER_EXISTS, MessageManager.getInstance().getProperty(MessageConstants.USER_EXISTS));
+                if (userService.checkIsNewUser(user.getLogin())) {
+                    userService.bookUser(user, account);
+                    pagePath = pagePathManager.getProperty(PagePath.REGISTRATION_PAGE_PATH);
+                    model.addAttribute(Parameters.OPERATION_MESSAGE, messageManager.getProperty(MessageConstants.SUCCESS_OPERATION));
+                } else {
+                    pagePath = pagePathManager.getProperty(PagePath.REGISTRATION_PAGE_PATH);
+                    model.addAttribute(Parameters.ERROR_USER_EXISTS, messageManager.getProperty(MessageConstants.USER_EXISTS));
+                }
+            } catch (ServiceException e) {
+                pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
+                model.addAttribute(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
+            } catch (NullPointerException e) {  // TODO исправить
+                pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
             }
         }
-        catch (ServiceException e) {
-            pagePath = PagePathManager.getInstance().getProperty(PagePath.ERROR_PAGE_PATH);
-            model.put(Parameters.ERROR_DATABASE, MessageManager.getInstance().getProperty(MessageConstants.ERROR_DATABASE));
-        }
-        catch(NullPointerException e){  // TODO исправить
-            pagePath = PagePathManager.getInstance().getProperty(PagePath.HOME_PAGE_PATH);
+        else{
+            pagePath = pagePathManager.getProperty(PagePath.REGISTRATION_PAGE_PATH);
         }
         return pagePath;
     }

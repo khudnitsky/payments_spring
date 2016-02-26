@@ -9,7 +9,7 @@
           version="2.0" >
     <div class="content">
         <sf:form name="registrationForm"
-                 action="/registration_add"
+                 action="/registration"
                  method="post"
                  modelAttribute="newUser"
                  onsubmit="validateForm()">

@@ -1,5 +1,5 @@
 ﻿<%@ page contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" errorPage="WEB-INF/views/error/error.jsp" %>
+         pageEncoding="UTF-8" errorPage="../../WEB-INF/views/error/error.jsp" %>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 
 <html>
@@ -23,16 +23,16 @@
 <div class="container">
 
     <div class="header">
-        <%@include file="WEB-INF/views/elements/index/header.jsp" %>
+        <%@include file="../../WEB-INF/views/elements/index/header.jsp" %>
     </div> <!-- end of header -->
 
     <div class="sidebar">
-        <%@include file="WEB-INF/views/elements/index/sidebar.jsp"%>
+        <%@include file="../../WEB-INF/views/elements/index/sidebar.jsp"%>
         <!-- end .sidebar -->
     </div>
 
     <div class="content">
-        <form name="loginForm" method="post" action="/login_user" onSubmit="return validateForm()">
+        <form name="loginForm" method="post" action="/login" onSubmit="return validateForm()">
             <br>
             <p align="center"><b>Введите ваш логин и пароль:</b></p>
             <table align="center" cellpadding="5" cellspacing="5">
@@ -73,7 +73,7 @@
     </div>
 
     <div class="footer">
-        <%@include file="WEB-INF/views/elements/index/footer.jsp" %>
+        <%@include file="../../WEB-INF/views/elements/index/footer.jsp" %>
         <!-- end .footer -->
     </div>
     <!-- end .container -->
