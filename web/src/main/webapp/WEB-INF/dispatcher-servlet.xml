@@ -13,7 +13,7 @@
 
     <context:component-scan base-package="by.pvt.khudnitsky.payments"/>
 
-    <mvc:resources mapping="/resources/**" location="assets"/>
+    <mvc:resources mapping="/assets/**" location="/assets/"/>
     <mvc:annotation-driven/>
 
     <bean id="tilesConfigurer"
