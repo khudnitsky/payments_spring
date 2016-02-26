@@ -51,7 +51,7 @@ public class HibernateUtil {
     public void releaseSession(Session session){
         if(session != null){
             try{
-                //session.close();
+                session.close();
                 sessions.remove();
             }
             catch(HibernateException e){
