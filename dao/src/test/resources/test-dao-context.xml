@@ -48,11 +48,11 @@
 
     <bean id="namingStrategy" class="by.pvt.khudnitsky.payments.utils.CustomNamingStrategy"/>
 
-    <bean id="txManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <tx:annotation-driven transaction-manager="txManager"/>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 
     <bean id="operationDao" class="by.pvt.khudnitsky.payments.dao.impl.OperationDaoImpl">
         <constructor-arg ref="sessionFactory"/>
