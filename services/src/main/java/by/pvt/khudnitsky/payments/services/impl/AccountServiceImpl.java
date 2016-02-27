@@ -1,5 +1,6 @@
 package by.pvt.khudnitsky.payments.services.impl;
 
+import by.pvt.khudnitsky.payments.dao.IAccountDao;
 import by.pvt.khudnitsky.payments.dao.IOperationDao;
 import by.pvt.khudnitsky.payments.dao.impl.AccountDaoImpl;
 import by.pvt.khudnitsky.payments.dao.impl.OperationDaoImpl;
@@ -15,6 +16,8 @@ import by.pvt.khudnitsky.payments.utils.TransactionUtil;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.sql.SQLException;
@@ -26,117 +29,19 @@ import java.util.Set;
 /**
  * Copyright (c) 2016, Khudnitsky. All rights reserved.
  */
+
+@Service
 public class AccountServiceImpl extends AbstractService<Account> implements IAccountService{
-    private static Logger logger = Logger.getLogger(UserServiceImpl.class);
-    private static AccountServiceImpl instance;
-    private AccountDaoImpl accountDao = AccountDaoImpl.getInstance();
-    private IOperationDao operationDao = OperationDaoImpl.getInstance();
+    private static Logger logger = Logger.getLogger(AccountServiceImpl.class);
 
-    private AccountServiceImpl(){}
+    @Autowired
+    private IOperationDao operationDao;
+    private IAccountDao accountDao;
 
-    public static synchronized AccountServiceImpl getInstance(){
-        if(instance == null){
-            instance = new AccountServiceImpl();
-        }
-        return instance;
-    }
-
-    /**
-     * Calls AccountDaoImpl save() method
-     *
-     * @param entity - Account object
-     * @throws SQLException
-     */
-    @Override
-    public Serializable save(Account entity) throws ServiceException {
-        Serializable id;
-        Session session = util.getSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            id = accountDao.save(entity);
-            transaction.commit();
-            logger.info(TRANSACTION_SUCCEEDED);
-            logger.info(entity);
-        }
-        catch (DaoException e) {
-            TransactionUtil.rollback(transaction, e);
-            logger.error(TRANSACTION_FAILED, e);
-            throw new ServiceException(TRANSACTION_FAILED + e);
-        }
-        return id;
-    }
-
-    /**
-     * Calls AccountDaoImpl getAll() method
-     *
-     * @return list of Account objects
-     * @throws SQLException
-     */
-    @Override
-    public List<Account> getAll() throws ServiceException {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Calls AccountDaoImpl getById() method
-     *
-     * @param id - Account id
-     * @return Account object
-     * @throws SQLException
-     */
-    @Override
-    public Account getById(Long id) throws ServiceException {
-        Account account;
-        Session session = util.getSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            account = accountDao.getById(id);
-            transaction.commit();
-            logger.info(account);
-        }
-        catch (DaoException e) {
-            TransactionUtil.rollback(transaction, e);
-            logger.error(TRANSACTION_FAILED, e);
-            throw new ServiceException(TRANSACTION_FAILED + e);
-        }
-        return account;
-    }
-
-    /**
-     * Calls AccountDaoImpl update() method
-     *
-     * @param entity - Account object
-     * @throws SQLException
-     */
-    @Override
-    public void update(Account entity) throws ServiceException {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Calls AccountDaoImpl delete() method
-     *
-     * @param id - Account id
-     * @throws SQLException
-     */
-    @Override
-    public void delete(Long id) throws ServiceException {
-        Session session = util.getSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            accountDao.delete(id);
-            transaction.commit();
-            logger.info(TRANSACTION_SUCCEEDED);
-            logger.info("Deleted account #" + id);
-        }
-        catch (DaoException e) {
-            TransactionUtil.rollback(transaction, e);
-            logger.error(TRANSACTION_FAILED, e);
-            throw new ServiceException(TRANSACTION_FAILED + e);
-        }
+    @Autowired
+    private AccountServiceImpl(IAccountDao accountDao){
+        super(accountDao);
+        this.accountDao = accountDao;
     }
 
     public List<Account> getBlockedAccounts() throws ServiceException {

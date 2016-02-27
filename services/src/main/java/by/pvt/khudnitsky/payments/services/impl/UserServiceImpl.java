@@ -1,5 +1,9 @@
 package by.pvt.khudnitsky.payments.services.impl;
 
+import by.pvt.khudnitsky.payments.dao.IAccessLevelDao;
+import by.pvt.khudnitsky.payments.dao.IAccountDao;
+import by.pvt.khudnitsky.payments.dao.ICurrencyDao;
+import by.pvt.khudnitsky.payments.dao.IUserDao;
 import by.pvt.khudnitsky.payments.dao.impl.AccessLevelDaoImpl;
 import by.pvt.khudnitsky.payments.dao.impl.CurrencyDaoImpl;
 import by.pvt.khudnitsky.payments.entities.AccessLevel;
@@ -16,6 +20,8 @@ import by.pvt.khudnitsky.payments.utils.TransactionUtil;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 import java.sql.SQLException;
@@ -26,145 +32,23 @@ import java.util.Set;
 /**
  * Copyright (c) 2016, Khudnitsky. All rights reserved.
  */
+
+@Service
 public class UserServiceImpl extends AbstractService<User> implements IUserService{
     private static Logger logger = Logger.getLogger(UserServiceImpl.class);
-    private static UserServiceImpl instance;
-    private UserDaoImpl userDao = UserDaoImpl.getInstance();
-    private AccountDaoImpl accountDao = AccountDaoImpl.getInstance();
 
-    private UserServiceImpl(){}
+    @Autowired
+    private IAccountDao accountDao;
+    @Autowired
+    private IAccessLevelDao accessLevelDao;
+    @Autowired
+    private ICurrencyDao currencyDao;
+    private IUserDao userDao;
 
-    public static synchronized UserServiceImpl getInstance(){
-        if(instance == null){
-            instance = new UserServiceImpl();
-        }
-        return instance;
-    }
-
-    /**
-     * Calls Dao save() method
-     *
-     * @param entity - object of derived class AbstractEntity
-     * @throws SQLException
-     */
-    @Override
-    public Serializable save(User entity) throws ServiceException {
-        Serializable id;
-        Session session = util.getSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            id = userDao.save(entity);
-            transaction.commit();
-            logger.info(TRANSACTION_SUCCEEDED);
-            logger.info(entity);
-        }
-        catch (DaoException e) {
-            TransactionUtil.rollback(transaction, e);
-            logger.error(TRANSACTION_FAILED, e);
-            throw new ServiceException(TRANSACTION_FAILED + e);
-        }
-        return id;
-    }
-
-    /**
-     * Calls Dao getAll() method
-     *
-     * @return list of objects of derived class AbstractEntity
-     * @throws SQLException
-     */
-    @Override
-    public List<User> getAll() throws ServiceException {
-        List<User> users;
-        Session session = util.getSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            users = userDao.getAll();
-            transaction.commit();
-            logger.info(TRANSACTION_SUCCEEDED);
-            logger.info(users);
-        }
-        catch (DaoException e) {
-            TransactionUtil.rollback(transaction, e);
-            logger.error(TRANSACTION_FAILED, e);
-            throw new ServiceException(TRANSACTION_FAILED + e);
-        }
-        return users;
-    }
-
-    /**
-     * Calls Dao getById() method
-     *
-     * @param id - id of entity
-     * @return object of derived class AbstractEntity
-     * @throws SQLException
-     */
-    @Override
-    public User getById(Long id) throws ServiceException {
-        User user;
-        Session session = util.getSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            user = userDao.getById(id);
-            transaction.commit();
-            logger.info(user);
-        }
-        catch (DaoException e) {
-            TransactionUtil.rollback(transaction, e);
-            logger.error(TRANSACTION_FAILED, e);
-            throw new ServiceException(TRANSACTION_FAILED + e);
-        }
-        return user;
-    }
-
-    /**
-     * Calls Dao update() method
-     *
-     * @param entity - object of derived class AbstractEntity
-     * @throws SQLException
-     */
-    @Override
-    public void update(User entity) throws ServiceException {
-        Session session = util.getSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            userDao.update(entity);
-            transaction.commit();
-            logger.info(TRANSACTION_SUCCEEDED);
-            logger.info(entity);
-        }
-        catch (DaoException e) {
-            TransactionUtil.rollback(transaction, e);
-            logger.error(TRANSACTION_FAILED, e);
-            throw new ServiceException(TRANSACTION_FAILED + e);
-        }
-    }
-
-    /**
-     * Calls Dao delete() method
-     *
-     * @param id - id of entity
-     * @throws SQLException
-     */
-    @Override
-    public void delete(Long id) throws ServiceException {
-        Session session = util.getSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            userDao.delete(id);
-            transaction.commit();
-            logger.info(TRANSACTION_SUCCEEDED);
-            logger.info("Deleted user #" + id);
-        }
-        catch (DaoException e) {
-            TransactionUtil.rollback(transaction, e);
-            logger.error(TRANSACTION_FAILED, e);
-            throw new ServiceException(TRANSACTION_FAILED + e);
-        }
+    @Autowired
+    private UserServiceImpl(IUserDao userDao){
+        super(userDao);
+        this.userDao = userDao;
     }
 
     public boolean checkUserAuthorization(String login, String password) throws ServiceException {
@@ -254,8 +138,8 @@ public class UserServiceImpl extends AbstractService<User> implements IUserServi
             user.addAccessLevel(accessLevel);
             accessLevel.addUser(user);
 
-            AccessLevelDaoImpl.getInstance().save(accessLevel);        // TODO
-            CurrencyDaoImpl.getInstance().save(account.getCurrency()); // TODO
+            accessLevelDao.save(accessLevel);
+            currencyDao.save(account.getCurrency());
             userDao.save(user);
             accountDao.save(account);
             transaction.commit();
