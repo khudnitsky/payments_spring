@@ -24,7 +24,9 @@
     />
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
-          p:dataSource-ref="dataSource">
+          p:dataSource-ref="dataSource"
+          p:namingStrategy-ref="namingStrategy"
+    >
         <property name="packagesToScan">
             <list>
                 <value>by.pvt.khudnitsky.payments.entities</value>
@@ -41,5 +43,7 @@
             </props>
         </property>
     </bean>
+
+    <bean id="namingStrategy" class="by.pvt.khudnitsky.payments.utils.CustomNamingStrategy"/>
 
 </beans>
