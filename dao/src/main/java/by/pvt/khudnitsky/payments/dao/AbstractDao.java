@@ -23,14 +23,13 @@ import java.util.List;
  * @version 1.0
  */
 
-@Repository
+//@Repository
 public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
     private static Logger logger = Logger.getLogger(AbstractDao.class);
     private Class persistentClass;
 
     @Autowired
     private SessionFactory sessionFactory;
-
 
     protected AbstractDao(Class persistentClass, SessionFactory sessionFactory){
         this.persistentClass = persistentClass;
