@@ -1,7 +1,10 @@
 package by.pvt.khudnitsky.payments.dao;
 
+import by.pvt.khudnitsky.payments.dto.OperationDTO;
 import by.pvt.khudnitsky.payments.entities.Operation;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
+
+import java.util.List;
 
 /**
  * Created by: khudnitsky
@@ -10,4 +13,5 @@ import by.pvt.khudnitsky.payments.exceptions.DaoException;
  */
 public interface IOperationDao extends IDao<Operation>{
     void deleteByAccountId(Long id) throws DaoException;
+    List<OperationDTO> getOperations(int recordsPerPage, int pageNumber, String sorting) throws DaoException; // TODO getAllToPage
 }

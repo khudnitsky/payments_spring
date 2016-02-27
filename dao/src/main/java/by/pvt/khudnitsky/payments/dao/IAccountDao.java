@@ -13,6 +13,4 @@ import java.util.List;
 public interface IAccountDao extends IDao<Account> {
     boolean isAccountStatusBlocked(Long id) throws DaoException;
     List<Account> getBlockedAccounts() throws DaoException;
-//    void updateAmount(Long id, Double amount) throws DaoException;
-//    void updateAccountStatus(Long id, Integer status) throws DaoException;
 }

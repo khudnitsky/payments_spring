@@ -12,7 +12,10 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
@@ -23,24 +26,15 @@ import java.util.List;
  * @version 1.0
  *
  */
+
+@Repository
 public class AccountDaoImpl extends AbstractDao<Account> implements IAccountDao{
     private static Logger logger = Logger.getLogger(AccountDaoImpl.class);
-    private static AccountDaoImpl instance;
-    static String message;
+    private String message;
 
-    private AccountDaoImpl(){
-        super(Account.class);
-    }
-
-    /**
-     * Singleton method
-     * @return entity of <b>AccountDaoImpl</b>
-     */
-    public static synchronized AccountDaoImpl getInstance(){
-        if(instance == null){
-            instance = new AccountDaoImpl();
-        }
-        return instance;
+    @Autowired
+    private AccountDaoImpl(SessionFactory sessionFactory){
+        super(Account.class, sessionFactory);
     }
 
     /**
@@ -53,7 +47,7 @@ public class AccountDaoImpl extends AbstractDao<Account> implements IAccountDao{
     public boolean isAccountStatusBlocked(Long id) throws DaoException {
         boolean isBlocked = false;
         try {
-            Session session = util.getSession();
+            Session session = getCurrentSession();
             Criteria criteria = session.createCriteria(Account.class);
             criteria.add(Restrictions.eq("id", id));
             criteria.add(Restrictions.eq("accountStatus", AccountStatusType.BLOCKED));
@@ -78,7 +72,7 @@ public class AccountDaoImpl extends AbstractDao<Account> implements IAccountDao{
     public List<Account> getBlockedAccounts() throws DaoException {
         List<Account> list;
         try {
-            Session session = util.getSession();
+            Session session = getCurrentSession();
             Criteria criteria = session.createCriteria(Account.class);
             criteria.add(Restrictions.eq("accountStatus", AccountStatusType.BLOCKED));
             list = criteria.list();

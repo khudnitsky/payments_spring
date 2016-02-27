@@ -21,4 +21,5 @@ public interface IDao<T extends AbstractEntity> {
     void update(T entity) throws DaoException;
     void delete(Long id) throws DaoException;
     Long getAmount() throws DaoException;
+    List<T> getAllToPage(int recordsPerPage, int pageNumber) throws DaoException;
 }

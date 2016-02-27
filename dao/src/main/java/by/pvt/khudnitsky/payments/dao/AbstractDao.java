@@ -7,12 +7,11 @@ import by.pvt.khudnitsky.payments.entities.AbstractEntity;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
 import by.pvt.khudnitsky.payments.utils.HibernateUtil;
 import org.apache.log4j.Logger;
-import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
 import java.util.List;
@@ -24,20 +23,29 @@ import java.util.List;
  * @version 1.0
  */
 
+@Repository
 public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
     private static Logger logger = Logger.getLogger(AbstractDao.class);
-    protected static HibernateUtil util = HibernateUtil.getInstance();
     private Class persistentClass;
 
-    protected AbstractDao(Class persistentClass){
+    @Autowired
+    private SessionFactory sessionFactory;
+
+
+    protected AbstractDao(Class persistentClass, SessionFactory sessionFactory){
         this.persistentClass = persistentClass;
+        this.sessionFactory = sessionFactory;
+    }
+
+    protected Session getCurrentSession(){
+        return sessionFactory.getCurrentSession();
     }
 
     @Override
     public Serializable save(T entity) throws DaoException{
         Serializable id;
         try {
-            Session session = util.getSession();
+            Session session = getCurrentSession();
             session.saveOrUpdate(entity);
             id = session.getIdentifier(entity);
         }
@@ -52,7 +60,7 @@ public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
     public List<T> getAll() throws DaoException {
         List<T> results;
         try {
-            Session session = util.getSession();
+            Session session = getCurrentSession();
             Criteria criteria = session.createCriteria(persistentClass);
             results = criteria.list();
         }
@@ -67,7 +75,7 @@ public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
     public T getById(Long id) throws DaoException{
         T entity;
         try {
-            Session session = util.getSession();
+            Session session = getCurrentSession();
             entity = (T)session.get(persistentClass, id);
         }
         catch(HibernateException e){
@@ -80,7 +88,7 @@ public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
     @Override
     public void update(T entity) throws DaoException{
         try {
-            Session session = util.getSession();
+            Session session = getCurrentSession();
             session.merge(entity);
         }
         catch(HibernateException e) {
@@ -92,7 +100,7 @@ public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
     @Override
     public void delete(Long id) throws DaoException{
         try {
-            Session session = util.getSession();
+            Session session = getCurrentSession();
             T entity = (T) session.get(persistentClass, id);
             session.delete(entity);
         }
@@ -111,7 +119,7 @@ public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
     public Long getAmount() throws DaoException{
         Long amount;
         try {
-            Session session = util.getSession();
+            Session session = getCurrentSession();
             Criteria criteria = session.createCriteria(persistentClass);
             Projection count = Projections.rowCount();
             criteria.setProjection(count);
@@ -127,7 +135,7 @@ public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
     public List<T> getAllToPage(int recordsPerPage, int pageNumber) throws DaoException {
         List<T> results;
         try {
-            Session session = util.getSession();
+            Session session = getCurrentSession();
             Criteria criteria = session.createCriteria(persistentClass);
             criteria.setFirstResult((pageNumber-1) * recordsPerPage);
             criteria.setMaxResults(recordsPerPage);

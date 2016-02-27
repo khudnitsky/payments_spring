@@ -14,30 +14,27 @@ import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author khudnitsky
  * @version 1.0
  *
  */
+
+@Repository
 public class UserDaoImpl extends AbstractDao<User> implements IUserDao{
     private static Logger logger = Logger.getLogger(UserDaoImpl.class);
-    private static UserDaoImpl instance;
+    private String message;
     private final String GET_ALL_CLIENTS = " from User" /* user  join user.accessLevels level where level.accessLevelType = :accessLevelType"*/;
     private final String GET_BY_LOGIN = "from User where login = :login"; // TODO вынести в отдельный класс
     private final String CHECK_AUTHORIZATION = "from User where login = :login and password = :password";
 
-    static String message;
-
-    private UserDaoImpl(){
-        super(User.class);
-    }
-
-    public static synchronized UserDaoImpl getInstance(){
-        if(instance == null){
-            instance = new UserDaoImpl();
-        }
-        return instance;
+    @Autowired
+    private UserDaoImpl(SessionFactory sessionFactory){
+        super(User.class, sessionFactory);
     }
 
     // TODO дописать тесты
@@ -46,7 +43,7 @@ public class UserDaoImpl extends AbstractDao<User> implements IUserDao{
     public List<User> getAll() throws DaoException {
         List<User> results;
         try {
-            Session session = util.getSession();
+            Session session = getCurrentSession();
             Query query = session.createQuery(GET_ALL_CLIENTS);
             query.setCacheable(true);
             //query.setParameter("accessLevelType", AccessLevelType.CLIENT);
@@ -64,7 +61,7 @@ public class UserDaoImpl extends AbstractDao<User> implements IUserDao{
     public User getByLogin(String login) throws DaoException {
         User user;
         try {
-            Session session = util.getSession();
+            Session session = getCurrentSession();
             Query query = session.createQuery(GET_BY_LOGIN);
             query.setParameter("login", login);
             user = (User) query.uniqueResult();
@@ -81,7 +78,7 @@ public class UserDaoImpl extends AbstractDao<User> implements IUserDao{
     public boolean isAuthorized(String login, String password) throws DaoException {
         boolean isLogIn = false;
         try {
-            Session session = util.getSession();
+            Session session = getCurrentSession();
             Query query = session.createQuery(CHECK_AUTHORIZATION);
             query.setParameter("login", login);
             query.setParameter("password", password);

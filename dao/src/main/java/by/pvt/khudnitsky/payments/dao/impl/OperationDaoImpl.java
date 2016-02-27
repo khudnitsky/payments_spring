@@ -14,17 +14,20 @@ import org.apache.log4j.Logger;
 import org.hibernate.*;
 import org.hibernate.transform.ResultTransformer;
 import org.hibernate.type.StandardBasicTypes;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  * @author khudnitsky
  * @version 1.0
  *
  */
+
+@Repository
 public class OperationDaoImpl extends AbstractDao<Operation> implements IOperationDao{
     private static Logger logger = Logger.getLogger(OperationDaoImpl.class);
-    private static OperationDaoImpl instance;
+    private String message;
     private final String DELETE_BY_ACCOUNT_ID = "delete from Operation as o where o.account.id = :accountId";
-
     private final String GET_OPERATIONS = "select o.F_DATE as operationDate, " +
                                         "o.F_DESCRIPTION as description, " +
                                         "o.F_AMOUNT as amount, " +
@@ -36,23 +39,15 @@ public class OperationDaoImpl extends AbstractDao<Operation> implements IOperati
                                         "inner join t_account as a " +
                                         "on o.F_ACCOUNT_ID=a.F_ID ";
 
-    static String message;
-
-    private OperationDaoImpl(){
-        super(Operation.class);
-    }
-
-    public static synchronized OperationDaoImpl getInstance(){
-        if(instance == null){
-            instance = new OperationDaoImpl();
-        }
-        return instance;
+    @Autowired
+    private OperationDaoImpl(SessionFactory sessionFactory){
+        super(Operation.class, sessionFactory);
     }
 
     @Override
     public void deleteByAccountId(Long id) throws DaoException {
         try {
-            Session session = util.getSession();
+            Session session = getCurrentSession();
             Query query = session.createQuery(DELETE_BY_ACCOUNT_ID);
             query.setParameter("accountId", id);
             query.executeUpdate();
@@ -67,7 +62,7 @@ public class OperationDaoImpl extends AbstractDao<Operation> implements IOperati
     public List<OperationDTO> getOperations(int recordsPerPage, int pageNumber, String sorting) throws DaoException {
         List<OperationDTO> list;
         try {
-            Session session = util.getSession();
+            Session session = getCurrentSession();
             SQLQuery query = session.createSQLQuery(GET_OPERATIONS + sorting);
             query.addScalar("operationDate", StandardBasicTypes.STRING);
             query.addScalar("description", StandardBasicTypes.STRING);

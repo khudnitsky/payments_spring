@@ -3,27 +3,22 @@ package by.pvt.khudnitsky.payments.dao.impl;
 import by.pvt.khudnitsky.payments.dao.AbstractDao;
 import by.pvt.khudnitsky.payments.dao.IAccessLevelDao;
 import by.pvt.khudnitsky.payments.entities.AccessLevel;
+import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 /**
  * Created by: khudnitsky
  * Date: 06.02.2016
  * Time: 19:43
  */
+
+@Repository
 public class AccessLevelDaoImpl extends AbstractDao<AccessLevel> implements IAccessLevelDao {
-    private static AccessLevelDaoImpl instance;
 
-    private AccessLevelDaoImpl(){
-        super(AccessLevel.class);
+    @Autowired
+    private AccessLevelDaoImpl(SessionFactory sessionFactory){
+        super(AccessLevel.class, sessionFactory);
     }
 
-    /**
-     * Singleton method
-     * @return entity of <b>AccessLevelDaoImpl</b>
-     */
-    public static synchronized AccessLevelDaoImpl getInstance(){
-        if(instance == null){
-            instance = new AccessLevelDaoImpl();
-        }
-        return instance;
-    }
 }
