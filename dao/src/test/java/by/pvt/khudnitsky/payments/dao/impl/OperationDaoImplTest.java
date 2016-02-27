@@ -1,5 +1,6 @@
 package by.pvt.khudnitsky.payments.dao.impl;
 
+import by.pvt.khudnitsky.payments.dao.*;
 import by.pvt.khudnitsky.payments.entities.*;
 import by.pvt.khudnitsky.payments.enums.AccountStatusType;
 import by.pvt.khudnitsky.payments.enums.CurrencyType;
@@ -9,6 +10,11 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.junit.*;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -16,14 +22,23 @@ import java.util.Calendar;
 /**
  * Copyright (c) 2016, Khudnitsky. All rights reserved.
  */
+
+@ContextConfiguration("/test-dao-context.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+@Transactional(transactionManager = "txManager")
 public class OperationDaoImplTest {
-    private static OperationDaoImpl operationDao;
-    private static AccountDaoImpl accountDao;
-    private static CurrencyDaoImpl currencyDao;
-    private static UserDaoImpl userDao;
-    private static UserDetailDaoImpl userDetailDao;
-    private static HibernateUtil util;
-    private static Session session;
+
+    @Autowired
+    private IOperationDao operationDao;
+    @Autowired
+    private IAccountDao accountDao;
+    @Autowired
+    private ICurrencyDao currencyDao;
+    @Autowired
+    private IUserDao userDao;
+    @Autowired
+    private IUserDetailDao userDetailDao;
+
     private Operation expectedOperation;
     private Operation actualOperation;
     private User user;
@@ -34,18 +49,6 @@ public class OperationDaoImplTest {
     private Serializable accountId;
     private Serializable userId;
     private Serializable currencyId;
-    private Transaction transaction;
-
-    @BeforeClass
-    public static void initTest(){
-        operationDao = OperationDaoImpl.getInstance();
-        accountDao = AccountDaoImpl.getInstance();
-        currencyDao = CurrencyDaoImpl.getInstance();
-        userDao = UserDaoImpl.getInstance();
-        userDetailDao = UserDetailDaoImpl.getInstance();
-        util = HibernateUtil.getInstance();
-        session = util.getSession();
-    }
 
     @Before
     public void setUp() throws Exception {
@@ -55,7 +58,6 @@ public class OperationDaoImplTest {
         currency = EntityBuilder.buildCurrency(CurrencyType.BYR);
         account = EntityBuilder.buildAccount(1000L, 200D, AccountStatusType.UNBLOCKED, currency, user);
         expectedOperation = EntityBuilder.buildOperation(200D, "TEST", Calendar.getInstance(), user, account);
-        transaction = session.beginTransaction();
     }
 
     @Test
@@ -64,7 +66,6 @@ public class OperationDaoImplTest {
         expectedOperation.setId((Long) operationId);
         actualOperation = operationDao.getById((Long) operationId);
         Assert.assertEquals("save() method failed: ", expectedOperation, actualOperation);
-        delete();
     }
 
     @Test
@@ -80,7 +81,6 @@ public class OperationDaoImplTest {
         expectedOperation.setId((Long) operationId);
         actualOperation = operationDao.getById((Long) operationId);
         Assert.assertEquals("getById() method failed: ", expectedOperation, actualOperation);
-        delete();
     }
 
 
@@ -92,7 +92,6 @@ public class OperationDaoImplTest {
         operationDao.update(expectedOperation);
         actualOperation = operationDao.getById((Long) operationId);
         Assert.assertEquals("update() method failed: ", expectedOperation, actualOperation);
-        delete();
     }
 
     @Test
@@ -115,7 +114,6 @@ public class OperationDaoImplTest {
 
     @After
     public void tearDown() throws Exception{
-        transaction.commit();
         expectedOperation = null;
         actualOperation = null;
         account = null;
@@ -126,18 +124,6 @@ public class OperationDaoImplTest {
         accountId = null;
         userId = null;
         currencyId = null;
-        transaction = null;
-    }
-
-    @AfterClass
-    public static void closeTest() throws Exception{
-        operationDao = null;
-        accountDao = null;
-        currencyDao = null;
-        userDao = null;
-        userDetailDao = null;
-        util = null;
-        //session.close();
     }
 
     private void persistEntities() throws Exception {

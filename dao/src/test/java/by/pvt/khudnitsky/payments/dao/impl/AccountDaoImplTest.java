@@ -1,5 +1,9 @@
 package by.pvt.khudnitsky.payments.dao.impl;
 
+import by.pvt.khudnitsky.payments.dao.IAccountDao;
+import by.pvt.khudnitsky.payments.dao.ICurrencyDao;
+import by.pvt.khudnitsky.payments.dao.IUserDao;
+import by.pvt.khudnitsky.payments.dao.IUserDetailDao;
 import by.pvt.khudnitsky.payments.entities.*;
 import by.pvt.khudnitsky.payments.enums.AccountStatusType;
 import by.pvt.khudnitsky.payments.enums.CurrencyType;
@@ -8,19 +12,34 @@ import by.pvt.khudnitsky.payments.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.junit.*;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 
 /**
  * Copyright (c) 2016, Khudnitsky. All rights reserved.
  */
+
+@ContextConfiguration("/test-dao-context.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+@Transactional
+//@Rollback(value = false)
 public class AccountDaoImplTest {
-    private static AccountDaoImpl accountDao;
-    private static CurrencyDaoImpl currencyDao;
-    private static UserDaoImpl userDao;
-    private static UserDetailDaoImpl userDetailDao;
-    private static HibernateUtil util;
-    private static Session session;
+
+    @Autowired
+    private IAccountDao accountDao;
+    @Autowired
+    private ICurrencyDao currencyDao;
+    @Autowired
+    private IUserDao userDao;
+    @Autowired
+    private IUserDetailDao userDetailDao;
+
     private Account expectedAccount;
     private Account actualAccount;
     private User user;
@@ -29,17 +48,6 @@ public class AccountDaoImplTest {
     private Serializable accountId;
     private Serializable userId;
     private Serializable currencyId;
-    private Transaction transaction;
-
-    @BeforeClass
-    public static void initTest(){
-        accountDao = AccountDaoImpl.getInstance();
-        currencyDao = CurrencyDaoImpl.getInstance();
-        userDao = UserDaoImpl.getInstance();
-        userDetailDao = UserDetailDaoImpl.getInstance();
-        util = HibernateUtil.getInstance();
-        session = util.getSession();
-    }
 
     @Before
     public void setUp(){
@@ -48,8 +56,6 @@ public class AccountDaoImplTest {
         user = EntityBuilder.buildUser("TEST", "TEST", "TEST", "TEST", userDetail, null, null);
         currency = EntityBuilder.buildCurrency(CurrencyType.BYR);
         expectedAccount = EntityBuilder.buildAccount(1000L, 200D, AccountStatusType.UNBLOCKED, currency, user);
-        session = util.getSession();
-        transaction = session.beginTransaction();
     }
 
     @Test
@@ -58,7 +64,6 @@ public class AccountDaoImplTest {
         expectedAccount.setId((Long) accountId);
         actualAccount = accountDao.getById((Long) accountId);
         Assert.assertEquals("save() method failed: ", expectedAccount, actualAccount);
-        delete();
     }
 
     @Test
@@ -74,7 +79,6 @@ public class AccountDaoImplTest {
         expectedAccount.setId((Long) accountId);
         actualAccount = accountDao.getById((Long) accountId);
         Assert.assertEquals("getById() method failed: ", expectedAccount, actualAccount);
-        delete();
     }
 
 
@@ -86,7 +90,6 @@ public class AccountDaoImplTest {
         accountDao.update(expectedAccount);
         actualAccount = accountDao.getById((Long) accountId);
         Assert.assertEquals("update() method failed: ", expectedAccount, actualAccount);
-        delete();
     }
 
     @Test
@@ -113,24 +116,21 @@ public class AccountDaoImplTest {
         expected = true;
         actual = accountDao.isAccountStatusBlocked((Long) accountId);
         Assert.assertEquals("isAccountStatusBlocked() method failed: ", expected, actual);
-
-        delete();
     }
 
     @Ignore
     @Test
     public void testGetBlockedAccounts() throws Exception {
         //TODO доделать
-//        expectedAccount.setAccountStatus(AccountStatusType.BLOCKED);
-//        persistEntities();
-//        Long expectedSize = (long) accountDao.getBlockedAccounts().size();
-//        Long actualSize = accountDao.getAmount();
-//        Assert.assertEquals("getAll() method failed: ", expectedSize, actualSize);
+        expectedAccount.setAccountStatus(AccountStatusType.BLOCKED);
+        persistEntities();
+        Long expectedSize = (long) accountDao.getBlockedAccounts().size();
+        Long actualSize = accountDao.getAmount();
+        Assert.assertEquals("getAll() method failed: ", expectedSize, actualSize);
     }
 
     @After
     public void tearDown() throws Exception{
-        transaction.commit();
         expectedAccount = null;
         actualAccount = null;
         user = null;
@@ -139,17 +139,6 @@ public class AccountDaoImplTest {
         accountId = null;
         userId = null;
         currencyId = null;
-        transaction = null;
-    }
-
-    @AfterClass
-    public static void closeTest() throws Exception{
-        accountDao = null;
-        currencyDao = null;
-        userDao = null;
-        userDetailDao = null;
-        util = null;
-        //session.close();
     }
 
     private void persistEntities() throws Exception {

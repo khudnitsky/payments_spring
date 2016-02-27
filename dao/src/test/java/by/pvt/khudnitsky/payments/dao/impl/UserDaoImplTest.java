@@ -1,5 +1,6 @@
 package by.pvt.khudnitsky.payments.dao.impl;
 
+import by.pvt.khudnitsky.payments.dao.*;
 import by.pvt.khudnitsky.payments.entities.*;
 import by.pvt.khudnitsky.payments.enums.AccessLevelType;
 import by.pvt.khudnitsky.payments.enums.AccountStatusType;
@@ -9,6 +10,11 @@ import by.pvt.khudnitsky.payments.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.junit.*;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -19,15 +25,25 @@ import java.util.Set;
 /**
  * Copyright (c) 2016, Khudnitsky. All rights reserved.
  */
+
+@ContextConfiguration("/test-dao-context.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
+@Transactional(transactionManager = "txManager")
 public class UserDaoImplTest {
-    private static OperationDaoImpl operationDao;
-    private static AccountDaoImpl accountDao;
-    private static CurrencyDaoImpl currencyDao;
-    private static UserDaoImpl userDao;
-    private static UserDetailDaoImpl userDetailDao;
-    private static AccessLevelDaoImpl accessLevelDao;
-    private static HibernateUtil util;
-    private static Session session;
+
+    @Autowired
+    private IOperationDao operationDao;
+    @Autowired
+    private IAccountDao accountDao;
+    @Autowired
+    private ICurrencyDao currencyDao;
+    @Autowired
+    private IUserDao userDao;
+    @Autowired
+    private IUserDetailDao userDetailDao;
+    @Autowired
+    private IAccessLevelDao accessLevelDao;
+
     private User expectedUser;
     private User actualUser;
     private Operation operation;
@@ -40,19 +56,6 @@ public class UserDaoImplTest {
     private Serializable userId;
     private Serializable currencyId;
     private Serializable accessLevelId;
-    private Transaction transaction;
-
-    @BeforeClass
-    public static void initTest(){
-        operationDao = OperationDaoImpl.getInstance();
-        accountDao = AccountDaoImpl.getInstance();
-        currencyDao = CurrencyDaoImpl.getInstance();
-        userDao = UserDaoImpl.getInstance();
-        userDetailDao = UserDetailDaoImpl.getInstance();
-        accessLevelDao = AccessLevelDaoImpl.getInstance();
-        util = HibernateUtil.getInstance();
-        session = util.getSession();
-    }
 
     @Before
     public void setUp() throws Exception {
@@ -78,7 +81,6 @@ public class UserDaoImplTest {
         operation = EntityBuilder.buildOperation(200D, "TEST", Calendar.getInstance(), expectedUser, account);
         Set<Operation> operations = new HashSet<>();
         expectedUser.setOperations(operations);
-        transaction = session.beginTransaction();
     }
 
     @Test
@@ -87,15 +89,14 @@ public class UserDaoImplTest {
         expectedUser.setId((Long) userId);
         actualUser = userDao.getById((Long) userId);
         Assert.assertEquals("save() method failed: ", expectedUser, actualUser);
-        delete();
     }
 
     @Ignore
     @Test
     public void testGetAll() throws Exception {
-//        Long expectedSize = (long) userDao.getAll().size();
-//        Long actualSize = userDao.getAmount(); // todo не будет работать, будет находить всех, переделать
-//        Assert.assertEquals("getAll() method failed: ", expectedSize, actualSize);
+        Long expectedSize = (long) userDao.getAll().size();
+        Long actualSize = userDao.getAmount(); // todo не будет работать, будет находить всех, переделать
+        Assert.assertEquals("getAll() method failed: ", expectedSize, actualSize);
     }
 
     @Test
@@ -104,7 +105,6 @@ public class UserDaoImplTest {
         expectedUser.setId((Long) userId);
         actualUser = userDao.getById((Long) userId);
         Assert.assertEquals("getById() method failed: ", expectedUser, actualUser);
-        delete();
     }
 
 
@@ -116,7 +116,6 @@ public class UserDaoImplTest {
         userDao.update(expectedUser);
         actualUser = userDao.getById((Long) userId);
         Assert.assertEquals("update() method failed: ", expectedUser, actualUser);
-        delete();
     }
 
     @Test
@@ -129,7 +128,6 @@ public class UserDaoImplTest {
 
     @After
     public void tearDown() throws Exception{
-        transaction.commit();
         expectedUser = null;
         actualUser = null;
         account = null;
@@ -141,20 +139,6 @@ public class UserDaoImplTest {
         accountId = null;
         userId = null;
         currencyId = null;
-        accessLevelId = null;
-        transaction = null;
-    }
-
-    @AfterClass
-    public static void closeTest() throws Exception{
-        operationDao = null;
-        accountDao = null;
-        currencyDao = null;
-        userDao = null;
-        userDetailDao = null;
-        accessLevelDao = null;
-        util = null;
-        //session.close();           // TODO Разобраться с сессиями
     }
 
     private void persistEntities() throws Exception {
@@ -171,5 +155,4 @@ public class UserDaoImplTest {
         userDao.delete((Long) userId);
         currencyDao.delete((Long) currencyId);
     }
-
 }
