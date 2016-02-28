@@ -89,7 +89,7 @@ public class User extends AbstractEntity {
     }
     private Set<Operation> operations;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "T_USER_ACCESS_LEVEL",
             joinColumns = @JoinColumn(name = "F_USER_ID"),
