@@ -22,6 +22,9 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.io.Serializable;
 import java.sql.SQLException;
@@ -34,6 +37,7 @@ import java.util.Set;
  */
 
 @Service
+@Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = DaoException.class)
 public class UserServiceImpl extends AbstractService<User> implements IUserService{
     private static Logger logger = Logger.getLogger(UserServiceImpl.class);
 
@@ -51,42 +55,40 @@ public class UserServiceImpl extends AbstractService<User> implements IUserServi
         this.userDao = userDao;
     }
 
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public boolean checkUserAuthorization(String login, String password) throws ServiceException {
-        boolean isAuthorized = false;
-        Session session = util.getSession();
-        Transaction transaction = null;
+        boolean isAuthorized;
         try {
-            transaction = session.beginTransaction();
             isAuthorized = userDao.isAuthorized(login, password);
-            transaction.commit();
             logger.info(TRANSACTION_SUCCEEDED);
             logger.info("User " + login + " is authorized");
         }
         catch (DaoException e) {
-            TransactionUtil.rollback(transaction, e);
             logger.error(TRANSACTION_FAILED, e);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(TRANSACTION_FAILED + e);
         }
         return isAuthorized;
     }
 
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public User getUserByLogin(String login) throws ServiceException {
         User user;
-        Session session = util.getSession();
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
             user = userDao.getByLogin(login);
-            transaction.commit();
         }
         catch (DaoException e) {
-            TransactionUtil.rollback(transaction, e);
             logger.error(TRANSACTION_FAILED, e);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(TRANSACTION_FAILED + e);
         }
         return user;
     }
 
+    @Override
+    @Transactional(propagation = Propagation.NEVER)
     public AccessLevelType checkAccessLevel(User user) throws ServiceException{
         AccessLevel accessLevel = new AccessLevel();
         accessLevel.setAccessLevelType(AccessLevelType.CLIENT);
@@ -104,52 +106,45 @@ public class UserServiceImpl extends AbstractService<User> implements IUserServi
         //TODO сделать множественность ролей
     }
 
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public boolean checkIsNewUser(String login) throws ServiceException {
         boolean isNew = false;
-        Session session = util.getSession();
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
             if((userDao.getByLogin(login) == null) /*& (user.getAccounts() == null)*/){
                 isNew = true;
             }
-            transaction.commit();
             logger.info(TRANSACTION_SUCCEEDED);
             logger.info("User with login " + login + " is new");
         }
         catch (DaoException e) {
-            TransactionUtil.rollback(transaction, e);
             logger.error(TRANSACTION_FAILED, e);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(TRANSACTION_FAILED + e);
         }
         return isNew;
     }
 
+    @Override
     public void bookUser(User user, Account account) throws ServiceException {
-        Session session = util.getSession();
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
-
             AccessLevel accessLevel = new AccessLevel();
             user.addAccount(account);
             account.setUser(user);
             accessLevel.setAccessLevelType(AccessLevelType.CLIENT);
             user.addAccessLevel(accessLevel);
             accessLevel.addUser(user);
-
             accessLevelDao.save(accessLevel);
             currencyDao.save(account.getCurrency());
             userDao.save(user);
             accountDao.save(account);
-            transaction.commit();
             logger.info(TRANSACTION_SUCCEEDED);
             logger.info(user);
             logger.info(account);
         }
         catch (DaoException e) {
-            TransactionUtil.rollback(transaction, e);
             logger.error(TRANSACTION_FAILED, e);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(TRANSACTION_FAILED + e);
         }
     }

@@ -14,6 +14,9 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import java.io.Serializable;
 import java.sql.SQLException;
@@ -24,9 +27,9 @@ import java.util.List;
  */
 
 @Service
+@Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = DaoException.class)
 public class OperationServiceImpl extends AbstractService<Operation> implements IOperationService{
     private static Logger logger = Logger.getLogger(OperationServiceImpl.class);
-
     private IOperationDao operationDao;
 
     @Autowired
@@ -37,53 +40,45 @@ public class OperationServiceImpl extends AbstractService<Operation> implements 
 
     @Override
     public void deleteByAccountId(Long id) throws ServiceException {
-        Session session = util.getSession();
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
             operationDao.deleteByAccountId(id);
-            transaction.commit();
             logger.info(TRANSACTION_SUCCEEDED);
         }
         catch (DaoException e) {
-            TransactionUtil.rollback(transaction, e);
             logger.error(TRANSACTION_FAILED, e);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(TRANSACTION_FAILED + e);
         }
     }
 
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public int getNumberOfPages(int recordsPerPage) throws ServiceException{
         int numberOfPages;
-        Session session = util.getSession();
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
             Long numberOfRecords = operationDao.getAmount();
             numberOfPages = (int) Math.ceil(numberOfRecords * 1.0 / recordsPerPage);
-            transaction.commit();
             logger.info(TRANSACTION_SUCCEEDED);
         }
         catch (DaoException e) {
-            TransactionUtil.rollback(transaction, e);
             logger.error(TRANSACTION_FAILED, e);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(TRANSACTION_FAILED + e);
         }
         return numberOfPages;
     }
 
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public List<OperationDTO> getAllToPage(int recordsPerPage, int pageNumber, String sorting) throws ServiceException {
         List<OperationDTO> results;
-        Session session = util.getSession();
-        Transaction transaction = null;
         try {
-            transaction = session.beginTransaction();
             results = operationDao.getOperations(recordsPerPage, pageNumber, sorting);
-            transaction.commit();
             logger.info(TRANSACTION_SUCCEEDED);
         }
         catch (DaoException e) {
-            TransactionUtil.rollback(transaction, e);
             logger.error(TRANSACTION_FAILED, e);
+            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(TRANSACTION_FAILED + e);
         }
         return results;

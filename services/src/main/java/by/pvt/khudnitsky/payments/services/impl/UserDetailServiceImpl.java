@@ -13,6 +13,8 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.List;
@@ -24,6 +26,7 @@ import java.util.List;
  */
 
 @Service
+@Transactional(propagation = Propagation.REQUIRES_NEW, rollbackFor = DaoException.class)
 public class UserDetailServiceImpl extends AbstractService<UserDetail> implements IUserDetailService {
 
     @Autowired

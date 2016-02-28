@@ -21,12 +21,13 @@ public abstract class AbstractService<T extends AbstractEntity> implements IServ
     private static Logger logger = Logger.getLogger(AbstractService.class);
     protected final String TRANSACTION_SUCCEEDED = "Transaction succeeded";
     protected final String TRANSACTION_FAILED = "Error was thrown in service: ";
-    private IDao dao;
+    private IDao<T> dao;
 
     @Autowired
     protected TransactionTemplate transactionTemplate;
 
-    protected AbstractService(IDao dao){
+    //@Autowired
+    protected AbstractService(IDao<T> dao){
         this.dao = dao;
     }
 
