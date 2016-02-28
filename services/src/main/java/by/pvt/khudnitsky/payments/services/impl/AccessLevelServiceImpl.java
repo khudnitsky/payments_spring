@@ -32,7 +32,7 @@ import java.util.List;
 public class AccessLevelServiceImpl extends AbstractService<AccessLevel> implements IAccessLevelService {
 
     @Autowired
-    private AccessLevelServiceImpl(IAccessLevelDao accessLevelDao){
+    public AccessLevelServiceImpl(IAccessLevelDao accessLevelDao){
         super(accessLevelDao);
     }
 }

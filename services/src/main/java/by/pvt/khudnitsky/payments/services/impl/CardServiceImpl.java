@@ -25,7 +25,7 @@ import java.util.List;
 public class CardServiceImpl extends AbstractService<Card> implements ICardService{
 
     @Autowired
-    private CardServiceImpl(ICardDao cardDao){
+    public CardServiceImpl(ICardDao cardDao){
         super(cardDao);
     }
 }

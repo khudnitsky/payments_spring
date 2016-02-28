@@ -50,7 +50,7 @@ public class UserServiceImpl extends AbstractService<User> implements IUserServi
     private IUserDao userDao;
 
     @Autowired
-    private UserServiceImpl(IUserDao userDao){
+    public UserServiceImpl(IUserDao userDao){
         super(userDao);
         this.userDao = userDao;
     }

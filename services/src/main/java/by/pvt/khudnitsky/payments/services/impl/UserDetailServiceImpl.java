@@ -30,7 +30,7 @@ import java.util.List;
 public class UserDetailServiceImpl extends AbstractService<UserDetail> implements IUserDetailService {
 
     @Autowired
-    private UserDetailServiceImpl(IUserDetailDao userDetailDao){
+    public UserDetailServiceImpl(IUserDetailDao userDetailDao){
         super(userDetailDao);
     }
 }

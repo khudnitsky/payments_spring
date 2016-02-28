@@ -33,7 +33,7 @@ public class OperationServiceImpl extends AbstractService<Operation> implements 
     private IOperationDao operationDao;
 
     @Autowired
-    private OperationServiceImpl(IOperationDao operationDao){
+    public OperationServiceImpl(IOperationDao operationDao){
         super(operationDao);
         this.operationDao = operationDao;
     }

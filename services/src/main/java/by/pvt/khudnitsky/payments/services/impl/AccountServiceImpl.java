@@ -43,7 +43,7 @@ public class AccountServiceImpl extends AbstractService<Account> implements IAcc
     private IAccountDao accountDao;
 
     @Autowired
-    private AccountServiceImpl(IAccountDao accountDao){
+    public AccountServiceImpl(IAccountDao accountDao){
         super(accountDao);
         this.accountDao = accountDao;
     }

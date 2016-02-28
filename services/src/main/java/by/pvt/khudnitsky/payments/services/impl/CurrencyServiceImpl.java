@@ -30,7 +30,7 @@ import java.util.List;
 public class CurrencyServiceImpl extends AbstractService<Currency> implements ICurrencyService {
 
     @Autowired
-    private CurrencyServiceImpl(ICurrencyDao currencyDao){
+    public CurrencyServiceImpl(ICurrencyDao currencyDao){
         super(currencyDao);
     }
 }
