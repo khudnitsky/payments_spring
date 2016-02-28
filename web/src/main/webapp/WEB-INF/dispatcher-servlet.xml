@@ -13,6 +13,9 @@
 
     <context:component-scan base-package="by.pvt.khudnitsky.payments"/>
 
+    <import resource="classpath*:dao-context.xml"/>
+    <import resource="classpath*:services-context.xml"/>
+
     <mvc:resources mapping="/assets/**" location="/assets/"/>
     <mvc:annotation-driven/>
 
