@@ -1,13 +1,23 @@
 package by.pvt.khudnitsky.payments.services.impl;
 
+import by.pvt.khudnitsky.payments.dao.IOperationDao;
 import by.pvt.khudnitsky.payments.entities.*;
 import by.pvt.khudnitsky.payments.enums.AccessLevelType;
 import by.pvt.khudnitsky.payments.enums.AccountStatusType;
 import by.pvt.khudnitsky.payments.dao.impl.AccountDaoImpl;
 import by.pvt.khudnitsky.payments.enums.CurrencyType;
+import by.pvt.khudnitsky.payments.services.IAccountService;
+import by.pvt.khudnitsky.payments.services.ICurrencyService;
+import by.pvt.khudnitsky.payments.services.IOperationService;
+import by.pvt.khudnitsky.payments.services.IUserService;
 import by.pvt.khudnitsky.payments.utils.EntityBuilder;
 import by.pvt.khudnitsky.payments.dao.impl.UserDaoImpl;
 import org.junit.*;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -17,11 +27,20 @@ import java.util.Set;
 /**
  * Copyright (c) 2016, Khudnitsky. All rights reserved.
  */
+
+@ContextConfiguration("/test-services-context.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
 public class AccountServiceImplTest {
-    private static UserServiceImpl userService;
-    private static CurrencyServiceImpl currencyService;
-    private static AccountServiceImpl accountService;
-    private static OperationServiceImpl operationService;
+
+    @Autowired
+    private IUserService userService;
+    @Autowired
+    private ICurrencyService currencyService;
+    @Autowired
+    private IAccountService accountService;
+    @Autowired
+    private IOperationService operationService;
+
     private Account expectedAccount;
     private Account actualAccount;
     private User user;
@@ -31,22 +50,12 @@ public class AccountServiceImplTest {
     private Serializable currencyId;
     private Serializable accountId;
 
-    @BeforeClass
-    public static void initTest(){
-        userService = UserServiceImpl.getInstance();
-        currencyService = CurrencyServiceImpl.getInstance();
-        accountService = AccountServiceImpl.getInstance();
-        operationService = OperationServiceImpl.getInstance();
-    }
-
     @Before
     public void setUp() throws Exception {
         user = EntityBuilder.buildUser("TEST", "TEST", "TEST", "TEST", null, null, null);
         currency = EntityBuilder.buildCurrency(CurrencyType.BYR);
         expectedAccount = EntityBuilder.buildAccount(1000L, 200D, AccountStatusType.UNBLOCKED, currency, user);
-        Set<Account> accounts = new HashSet<>();
-        accounts.add(expectedAccount);
-        user.setAccounts(accounts);
+        user.addAccount(expectedAccount);
         persistEntities();
     }
 
@@ -139,14 +148,6 @@ public class AccountServiceImplTest {
         userId = null;
         currencyId = null;
         accountId = null;
-    }
-
-    @AfterClass
-    public static void closeTest() throws Exception{
-        accountService = null;
-        currencyService = null;
-        userService = null;
-        operationService = null;
     }
 
     private void persistEntities() throws Exception {

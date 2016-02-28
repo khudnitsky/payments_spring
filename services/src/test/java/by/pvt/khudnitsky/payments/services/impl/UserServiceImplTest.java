@@ -5,8 +5,14 @@ import by.pvt.khudnitsky.payments.entities.*;
 import by.pvt.khudnitsky.payments.enums.AccessLevelType;
 import by.pvt.khudnitsky.payments.enums.AccountStatusType;
 import by.pvt.khudnitsky.payments.enums.CurrencyType;
+import by.pvt.khudnitsky.payments.services.*;
 import by.pvt.khudnitsky.payments.utils.EntityBuilder;
 import org.junit.*;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -16,13 +22,24 @@ import java.util.Set;
 /**
  * Copyright (c) 2016, Khudnitsky. All rights reserved.
  */
+
+@ContextConfiguration("/test-services-context.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
 public class UserServiceImplTest {
-    private static UserServiceImpl userService;
-    private static OperationServiceImpl operationService;
-    private static CurrencyServiceImpl currencyService;
-    private static AccessLevelServiceImpl accessLevelService;
-    private static AccountServiceImpl accountService;
-    private static UserDetailServiceImpl userDetailService;
+
+    @Autowired
+    private IUserService userService;
+    @Autowired
+    private IOperationService operationService;
+    @Autowired
+    private ICurrencyService currencyService;
+    @Autowired
+    private IAccessLevelService accessLevelService;
+    @Autowired
+    private IAccountService accountService;
+    @Autowired
+    private IUserDetailService userDetailService;
+
     private User expectedUser;
     private User actualUser;
     private Operation operation;
@@ -34,40 +51,23 @@ public class UserServiceImplTest {
     private Serializable userId;
     private Serializable currencyId;
 
-    @BeforeClass
-    public static void initTest(){
-        userService = UserServiceImpl.getInstance();
-        operationService = OperationServiceImpl.getInstance();
-        currencyService = CurrencyServiceImpl.getInstance();
-        accessLevelService = AccessLevelServiceImpl.getInstance();
-        accountService = AccountServiceImpl.getInstance();
-        userDetailService = UserDetailServiceImpl.getInstance();
-    }
-
     @Before
     public void setUp() throws Exception {
         accessLevel = EntityBuilder.buildAccessLevel(AccessLevelType.CLIENT);
-        Set<AccessLevel> accessLevels = new HashSet<>();
-        accessLevels.add(accessLevel);
 
         Address address = EntityBuilder.buildAddress("TEST", "TEST", "TEST");
         userDetail = EntityBuilder.buildUserDetail(address);
         expectedUser = EntityBuilder.buildUser("TEST", "TEST", "TEST", "TEST", userDetail, null, null);
-        Set<User> users = new HashSet<>();
-        users.add(expectedUser);
 
-        expectedUser.setAccessLevels(accessLevels);
-        accessLevel.setUsers(users);
+        expectedUser.addAccessLevel(accessLevel);
+        accessLevel.addUser(expectedUser);
 
         currency = EntityBuilder.buildCurrency(CurrencyType.BYR);
         account = EntityBuilder.buildAccount(1000L, 200D, AccountStatusType.UNBLOCKED, currency, expectedUser);
-        Set<Account> accounts = new HashSet<>();
-        accounts.add(account);
-        expectedUser.setAccounts(accounts);
+        expectedUser.addAccount(account);
 
         operation = EntityBuilder.buildOperation(200D, "TEST", Calendar.getInstance(), expectedUser, account);
-        Set<Operation> operations = new HashSet<>();
-        expectedUser.setOperations(operations);
+        expectedUser.addOperation(operation);
         persistEntities();
     }
 
@@ -161,16 +161,6 @@ public class UserServiceImplTest {
         operationId = null;
         userId = null;
         currencyId = null;
-    }
-
-    @AfterClass
-    public static void closeTest() throws Exception{
-        operationService = null;
-        accountService = null;
-        currencyService = null;
-        userService = null;
-        userDetailService = null;
-        accessLevelService = null;
     }
 
     private void persistEntities() throws Exception {

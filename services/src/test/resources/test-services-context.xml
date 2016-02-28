@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context-4.0.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+                           http://www.springframework.org/schema/aop
+                           http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <context:component-scan base-package="by.pvt.khudnitsky.payments"/>
+    <aop:aspectj-autoproxy proxy-target-class="true" expose-proxy="false"/>
+
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+          p:url="jdbc:mysql://localhost:3306/payments_2_test"
+          p:driverClassName="com.mysql.jdbc.Driver"
+          p:username="root"
+          p:password="1208"
+          p:initialSize="2"
+          p:maxTotal="3"
+    />
+
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
+          p:dataSource-ref="dataSource"
+          p:namingStrategy-ref="namingStrategy">
+        <property name="packagesToScan">
+            <list>
+                <value>by.pvt.khudnitsky.payments.entities</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="debug">true</prop>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="connection.isolation">2</prop>
+                <prop key="hibernate.cglib.use_reflection_optimizer">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">create</prop>
+            </props>
+        </property>
+    </bean>
+
+    <bean id="namingStrategy" class="by.pvt.khudnitsky.payments.utils.CustomNamingStrategy"/>
+
+    <bean id="testServiceTransactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="testServiceTransactionManager"/>
+
+    <bean id="transactionTemplate" class="org.springframework.transaction.support.TransactionTemplate">
+        <property name="transactionManager" ref="testServiceTransactionManager"/>
+    </bean>
+
+    <!-- DAO -->
+    <bean id="operationDao" class="by.pvt.khudnitsky.payments.dao.impl.OperationDaoImpl">
+        <constructor-arg ref="sessionFactory"/>
+    </bean>
+
+    <bean id="accountDao" class="by.pvt.khudnitsky.payments.dao.impl.AccountDaoImpl">
+        <constructor-arg ref="sessionFactory"/>
+    </bean>
+
+    <bean id="currencyDao" class="by.pvt.khudnitsky.payments.dao.impl.CurrencyDaoImpl">
+        <constructor-arg ref="sessionFactory"/>
+    </bean>
+
+    <bean id="userDetailDao" class="by.pvt.khudnitsky.payments.dao.impl.UserDetailDaoImpl">
+        <constructor-arg ref="sessionFactory"/>
+    </bean>
+
+    <bean id="userDao" class="by.pvt.khudnitsky.payments.dao.impl.UserDaoImpl">
+        <constructor-arg ref="sessionFactory"/>
+    </bean>
+
+    <bean id="accessLevelDao" class="by.pvt.khudnitsky.payments.dao.impl.AccessLevelDaoImpl">
+        <constructor-arg ref="sessionFactory"/>
+    </bean>
+
+    <!-- SERVICES -->
+    <bean id="userService" class="by.pvt.khudnitsky.payments.services.impl.UserServiceImpl">
+        <constructor-arg ref="userDao"/>
+    </bean>
+
+    <bean id="currencyService" class="by.pvt.khudnitsky.payments.services.impl.CurrencyServiceImpl">
+        <constructor-arg ref="currencyDao"/>
+    </bean>
+
+    <bean id="accountService" class="by.pvt.khudnitsky.payments.services.impl.AccountServiceImpl">
+        <constructor-arg ref="accountDao"/>
+    </bean>
+
+    <bean id="operationService" class="by.pvt.khudnitsky.payments.services.impl.OperationServiceImpl">
+        <constructor-arg ref="operationDao"/>
+    </bean>
+
+    <bean id="userDetailService" class="by.pvt.khudnitsky.payments.services.impl.UserDetailServiceImpl">
+        <constructor-arg ref="userDetailDao"/>
+    </bean>
+
+    <bean id="accessLevelService" class="by.pvt.khudnitsky.payments.services.impl.AccessLevelServiceImpl">
+        <constructor-arg ref="accessLevelDao"/>
+    </bean>
+
+</beans>

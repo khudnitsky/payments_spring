@@ -5,10 +5,18 @@ import by.pvt.khudnitsky.payments.entities.*;
 import by.pvt.khudnitsky.payments.enums.AccessLevelType;
 import by.pvt.khudnitsky.payments.enums.AccountStatusType;
 import by.pvt.khudnitsky.payments.enums.CurrencyType;
+import by.pvt.khudnitsky.payments.services.IAccountService;
+import by.pvt.khudnitsky.payments.services.IOperationService;
+import by.pvt.khudnitsky.payments.services.IUserService;
 import by.pvt.khudnitsky.payments.utils.EntityBuilder;
 import by.pvt.khudnitsky.payments.dao.impl.OperationDaoImpl;
 import by.pvt.khudnitsky.payments.dao.impl.UserDaoImpl;
 import org.junit.*;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.Calendar;
@@ -18,10 +26,18 @@ import java.util.Set;
 /**
  * Copyright (c) 2016, Khudnitsky. All rights reserved.
  */
+
+@ContextConfiguration("/test-services-context.xml")
+@RunWith(SpringJUnit4ClassRunner.class)
 public class OperationServiceImplTest {
-    private static UserServiceImpl userService;
-    private static OperationServiceImpl operationService;
-    private static AccountServiceImpl accountService;
+
+    @Autowired
+    private IUserService userService;
+    @Autowired
+    private IOperationService operationService;
+    @Autowired
+    private IAccountService accountService;
+
     private Operation expectedOperation;
     private Operation actualOperation;
     private User user;
@@ -30,23 +46,13 @@ public class OperationServiceImplTest {
     private Serializable userId;
     private Serializable accountId;
 
-    @BeforeClass
-    public static void initTest(){
-        userService = UserServiceImpl.getInstance();
-        operationService = OperationServiceImpl.getInstance();
-        accountService = AccountServiceImpl.getInstance();
-    }
-
     @Before
     public void setUp() throws Exception {
         user = EntityBuilder.buildUser("TEST", "TEST", "TEST", "TEST", null, null, null);
         account = EntityBuilder.buildAccount(1000L, 200D, AccountStatusType.UNBLOCKED, null, user);
-        Set<Account> accounts = new HashSet<>();
-        accounts.add(account);
-        user.setAccounts(accounts);
+        user.addAccount(account);
         expectedOperation = EntityBuilder.buildOperation(200D, "TEST", Calendar.getInstance(), user, account);
-        Set<Operation> operations = new HashSet<>();
-        user.setOperations(operations);
+        user.addOperation(expectedOperation);
         persistEntities();
     }
 
@@ -76,7 +82,6 @@ public class OperationServiceImplTest {
     @Ignore
     @Test
     public void testDeleteByAccountId() throws Exception {
-        // TODO Session flush
         operationService.deleteByAccountId((Long) accountId);
         actualOperation = operationService.getById((Long) operationId);
         Assert.assertNull("delete() method failed: ", actualOperation);
@@ -93,13 +98,6 @@ public class OperationServiceImplTest {
         operationId = null;
         userId = null;
         accountId = null;
-    }
-
-    @AfterClass
-    public static void closeTest() throws Exception{
-        operationService = null;
-        accountService = null;
-        userService = null;
     }
 
     private void persistEntities() throws Exception {
