@@ -6,24 +6,19 @@ package by.pvt.khudnitsky.payments.managers;
 import java.util.ResourceBundle;
 
 import by.pvt.khudnitsky.payments.enums.ConfigConstant;
+import org.springframework.stereotype.Component;
 
 /**
  * @author khudnitsky
  * @version 1.0
  *
  */
+
+@Component
 public class PagePathManager {
     private final ResourceBundle bundle = ResourceBundle.getBundle(ConfigConstant.CONFIGS_SOURCE);
-    private static PagePathManager instance;
 
     private PagePathManager(){}
-
-    public static synchronized PagePathManager getInstance(){
-        if(instance == null){
-            instance = new PagePathManager();
-        }
-        return instance;
-    }
 
     public String getProperty(String key){
         return bundle.getString(key);
