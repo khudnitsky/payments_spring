@@ -59,6 +59,7 @@ public class OperationDaoImpl extends AbstractDao<Operation> implements IOperati
         }
     }
 
+    @Override
     public List<OperationDTO> getOperations(int recordsPerPage, int pageNumber, String sorting) throws DaoException {
         List<OperationDTO> list;
         try {
