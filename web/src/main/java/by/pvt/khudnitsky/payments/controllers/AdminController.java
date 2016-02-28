@@ -16,6 +16,7 @@ import by.pvt.khudnitsky.payments.services.impl.UserServiceImpl;
 import by.pvt.khudnitsky.payments.utils.PaginationFilterUtil;
 import by.pvt.khudnitsky.payments.utils.PaginationFilter;
 import by.pvt.khudnitsky.payments.utils.OrderingUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -33,11 +34,16 @@ import java.util.List;
 @RequestMapping("/admin")
 @SessionAttributes("filter")
 public class AdminController {
-    private IUserService userService = UserServiceImpl.getInstance();
-    private IOperationService operationService = OperationServiceImpl.getInstance();
-    private IAccountService accountService = AccountServiceImpl.getInstance();
-    private PagePathManager pagePathManager = PagePathManager.getInstance();
-    private MessageManager messageManager = MessageManager.getInstance();
+    @Autowired
+    private IUserService userService;
+    @Autowired
+    private IOperationService operationService;
+    @Autowired
+    private IAccountService accountService;
+    @Autowired
+    private PagePathManager pagePathManager;
+    @Autowired
+    private MessageManager messageManager;
 
     @ModelAttribute("filter")
     public PaginationFilter createFilter(){

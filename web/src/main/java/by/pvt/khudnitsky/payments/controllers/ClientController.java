@@ -11,7 +11,9 @@ import by.pvt.khudnitsky.payments.managers.MessageManager;
 import by.pvt.khudnitsky.payments.managers.PagePathManager;
 import by.pvt.khudnitsky.payments.services.IAccountService;
 import by.pvt.khudnitsky.payments.services.impl.AccountServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,13 +31,15 @@ import java.util.Set;
  * Date: 23.02.2016
  * Time: 14:14
  */
-@Component
+@Controller
 @RequestMapping(value = "/client")
 public class ClientController {
-    private IAccountService accountService = AccountServiceImpl.getInstance();
-
-    private PagePathManager pagePathManager = PagePathManager.getInstance();
-    private MessageManager messageManager = MessageManager.getInstance();
+    @Autowired
+    private IAccountService accountService;
+    @Autowired
+    private PagePathManager pagePathManager;
+    @Autowired
+    private MessageManager messageManager;
 
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String showClientMainPage(){
@@ -182,7 +186,7 @@ public class ClientController {
                 while (iterator.hasNext()){
                     accountId = iterator.next().getId();
                 }
-                if(!AccountServiceImpl.getInstance().checkAccountStatus(accountId)){
+                if(!accountService.checkAccountStatus(accountId)){
                     if(amount > 0){
                         Account account = accountService.getById(accountId);
                         if(account.getDeposit() >= amount){

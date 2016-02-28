@@ -11,6 +11,7 @@ import by.pvt.khudnitsky.payments.managers.MessageManager;
 import by.pvt.khudnitsky.payments.services.IUserService;
 import by.pvt.khudnitsky.payments.services.impl.UserServiceImpl;
 import by.pvt.khudnitsky.payments.utils.EntityBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -30,9 +31,12 @@ import javax.validation.Valid;
 
 @Controller
 public class UserController {
-    private PagePathManager pagePathManager = PagePathManager.getInstance();
-    private MessageManager messageManager = MessageManager.getInstance();
-    private IUserService userService = UserServiceImpl.getInstance();
+    @Autowired
+    private IUserService userService;
+    @Autowired
+    private PagePathManager pagePathManager;
+    @Autowired
+    private MessageManager messageManager;
 
     private User user;
 
