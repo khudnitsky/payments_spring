@@ -5,9 +5,9 @@
 <tiles-definitions>
 
     <!-- USER'S PAGES TEMPLATE -->
-    <definition name="default" template="/WEB-INF/viewsSpring/layouts/default_layout.jspx">
+    <definition name="default" template="/WEB-INF/views/layouts/default_layout.jspx">
         <put-attribute name="title"/>
-        <put-attribute name="header" value="/WEB-INF/viewsSpring/common/header.jspx"/>
+        <put-attribute name="header" value="/WEB-INF/views/common/header.jspx"/>
         <put-attribute name="sidebar"/>
         <put-attribute name="body"/>
         <!--<put-attribute name="page_style" value="/assets/css/page_style.css"/>-->
@@ -18,80 +18,80 @@
 
     <!-- ADMIN PAGES -->
     <definition name="admin_default" extends="default">
-        <put-attribute name="sidebar" value="/WEB-INF/viewsSpring/admin/sidebar.jspx"/>
+        <put-attribute name="sidebar" value="/WEB-INF/views/admin/sidebar.jspx"/>
     </definition>
 
     <definition name="admin/main" extends="admin_default">
         <put-attribute name="title" value="Добро пожаловать"/>
-        <put-attribute name="body" value="/WEB-INF/viewsSpring/admin/main.jspx"/>
+        <put-attribute name="body" value="/WEB-INF/views/admin/main.jspx"/>
     </definition>
 
     <definition name="admin/clients" extends="admin_default">
         <put-attribute name="title" value="Клиенты"/>
-        <put-attribute name="body" value="/WEB-INF/viewsSpring/admin/clients.jspx"/>
+        <put-attribute name="body" value="/WEB-INF/views/admin/clients.jspx"/>
     </definition>
 
     <definition name="admin/operations" extends="admin_default">
         <put-attribute name="title" value="Операции"/>
-        <put-attribute name="body" value="/WEB-INF/viewsSpring/admin/operations.jspx"/>
+        <put-attribute name="body" value="/WEB-INF/views/admin/operations.jspx"/>
     </definition>
 
     <definition name="admin/unblock" extends="admin_default">
         <put-attribute name="title" value="Разблокировка счета"/>
-        <put-attribute name="body" value="/WEB-INF/viewsSpring/admin/unblock.jspx"/>
+        <put-attribute name="body" value="/WEB-INF/views/admin/unblock.jspx"/>
     </definition>
 
     <!-- CLIENT PAGES -->
     <definition name="client_default" extends="default">
-        <put-attribute name="sidebar" value="/WEB-INF/viewsSpring/client/sidebar.jspx"/>
+        <put-attribute name="sidebar" value="/WEB-INF/views/client/sidebar.jspx"/>
     </definition>
 
     <definition name="client/main" extends="client_default">
         <put-attribute name="title" value="Добро пожаловать"/>
-        <put-attribute name="body" value="/WEB-INF/viewsSpring/client/main.jspx"/>
+        <put-attribute name="body" value="/WEB-INF/views/client/main.jspx"/>
     </definition>
 
     <definition name="client/fund" extends="client_default">
         <put-attribute name="title" value="Пополнение счета"/>
-        <put-attribute name="body" value="/WEB-INF/viewsSpring/client/fund.jspx"/>
+        <put-attribute name="body" value="/WEB-INF/views/client/fund.jspx"/>
     </definition>
 
     <definition name="client/balance" extends="client_default">
         <put-attribute name="title" value="Баланс"/>
-        <put-attribute name="body" value="/WEB-INF/viewsSpring/client/balance.jspx"/>
+        <put-attribute name="body" value="/WEB-INF/views/client/balance.jspx"/>
     </definition>
 
     <definition name="client/payment" extends="client_default">
         <put-attribute name="title" value="Платежи"/>
-        <put-attribute name="body" value="/WEB-INF/viewsSpring/client/payment.jspx"/>
+        <put-attribute name="body" value="/WEB-INF/views/client/payment.jspx"/>
     </definition>
 
     <definition name="client/block" extends="client_default">
         <put-attribute name="title" value="Блокировка счета"/>
-        <put-attribute name="body" value="/WEB-INF/viewsSpring/client/block.jspx"/>
+        <put-attribute name="body" value="/WEB-INF/views/client/block.jspx"/>
     </definition>
 
     <!-- ERROR PAGE -->
     <definition name="error/error" extends="default">
         <put-attribute name="title" value="Ошибка"/>
-        <put-attribute name="sidebar" value="/WEB-INF/viewsSpring/common/sidebar.jspx"/>
-        <put-attribute name="body" value="/WEB-INF/viewsSpring/errors/error.jspx"/>
+        <put-attribute name="sidebar" value="/WEB-INF/views/common/sidebar.jspx"/>
+        <put-attribute name="body" value="/WEB-INF/views/errors/error.jspx"/>
     </definition>
 
     <!-- REGISTRATION PAGE -->
     <definition name="registration" extends="default">
         <put-attribute name="title" value="Регистрация"/>
-        <put-attribute name="sidebar" value="/WEB-INF/viewsSpring/common/sidebar.jspx"/>
-        <put-attribute name="body" value="/WEB-INF/viewsSpring/registration/registration.jspx"/>
+        <put-attribute name="sidebar" value="/WEB-INF/views/common/sidebar.jspx"/>
+        <put-attribute name="body" value="/WEB-INF/views/registration/registration.jspx"/>
     </definition>
 
     <!-- HOME PAGE TEMPLATE-->
-    <definition name="home_template" template="/WEB-INF/viewsSpring/layouts/home_layout.jspx">
+    <definition name="home_template" template="/WEB-INF/views/layouts/home_layout.jspx">
         <put-attribute name="title" value="Авторизация"/>
-        <put-attribute name="header" value="/WEB-INF/viewsSpring/home/header.jspx"/>
-        <put-attribute name="sidebar" value="/WEB-INF/viewsSpring/home/sidebar.jspx"/>
-        <put-attribute name="body" value="/WEB-INF/viewsSpring/home/main.jspx"/>
-        <put-attribute name="footer" value="/WEB-INF/viewsSpring/home/footer.jspx"/>
+        <put-attribute name="header" value="/WEB-INF/views/home/header.jspx"/>
+        <put-attribute name="sidebar" value="/WEB-INF/views/home/sidebar.jspx"/>
+        <put-attribute name="body" value="/WEB-INF/views/home/main.jspx"/>
+        <put-attribute name="footer" value="/WEB-INF/views/home/footer.jspx"/>
         <!--<put-attribute name="page_style" value="/assets/css/index/page_style.css"/>-->
         <!--<put-attribute name="sidebar_style" value="/assets/css/index/sidebar_style.css"/>-->
         <!--<put-attribute name="logo_style" value="/assets/css/logo_style.css"/>-->
