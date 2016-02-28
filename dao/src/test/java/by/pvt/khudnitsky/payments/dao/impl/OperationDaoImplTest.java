@@ -25,7 +25,7 @@ import java.util.Calendar;
 
 @ContextConfiguration("/test-dao-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-@Transactional(transactionManager = "txManager")
+@Transactional(transactionManager = "transactionManager")
 public class OperationDaoImplTest {
 
     @Autowired

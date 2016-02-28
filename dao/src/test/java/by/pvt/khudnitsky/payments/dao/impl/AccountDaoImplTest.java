@@ -27,7 +27,7 @@ import java.io.Serializable;
 
 @ContextConfiguration("/test-dao-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-@Transactional
+@Transactional(transactionManager = "transactionManager")
 //@Rollback(value = false)
 public class AccountDaoImplTest {
 

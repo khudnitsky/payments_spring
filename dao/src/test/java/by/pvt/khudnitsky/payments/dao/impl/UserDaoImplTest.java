@@ -28,7 +28,7 @@ import java.util.Set;
 
 @ContextConfiguration("/test-dao-context.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-@Transactional(transactionManager = "txManager")
+@Transactional(transactionManager = "transactionManager")
 public class UserDaoImplTest {
 
     @Autowired
