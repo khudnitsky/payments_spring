@@ -82,7 +82,7 @@ public class Operation extends AbstractEntity {
         if (amount != null ? !amount.equals(operation.amount) : operation.amount != null) return false;
         if (description != null ? !description.equals(operation.description) : operation.description != null)
             return false;
-        return date != null ? date.equals(operation.date) : operation.date == null;
+        return date != null ? Math.abs(date.getTimeInMillis() - operation.date.getTimeInMillis()) < 1000 : operation.date == null;
 
     }
 

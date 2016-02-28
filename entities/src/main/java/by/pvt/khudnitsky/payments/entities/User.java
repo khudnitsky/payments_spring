@@ -117,8 +117,7 @@ public class User extends AbstractEntity {
         if (firstName != null ? !firstName.equals(user.firstName) : user.firstName != null) return false;
         if (lastName != null ? !lastName.equals(user.lastName) : user.lastName != null) return false;
         if (login != null ? !login.equals(user.login) : user.login != null) return false;
-        if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        return userDetail != null ? userDetail.equals(user.userDetail) : user.userDetail == null;
+        return password != null ? password.equals(user.password) : user.password == null;
 
     }
 
@@ -129,7 +128,6 @@ public class User extends AbstractEntity {
         result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (login != null ? login.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
-        result = 31 * result + (userDetail != null ? userDetail.hashCode() : 0);
         return result;
     }
 
