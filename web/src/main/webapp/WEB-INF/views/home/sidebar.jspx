@@ -10,7 +10,7 @@
     <div class="sidebar">
         <br/>
         <ul class="nav">
-            <li><a href="/registration?new"><s:message code="page.home.sidebar.registration"/></a></li>
+            <li><a href="/registration"><s:message code="page.home.sidebar.registration"/></a></li>
             <li><a href="http://select.by/kurs/" target="_blank"><s:message code="page.common.sidebar.exchange"/></a></li>
             <li><a href="#"><s:message code="page.common.sidebar.info"/></a></li>
             <li><a href="#"><s:message code="page.common.sidebar.news"/></a></li>
