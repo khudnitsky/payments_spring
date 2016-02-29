@@ -40,8 +40,6 @@ public class UserController {
     @Autowired
     private MessageSource messageSource;
 
-    private User user;
-
     @RequestMapping(value = "/home" , method = RequestMethod.GET)
     public String showHomePage(){
         return pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
@@ -56,7 +54,7 @@ public class UserController {
         String pagePath;
         try {
             if(userService.checkUserAuthorization(login, password)){
-                user = userService.getUserByLogin(login);
+                User user = userService.getUserByLogin(login);
                 AccessLevelType accessLevelType = userService.checkAccessLevel(user);
                 session.setAttribute(Parameters.USER, user);
                 session.setAttribute(Parameters.USERTYPE, accessLevelType);       // TODO УБрать, там уже есть user
@@ -101,7 +99,7 @@ public class UserController {
         if(!bindingResult.hasErrors()) {
             try {
                 // TODO Transformer from DTO to Entity
-                user = EntityBuilder.buildUser(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getLogin(), userDTO.getPassword_1(), null, null, null);
+                User user = EntityBuilder.buildUser(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getLogin(), userDTO.getPassword_1(), null, null, null);
                 Currency currency = EntityBuilder.buildCurrency(CurrencyType.valueOf(userDTO.getCurrency()));
                 Account account = EntityBuilder.buildAccount(userDTO.getAccountNumber(), 0D, AccountStatusType.UNBLOCKED, currency, user);
                 user.addAccount(account);
