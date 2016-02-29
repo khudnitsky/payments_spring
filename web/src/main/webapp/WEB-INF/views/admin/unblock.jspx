@@ -10,7 +10,8 @@
           xmlns:s="http://www.springframework.org/tags"
           version="2.0" >
     <div class="content">
-        <form name="unblockForm" method="post" action="/unblock">
+        <s:url value="/admin/unblock" var="unblockUrl"/>
+        <form name="unblockForm" method="post" action="${unblockUrl}">
             <s:message code="page.admin.unblock.banner"/>
             <table border="1">
                 <tr bgcolor="#CCCCCC">
@@ -24,7 +25,6 @@
                         <td><c:out value="${ account.deposit }" /></td>
                         <td><c:out value="${ account.currency.currencyType }" /></td>
                         <td><sf:radiobutton path="toUnblock" value="${account.id}"/></td>
-                        <!--<td><input type="radio" name="toUnblock" value="${ account.id }"/></td>-->
                     </tr>
                 </c:forEach>
             </table>

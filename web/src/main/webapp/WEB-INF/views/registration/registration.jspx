@@ -9,8 +9,9 @@
           xmlns:s="http://www.springframework.org/tags"
           version="2.0" >
     <div class="content">
+        <s:url value="/registration" var="registrationUrl"/>
         <sf:form name="registrationForm"
-                 action="/registration"
+                 action="${registrationUrl}"
                  method="post"
                  modelAttribute="newUser"
                  onsubmit="return validateForm()">
@@ -72,9 +73,6 @@
                             <sf:radiobutton path="currency" value="BYR"/>BYR
                             <sf:radiobutton path="currency" value="USD"/>USD
                             <sf:radiobutton path="currency" value="EUR"/>EUR
-                            <!--<input type="radio" name="currency" value="BYR" checked="checked"/>BYR-->
-                            <!--<input type="radio" name="currency" value="USD"/>USD-->
-                            <!--<input type="radio" name="currency" value="EUR"/>EUR-->
                             <br/>
                         </td>
                         <td>

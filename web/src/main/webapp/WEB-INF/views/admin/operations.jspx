@@ -34,16 +34,6 @@
         </table>
         <br/>
 
-        <!--<c:choose>-->
-            <!--<c:when test="${currentPage != 1}">-->
-                <!--<td><a href="/admin/operations?currentPage=${currentPage - 1}">На предыдущую</a></td>-->
-                <!--&lt;!&ndash;<td><a href="controller?command=operations&currentPage=${sessionScope.currentPage - 1}">На предыдущую</a></td>&ndash;&gt;-->
-            <!--</c:when>-->
-            <!--<c:otherwise>-->
-                <!--<td><br/></td>-->
-            <!--</c:otherwise>-->
-        <!--</c:choose>-->
-
         <table border="1" cellpadding="5" cellspacing="5">
             <tr>
                 <c:forEach begin="1" end="${numberOfPages}" var="i">
@@ -53,32 +43,21 @@
                         </c:when>
                         <c:otherwise>
                             <td><a href="/admin/operations?currentPage=${i}">${i}</a></td>
-                            <!--<td><a href="controller?command=operations&currentPage=${i}">${i}</a></td>-->
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
             </tr>
         </table>
 
-        <!--<c:choose>-->
-            <!--<c:when test="${currentPage lt numberOfPages}">-->
-                <!--<td><a href="/admin/operations?currentPage=${currentPage + 1}">На следующую</a></td>-->
-                <!--&lt;!&ndash;<td><a href="controller?command=operations&currentPage=${sessionScope.currentPage + 1}">На следующую</a></td>&ndash;&gt;-->
-            <!--</c:when>-->
-            <!--<c:otherwise>-->
-                <!--<td><br/></td>-->
-            <!--</c:otherwise>-->
-        <!--</c:choose>-->
-
+        <s:url value="/admin/operations" var="operationsUrl"/>
         <sf:form name="filterForm"
                  method="post"
-                 action="/admin/operations"
+                 action="${operationsUrl}"
                  modelAttribute="filter">
             <table>
                 <tr>
                     <td>
                         <sf:input path="currentPage" value="" size="3"/>
-                        <!--<input type="text" name="currentPage" value="1" size="3"/>-->
                     </td>
                     <td>
                         <sf:select path="recordsPerPage">
@@ -86,11 +65,6 @@
                             <sf:option value="5">5</sf:option>
                             <sf:option value="10">10</sf:option>
                         </sf:select>
-                        <!--<select name="recordsPerPage">-->
-                            <!--<option value="3" selected="selected">3</option>-->
-                            <!--<option value="5">5</option>-->
-                            <!--<option value="10">10</option>-->
-                        <!--</select>-->
                     </td>
                     <td>
                         <sf:select path="ordering">
@@ -100,13 +74,6 @@
                             <sf:option value="client"><s:message code="page.admin.operations.order.client"/></sf:option>
                             <sf:option value="account"><s:message code="page.admin.operations.order.account"/></sf:option>
                         </sf:select>
-                        <!--<select name="ordering">-->
-                            <!--<option value="date" selected="selected">по дате</option>-->
-                            <!--<option value="description">по описанию</option>-->
-                            <!--<option value="amount">по сумме</option>-->
-                            <!--<option value="client">по клиенту</option>-->
-                            <!--<option value="account">по счету</option>-->
-                        <!--</select>-->
                     </td>
                 </tr>
             </table>

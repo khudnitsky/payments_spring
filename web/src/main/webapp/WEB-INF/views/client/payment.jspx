@@ -8,7 +8,8 @@
           xmlns="http://www.w3.org/1999/xhtml"
           version="2.0">
     <div class="content">
-        <form name="paymentForm" method="post" action="/payments">
+        <s:url value="/client/payments" var="paymentsUrl"/>
+        <form name="paymentForm" method="post" action="${paymentsUrl}">
             <s:message code="page.client.payment.banner"/> <br />
             <input type="text" name="payment" value="" /> <br />
             <s:message var="button" code="page.client.payment.button"/>

@@ -8,8 +8,8 @@
           xmlns="http://www.w3.org/1999/xhtml"
           version="2.0">
     <div class="content">
-
-        <form name="loginForm" method="post" action="/login" onsubmit="return validateForm()">
+        <s:url value="/login" var="authUrl"/>
+        <form name="loginForm" method="post" action="${authUrl}" onsubmit="return validateForm()">
             <br/>
             <p align="center"><b><s:message code="page.home.banner"/></b></p>
             <table align="center" cellpadding="5" cellspacing="5">
@@ -21,7 +21,7 @@
                 </tr>
                 <tr>
                     <td width="20" align="center">
-                        <span id="emptyLogin"></span>
+                        <span id="emptyLogin"/>
                     </td>
                 </tr>
                 <tr>
@@ -32,7 +32,7 @@
                 </tr>
                 <tr>
                     <td width="20" align="center">
-                        <span id="emptyPassword"></span>
+                        <span id="emptyPassword"/>
                     </td>
                 </tr>
                 <tr>
