@@ -82,7 +82,7 @@ public class UserController {
         return pagePath;
     }
 
-    @RequestMapping(value = "/registration", method = RequestMethod.GET/*, params = "new"*/)
+    @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public String showRegistrationForm(ModelMap model){
         model.addAttribute(Parameters.NEW_USER, new UserDTO());
         return pagePathManager.getProperty(PagePath.REGISTRATION_PAGE_PATH);
