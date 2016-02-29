@@ -6,16 +6,17 @@
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
           xmlns="http://www.w3.org/1999/xhtml"
           xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
+          xmlns:s="http://www.springframework.org/tags"
           version="2.0" >
     <div class="content">
         <h3>${userName}</h3>
         <table border="1">
             <tr>
-                <td>У вас на счету:</td>
+                <td><s:message code="page.client.balance.banner"/></td>
                 <td><fmt:formatNumber value="${balance}" type="currency" currencySymbol=""/></td>
             </tr>
             <tr>
-                <td>Валюта:</td>
+                <td><s:message code="page.common.currency"/> </td>
                 <td>${currency} </td>
             </tr>
         </table>

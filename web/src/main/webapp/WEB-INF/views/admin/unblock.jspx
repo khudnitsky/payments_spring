@@ -7,15 +7,16 @@
           xmlns="http://www.w3.org/1999/xhtml"
           xmlns:c="http://java.sun.com/jsp/jstl/core"
           xmlns:sf="http://www.springframework.org/tags/form"
+          xmlns:s="http://www.springframework.org/tags"
           version="2.0" >
     <div class="content">
         <form name="unblockForm" method="post" action="/unblock">
-            Выберите счет для разблокировки
+            <s:message code="page.admin.unblock.banner"/>
             <table border="1">
                 <tr bgcolor="#CCCCCC">
-                    <td align="center"><strong>№ Счета</strong></td>
-                    <td align="center"><strong>Сумма</strong></td>
-                    <td align="center"><strong>Валюта</strong></td>
+                    <td align="center"><strong><s:message code="page.admin.operations.account"/></strong></td>
+                    <td align="center"><strong><s:message code="page.admin.operations.amount"/></strong></td>
+                    <td align="center"><strong><s:message code="page.common.currency"/></strong></td>
                 </tr>
                 <c:forEach var="account" items="${accountsList}">
                     <tr>
@@ -29,7 +30,8 @@
             </table>
             ${errorEmptyChoice}
             ${errorEmptyList} <br/>
-            <input type="submit" value="Разблокировать"/>  <br/>
+            <s:message var="button" code="page.admin.unblock.button"/>
+            <input type="submit" value="${button}"/>  <br/>
         </form>
     </div>
 </jsp:root>

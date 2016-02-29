@@ -8,15 +8,16 @@
           xmlns:c="http://java.sun.com/jsp/jstl/core"
           xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
           xmlns:sf="http://www.springframework.org/tags/form"
+          xmlns:s="http://www.springframework.org/tags"
           version="2.0" >
     <div class="content">
         <table border="1">
             <tr bgcolor="#CCCCCC">
-                <td align="center"><strong>Дата</strong></td>
-                <td align="center"><strong>Описание</strong></td>
-                <td align="center"><strong>Сумма</strong></td>
-                <td align="center"><strong>Клиент</strong></td>
-                <td align="center"><strong>Счет</strong></td>
+                <td align="center"><strong><s:message code="page.admin.operations.date"/></strong></td>
+                <td align="center"><strong><s:message code="page.admin.operations.description"/></strong></td>
+                <td align="center"><strong><s:message code="page.admin.operations.amount"/></strong></td>
+                <td align="center"><strong><s:message code="page.admin.operations.client"/></strong></td>
+                <td align="center"><strong><s:message code="page.admin.operations.account"/></strong></td>
             </tr>
 
             <c:forEach var="operation" items="${operationsList}">
@@ -93,11 +94,11 @@
                     </td>
                     <td>
                         <sf:select path="ordering">
-                            <sf:option value="date">по дате</sf:option>
-                            <sf:option value="description">по описанию</sf:option>
-                            <sf:option value="amount">по сумме</sf:option>
-                            <sf:option value="client">по клиенту</sf:option>
-                            <sf:option value="account">по счету</sf:option>
+                            <sf:option value="date"><s:message code="page.admin.operations.order.date"/></sf:option>
+                            <sf:option value="description"><s:message code="page.admin.operations.order.description"/></sf:option>
+                            <sf:option value="amount"><s:message code="page.admin.operations.order.amount"/></sf:option>
+                            <sf:option value="client"><s:message code="page.admin.operations.order.client"/></sf:option>
+                            <sf:option value="account"><s:message code="page.admin.operations.order.account"/></sf:option>
                         </sf:select>
                         <!--<select name="ordering">-->
                             <!--<option value="date" selected="selected">по дате</option>-->
@@ -109,7 +110,8 @@
                     </td>
                 </tr>
             </table>
-            <input type="submit" value="Обновить" />
+            <s:message var="button" code="page.admin.operations.button"/>
+            <input type="submit" value="${button}" />
         </sf:form>
     </div>
 </jsp:root>

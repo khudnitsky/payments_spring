@@ -4,17 +4,19 @@
   Time: 13:43
 -->
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:s="http://www.springframework.org/tags"
           xmlns="http://www.w3.org/1999/xhtml"
           version="2.0">
     <div class="content">
 
         <form name="loginForm" method="post" action="/login" onsubmit="return validateForm()">
             <br/>
-            <p align="center"><b>Введите ваш логин и пароль:</b></p>
+            <p align="center"><b><s:message code="page.home.banner"/></b></p>
             <table align="center" cellpadding="5" cellspacing="5">
                 <tr>
                     <td>
-                        <input type="text" id="login" name="login" class="inputStyle" placeholder="Логин"/>
+                        <s:message var="inputLogin" code="page.common.input.login"/>
+                        <input type="text" id="login" name="login" class="inputStyle" placeholder="${inputLogin}"/>
                     </td>
                 </tr>
                 <tr>
@@ -24,7 +26,8 @@
                 </tr>
                 <tr>
                     <td>
-                        <input type="password" id="password" name="password" class="inputStyle" placeholder="Пароль"/>
+                        <s:message var="inputPassword" code="page.common.input.password"/>
+                        <input type="password" id="password" name="password" class="inputStyle" placeholder="${inputPassword}"/>
                     </td>
                 </tr>
                 <tr>
@@ -41,7 +44,8 @@
                 </tr>
             </table>
             <p align="center">
-                <input type="submit" value="Войти" onClick="clearResult()"/>
+                <s:message var="buttonName" code="page.home.button"/>
+                <input type="submit" value="${buttonName}" onClick="clearResult()"/>
             </p>
         </form>
         <br/>

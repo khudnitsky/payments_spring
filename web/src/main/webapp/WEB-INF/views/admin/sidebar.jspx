@@ -4,15 +4,16 @@
   Time: 14:39
 -->
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:s="http://www.springframework.org/tags"
           xmlns="http://www.w3.org/1999/xhtml"
           version="2.0">
     <div class="sidebar">
         <br/>
         <ul class="nav">
-            <li><a href="/admin/clients">Показать список клиентов</a></li>
-            <li><a href="/admin/operations">Показать список всех операций</a></li>
-            <li><a href="/admin/unblock">Разблокировать счет клиента</a></li>
-            <li><a href="/logout">Выйти из системы</a></li>
+            <li><a href="/admin/clients"><s:message code="page.admin.sidebar.clients"/></a></li>
+            <li><a href="/admin/operations"><s:message code="page.admin.sidebar.operations"/></a></li>
+            <li><a href="/admin/unblock"><s:message code="page.admin.sidebar.unblock"/></a></li>
+            <li><a href="/logout"><s:message code="page.common.sidebar.logout"/></a></li>
         </ul>
     </div>
 </jsp:root>

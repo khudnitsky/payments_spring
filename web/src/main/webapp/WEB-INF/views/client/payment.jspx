@@ -4,13 +4,15 @@
   Time: 15:35
 -->
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:s="http://www.springframework.org/tags"
           xmlns="http://www.w3.org/1999/xhtml"
           version="2.0">
     <div class="content">
         <form name="paymentForm" method="post" action="/payments">
-            Введите сумму платежа:<br />
-            <input type="text" name="payment" value="" />
-            <input type="submit" value="Оплатить" /> <br />
+            <s:message code="page.client.payment.banner"/> <br />
+            <input type="text" name="payment" value="" /> <br />
+            <s:message var="button" code="page.client.payment.button"/>
+            <input type="submit" value="${button}" /> <br />
             ${operationMessage} <br />
         </form>
     </div>

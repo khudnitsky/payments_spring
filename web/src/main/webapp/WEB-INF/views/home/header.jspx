@@ -7,7 +7,22 @@
           xmlns="http://www.w3.org/1999/xhtml"
           version="2.0">
     <div class="header">
-        <br/>
+        <div style="float: right;">
+            <a href="?locale=ru" style="padding: 5px;">
+                <img src="../../../assets/img/locale_ru.png"
+                     height="20"
+                     width="20"
+                     style="display:block;"
+                />
+            </a>
+            <a href="?locale=en" style="padding: 5px">
+                <img src="../../../assets/img/locale_en.png"
+                     height="20"
+                     width="20"
+                     style="display:block;"
+                />
+            </a>
+        </div>
         <p align="center">
             <a href="/home">
                 <img src="../../../assets/img/main_logo_3.png"

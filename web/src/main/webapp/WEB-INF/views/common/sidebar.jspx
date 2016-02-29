@@ -4,15 +4,16 @@
   Time: 16:45
 -->
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:s="http://www.springframework.org/tags"
           xmlns="http://www.w3.org/1999/xhtml"
           version="2.0">
     <div class="sidebar">
         <br/>
         <ul class="nav">
-            <li><a href="/home" charset="utf-8">Вернуться обратно</a></li>
-            <li><a href="http://select.by/kurs/" target="_blank">Курсы валют</a></li>
-            <li><a href="#">Информация о банке</a></li>
-            <li><a href="#">Новости</a></li>
+            <li><a href="/home" charset="utf-8"><s:message code="page.common.sidebar.back"/></a></li>
+            <li><a href="http://select.by/kurs/" target="_blank"><s:message code="page.common.sidebar.exchange"/></a></li>
+            <li><a href="#"><s:message code="page.common.sidebar.info"/></a></li>
+            <li><a href="#"><s:message code="page.common.sidebar.news"/></a></li>
         </ul>
     </div>
 </jsp:root>
