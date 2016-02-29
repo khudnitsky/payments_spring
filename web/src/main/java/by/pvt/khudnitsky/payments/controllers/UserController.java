@@ -12,6 +12,7 @@ import by.pvt.khudnitsky.payments.services.IUserService;
 import by.pvt.khudnitsky.payments.services.impl.UserServiceImpl;
 import by.pvt.khudnitsky.payments.utils.EntityBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.Locale;
 
 /**
  * Created by: khudnitsky
@@ -36,7 +38,7 @@ public class UserController {
     @Autowired
     private PagePathManager pagePathManager;
     @Autowired
-    private MessageManager messageManager;
+    private MessageSource messageSource;
 
     private User user;
 
@@ -48,6 +50,7 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String loginUser(@RequestParam(Parameters.USER_LOGIN) String login,
                             @RequestParam(Parameters.USER_PASSWORD) String password,
+                            Locale locale,
                             ModelMap model,
                             HttpSession session) {
         String pagePath;
@@ -65,12 +68,12 @@ public class UserController {
                 }
             }
             else{
-                model.addAttribute(Parameters.WRONG_LOGIN_OR_PASSWORD, messageManager.getProperty(MessageConstants.WRONG_LOGIN_OR_PASSWORD));
+                model.addAttribute(Parameters.WRONG_LOGIN_OR_PASSWORD, messageSource.getMessage("message.loginerror", null, locale));
                 pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
             }
         }
         catch (ServiceException e) {
-            model.addAttribute(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
+            model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
             pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
         }
         return pagePath;
@@ -83,7 +86,7 @@ public class UserController {
         return pagePath;
     }
 
-    @RequestMapping(value = "/registration", method = RequestMethod.GET, params = "new")
+    @RequestMapping(value = "/registration", method = RequestMethod.GET/*, params = "new"*/)
     public String showRegistrationForm(ModelMap model){
         model.addAttribute(Parameters.NEW_USER, new UserDTO());
         return pagePathManager.getProperty(PagePath.REGISTRATION_PAGE_PATH);
@@ -91,6 +94,7 @@ public class UserController {
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public String registrateUser(@ModelAttribute("newUser") @Valid UserDTO userDTO,
+                                 Locale locale,
                                  BindingResult bindingResult,
                                  ModelMap model) {
         String pagePath;
@@ -105,15 +109,15 @@ public class UserController {
 
                 if (userService.checkIsNewUser(user.getLogin())) {
                     userService.bookUser(user, account);
-                    model.addAttribute(Parameters.OPERATION_MESSAGE, messageManager.getProperty(MessageConstants.SUCCESS_OPERATION));
+                    model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.successoperation", null, locale));
                     pagePath = pagePathManager.getProperty(PagePath.REGISTRATION_PAGE_PATH);
                 } else {
-                    model.addAttribute(Parameters.ERROR_USER_EXISTS, messageManager.getProperty(MessageConstants.USER_EXISTS));
+                    model.addAttribute(Parameters.ERROR_USER_EXISTS, messageSource.getMessage("message.userexsistserror", null, locale));
                     pagePath = pagePathManager.getProperty(PagePath.REGISTRATION_PAGE_PATH);
                 }
             }
             catch (ServiceException e) {
-                model.addAttribute(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
+                model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
                 pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
             }
             catch (NullPointerException e) {  // TODO исправить

@@ -17,12 +17,15 @@ import by.pvt.khudnitsky.payments.utils.PaginationFilterUtil;
 import by.pvt.khudnitsky.payments.utils.PaginationFilter;
 import by.pvt.khudnitsky.payments.utils.OrderingUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by: khudnitsky
@@ -43,7 +46,7 @@ public class AdminController {
     @Autowired
     private PagePathManager pagePathManager;
     @Autowired
-    private MessageManager messageManager;
+    private MessageSource messageSource;
 
     @ModelAttribute("filter")
     public PaginationFilter createFilter(){
@@ -57,6 +60,7 @@ public class AdminController {
 
     @RequestMapping(value = "/clients", method = RequestMethod.GET)
     public String showClients(ModelMap model,
+                              Locale locale,
                               HttpSession session) {
         String pagePath;
 
@@ -70,7 +74,7 @@ public class AdminController {
                 pagePath = pagePathManager.getProperty(PagePath.ADMIN_SHOW_CLIENTS_PAGE);
             }
             catch (ServiceException e) {
-                model.addAttribute(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
+                model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
                 pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
             }
         }
@@ -84,6 +88,7 @@ public class AdminController {
 
     @RequestMapping(value = "/operations", method = {RequestMethod.GET, RequestMethod.POST})
     public String showOperations(ModelMap model,
+                                 Locale locale,
                                  /*@RequestParam(value = Parameters.CURRENT_PAGE, required = false) Integer currentPage,
                                  @RequestParam(value = Parameters.RECORDS_PER_PAGE, required = false) Integer recordsPerPage,
                                  @RequestParam(value = Parameters.ORDERING, required = false) String ordering,*/
@@ -108,7 +113,7 @@ public class AdminController {
                 pagePath = /*"redirect:" +*/ pagePathManager.getProperty(PagePath.ADMIN_SHOW_OPERATIONS_PAGE);
             }
             catch (ServiceException e) {
-                model.addAttribute(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
+                model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
                 pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
             }
         }
@@ -121,6 +126,7 @@ public class AdminController {
 
     @RequestMapping(value = "/unblock", method = RequestMethod.GET)
     public String showUnblockPage(ModelMap model,
+                                  Locale locale,
                                   HttpSession session){
         String pagePath;
         AccessLevelType accessLevelType = (AccessLevelType) session.getAttribute(Parameters.USERTYPE);
@@ -131,7 +137,7 @@ public class AdminController {
                 pagePath = pagePathManager.getProperty(PagePath.ADMIN_UNBLOCK_PAGE);
             }
             catch (ServiceException e) {
-                model.addAttribute(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
+                model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
                 pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
             }
         }
@@ -146,6 +152,7 @@ public class AdminController {
     public String unblockAccount(ModelMap model,
                                  @RequestParam(value = Parameters.OPERATION_UNBLOCK) Long accountNumber,
                                  @RequestParam(value = Parameters.ACCOUNTS_LIST) List<Account> accountList,
+                                 Locale locale,
                                  HttpSession session){
         String pagePath;
         AccessLevelType accessLevelType = (AccessLevelType) session.getAttribute(Parameters.USERTYPE);
@@ -158,16 +165,16 @@ public class AdminController {
             }
             catch(NumberFormatException e){
                 if(!accountList.isEmpty()){
-                    model.addAttribute(Parameters.ERROR_EMPTY_CHOICE, messageManager.getProperty(MessageConstants.EMPTY_CHOICE));
+                    model.addAttribute(Parameters.ERROR_EMPTY_CHOICE, messageSource.getMessage("message.emptychoice", null, locale));
                     pagePath = pagePathManager.getProperty(PagePath.ADMIN_UNBLOCK_PAGE);
                 }
                 else{
-                    model.addAttribute(Parameters.ERROR_EMPTY_LIST, messageManager.getProperty(MessageConstants.EMPTY_LIST));
+                    model.addAttribute(Parameters.ERROR_EMPTY_LIST, messageSource.getMessage("message.emptylist", null, locale));
                     pagePath = pagePathManager.getProperty(PagePath.ADMIN_UNBLOCK_PAGE);
                 }
             }
             catch (ServiceException e) {
-                model.addAttribute(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
+                model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
                 pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
             }
         }

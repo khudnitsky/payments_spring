@@ -12,6 +12,7 @@ import by.pvt.khudnitsky.payments.managers.PagePathManager;
 import by.pvt.khudnitsky.payments.services.IAccountService;
 import by.pvt.khudnitsky.payments.services.impl.AccountServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -24,6 +25,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Set;
 
 /**
@@ -39,7 +41,7 @@ public class ClientController {
     @Autowired
     private PagePathManager pagePathManager;
     @Autowired
-    private MessageManager messageManager;
+    private MessageSource messageSource;
 
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String showClientMainPage(){
@@ -49,6 +51,7 @@ public class ClientController {
     @RequestMapping(value = "/balance", method = GET)
     public String showBalance(ModelMap model,
                               @RequestParam(value = Parameters.USER) User user,
+                              Locale locale,
                               HttpSession session) {
         String pagePath;
         AccessLevelType accessLevelType = (AccessLevelType) model.get(Parameters.USER_ACCESS_LEVEL);
@@ -67,7 +70,7 @@ public class ClientController {
                 pagePath = pagePathManager.getProperty(PagePath.CLIENT_BALANCE_PAGE_PATH);
             }
             catch (ServiceException e) {
-                model.addAttribute(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
+                model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
                 pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
             }
         }
@@ -88,6 +91,7 @@ public class ClientController {
                           @RequestParam(Parameters.USER_ACCESS_LEVEL) AccessLevelType accessLevelType,
                           @RequestParam(Parameters.USER) User user,
                           @RequestParam(Parameters.OPERATION_ADD_FUNDS) double amount,
+                          Locale locale,
                           HttpSession session) {
         String pagePath;
         if(accessLevelType == AccessLevelType.CLIENT) {
@@ -103,10 +107,10 @@ public class ClientController {
                     if (amount > 0) {
                         String description = "Платеж"; // TODO вынести
                         accountService.addFunds(user, description, amount);
-                        model.addAttribute(Parameters.OPERATION_MESSAGE, messageManager.getProperty(MessageConstants.SUCCESS_OPERATION));
+                        model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.successoperation", null, locale));
                         pagePath = pagePathManager.getProperty(PagePath.CLIENT_FUND_PAGE_PATH);
                     } else {
-                        model.addAttribute(Parameters.OPERATION_MESSAGE, messageManager.getProperty(MessageConstants.NEGATIVE_ARGUMENT));
+                        model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.negativeoperator", null, locale));
                         pagePath = pagePathManager.getProperty(PagePath.CLIENT_FUND_PAGE_PATH);
                     }
                 } else {
@@ -114,10 +118,10 @@ public class ClientController {
                 }
             }
             catch (ServiceException e) {
-                model.addAttribute(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
+                model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
                 pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
             } catch (NumberFormatException e) {
-                model.addAttribute(Parameters.OPERATION_MESSAGE, messageManager.getProperty(MessageConstants.INVALID_NUMBER_FORMAT));
+                model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.invalidnumberformat", null, locale));
                 pagePath = pagePathManager.getProperty(PagePath.CLIENT_FUND_PAGE_PATH);
             }
         }
@@ -132,6 +136,7 @@ public class ClientController {
     public String blockAccount(ModelMap model,
                                @RequestParam(Parameters.USER_ACCESS_LEVEL) AccessLevelType accessLevelType,
                                @RequestParam(Parameters.USER) User user,
+                               Locale locale,
                                HttpSession session) {
         String pagePath;
         if(accessLevelType == AccessLevelType.CLIENT){
@@ -146,7 +151,7 @@ public class ClientController {
                 }
                 if(!accountService.checkAccountStatus(accountId)){
                     accountService.blockAccount(user, description);
-                    model.addAttribute(Parameters.OPERATION_MESSAGE, messageManager.getProperty(MessageConstants.SUCCESS_OPERATION));
+                    model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.successoperation", null, locale));
                     pagePath = pagePathManager.getProperty(PagePath.CLIENT_BLOCK_PAGE_PATH);
                 }
                 else{
@@ -154,7 +159,7 @@ public class ClientController {
                 }
             }
             catch (ServiceException e) {
-                model.addAttribute(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
+                model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
                 pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
             }
         }
@@ -175,6 +180,7 @@ public class ClientController {
                           @RequestParam(Parameters.USER_ACCESS_LEVEL) AccessLevelType accessLevelType,
                           @RequestParam(Parameters.USER) User user,
                           @RequestParam(Parameters.OPERATION_PAYMENT) double amount,
+                          Locale locale,
                           HttpSession session) {
         String pagePath;
         if(accessLevelType == AccessLevelType.CLIENT){
@@ -192,16 +198,16 @@ public class ClientController {
                         if(account.getDeposit() >= amount){
                             String description = "Платеж"; // TODO
                             accountService.payment(user, description, amount);
-                            model.addAttribute(Parameters.OPERATION_MESSAGE, messageManager.getProperty(MessageConstants.SUCCESS_OPERATION));
+                            model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.successoperation", null, locale));
                             pagePath = pagePathManager.getProperty(PagePath.CLIENT_PAYMENT_PAGE_PATH);
                         }
                         else{
-                            model.addAttribute(Parameters.OPERATION_MESSAGE, messageManager.getProperty(MessageConstants.FAILED_OPERATION));
+                            model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.failedoperation", null, locale));
                             pagePath = pagePathManager.getProperty(PagePath.CLIENT_PAYMENT_PAGE_PATH);
                         }
                     }
                     else{
-                        model.addAttribute(Parameters.OPERATION_MESSAGE, messageManager.getProperty(MessageConstants.NEGATIVE_ARGUMENT));
+                        model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.negativeoperator", null, locale));
                         pagePath = pagePathManager.getProperty(PagePath.CLIENT_PAYMENT_PAGE_PATH);
                     }
                 }
@@ -210,12 +216,12 @@ public class ClientController {
                 }
             }
             catch (ServiceException e) {
-                model.addAttribute(Parameters.ERROR_DATABASE, messageManager.getProperty(MessageConstants.ERROR_DATABASE));
+                model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
                 pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
             }
             catch (NumberFormatException e){
-                model.addAttribute(Parameters.OPERATION_MESSAGE, messageManager.getProperty(MessageConstants.INVALID_NUMBER_FORMAT));
-                pagePath = messageManager.getProperty(PagePath.CLIENT_PAYMENT_PAGE_PATH);
+                model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.invalidnumberformat", null, locale));
+                pagePath = pagePathManager.getProperty(PagePath.CLIENT_PAYMENT_PAGE_PATH);
             }
         }
         else{
