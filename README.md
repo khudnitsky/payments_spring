@@ -4,10 +4,10 @@ Payments system (3'rd module project)
 MANDATORY
 1. JavaDoc
     + 2. Transform Commands to Controllers
-3. Integrate Hibernate and Spring
+    + 3. Integrate Hibernate and Spring
     + 4. Tiles templates
 5. Spring security
-6. Messages internalization
+    + 6. Messages internalization
     + 7. Spring MVC
 
 REGISTRATION
@@ -22,7 +22,7 @@ CLIENT
 
 ADMIN
 1. Operations page
-2. Pagination: select must be maintained
+    + 2. Pagination: select must be maintained
 3. Sorting ASC, DESC
 4. 
 
@@ -31,4 +31,4 @@ OTHER
     + 2. Pages: aligning
     + 3. AbstractService
     + 4. Closing sessions
-5. Communication through interfaces
+    + 5. Communication through interfaces
