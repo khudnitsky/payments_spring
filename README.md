@@ -5,6 +5,7 @@ Payments system (3'rd module project)
 2. Validation
 3. Client functions
 4. Logging
+5. FIX ADDING DUPLICATES
 
 MANDATORY
 1. JavaDoc
