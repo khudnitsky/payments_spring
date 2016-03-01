@@ -1,6 +1,11 @@
 # payments_spring
 Payments system (3'rd module project)
 
+1. JavaDoc
+2. Validation
+3. Client functions
+4. Logging
+
 MANDATORY
 1. JavaDoc
     + 2. Transform Commands to Controllers
@@ -21,7 +26,7 @@ CLIENT
 5. Adding accounts
 
 ADMIN
-1. Operations page
+    + 1. Operations page
     + 2. Pagination: select must be maintained
     + 3. Sorting ASC, DESC
 
