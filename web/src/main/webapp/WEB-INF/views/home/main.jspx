@@ -36,9 +36,10 @@
                     </td>
                 </tr>
                 <tr>
-                    <td width="20">
+                    <td width="20" align="center">
                         <label id="label">
                             ${errorLoginOrPassword}
+                            ${operationMessage}
                         </label>
                     </td>
                 </tr>

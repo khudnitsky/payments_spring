@@ -106,7 +106,8 @@ public class UserController {
                 if (userService.checkIsNewUser(user.getLogin())) {
                     userService.bookUser(user, account);
                     model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.successoperation", null, locale));
-                    pagePath = pagePathManager.getProperty(PagePath.REGISTRATION_PAGE_PATH);
+                    pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
+                    //pagePath = pagePathManager.getProperty(PagePath.REGISTRATION_PAGE_PATH);
                 } else {
                     model.addAttribute(Parameters.ERROR_USER_EXISTS, messageSource.getMessage("message.userexsistserror", null, locale));
                     pagePath = pagePathManager.getProperty(PagePath.REGISTRATION_PAGE_PATH);
