@@ -93,12 +93,14 @@ public class AdminController {
         Integer currentPage = filter.getCurrentPage();
         Integer recordsPerPage = filter.getRecordsPerPage();
         String ordering = filter.getOrdering();
-        filter = PaginationFilterUtil.defineParameters(ordering, null, currentPage, recordsPerPage);
+        String direction = filter.getDirection();
+        filter = PaginationFilterUtil.defineParameters(ordering, direction, currentPage, recordsPerPage);
         AccessLevelType accessLevelType = (AccessLevelType) session.getAttribute(Parameters.USERTYPE);
         if(accessLevelType == AccessLevelType.ADMINISTRATOR){
             try{
                 int numberOfPages = operationService.getNumberOfPages(filter.getRecordsPerPage());
-                List<OperationDTO> list = operationService.getAllToPage(filter.getRecordsPerPage(), filter.getCurrentPage(), OrderingUtil.defineOrderingType(filter.getOrdering()));
+                String order = OrderingUtil.defineOrderingType(filter.getOrdering()) + OrderingUtil.defineOrderingDirection(filter.getDirection());
+                List<OperationDTO> list = operationService.getAllToPage(filter.getRecordsPerPage(), filter.getCurrentPage(), order);
                 model.addAttribute(Parameters.OPERATIONS_LIST, list);
                 model.addAttribute(Parameters.NUMBER_OF_PAGES, numberOfPages);
 //                model.addAttribute(Parameters.CURRENT_PAGE, filter.getCurrentPage());

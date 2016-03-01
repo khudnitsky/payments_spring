@@ -1,14 +1,12 @@
 package by.pvt.khudnitsky.payments.utils;
 
-import by.pvt.khudnitsky.payments.enums.Parameters;
-
 /**
  * Created by: khudnitsky
  * Date: 23.02.2016
  * Time: 15:53
  */
 public class PaginationFilterUtil {
-    public static PaginationFilter defineParameters(String ordering, String orderingType, Integer currentPage, Integer recordsPerPage){
+    public static PaginationFilter defineParameters(String ordering, String direction, Integer currentPage, Integer recordsPerPage){
         PaginationFilter filter = new PaginationFilter();
         if(ordering != null) {
            filter.setOrdering(ordering);
@@ -29,6 +27,13 @@ public class PaginationFilterUtil {
         else {
             filter.setCurrentPage(currentPage);
         }
+        if(direction == null){
+            filter.setDirection("asc");
+        }
+        else{
+            filter.setDirection(direction);
+        }
+
         return filter;
     }
 }

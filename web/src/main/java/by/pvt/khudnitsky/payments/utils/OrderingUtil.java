@@ -11,8 +11,8 @@ public class OrderingUtil {
     private static final String ORDER_BY_AMOUNT = "ORDER BY amount";
     private static final String ORDER_BY_CLIENT = "ORDER BY userLastName";
     private static final String ORDER_BY_ACCOUNT = "ORDER BY accountNumber";
-    private static final String ORDER_ASC = "ASC";
-    private static final String ORDER_DESC = "DESC";
+    private static final String ORDER_ASC = " ASC";
+    private static final String ORDER_DESC = " DESC";
 
     private OrderingUtil(){}
 
@@ -35,5 +35,20 @@ public class OrderingUtil {
                 oderBy = ORDER_BY_DATE;
         }
         return oderBy;
+    }
+
+    public static String defineOrderingDirection(String direction){
+        String oderDirection;
+        switch (direction) {
+            case "asc":
+                oderDirection = ORDER_ASC;
+                break;
+            case "desc":
+                oderDirection = ORDER_DESC;
+                break;
+            default:
+                oderDirection = ORDER_ASC;
+        }
+        return oderDirection;
     }
 }

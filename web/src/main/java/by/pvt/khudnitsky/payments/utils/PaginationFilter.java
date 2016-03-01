@@ -7,7 +7,7 @@ package by.pvt.khudnitsky.payments.utils;
  */
 public class PaginationFilter {
     private String ordering;
-    private String orderingType;
+    private String direction;
     private Integer currentPage;
     private Integer recordsPerPage;
 
@@ -37,11 +37,11 @@ public class PaginationFilter {
         this.recordsPerPage = recordsPerPage;
     }
 
-    public String getOrderingType() {
-        return orderingType;
+    public String getDirection() {
+        return direction;
     }
 
-    public void setOrderingType(String orderingType) {
-        this.orderingType = orderingType;
+    public void setDirection(String direction) {
+        this.direction = direction;
     }
 }
