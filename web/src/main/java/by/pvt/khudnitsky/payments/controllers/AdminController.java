@@ -12,8 +12,11 @@ import by.pvt.khudnitsky.payments.services.IUserService;
 import by.pvt.khudnitsky.payments.utils.PaginationFilterUtil;
 import by.pvt.khudnitsky.payments.utils.PaginationFilter;
 import by.pvt.khudnitsky.payments.utils.OrderingUtil;
+import by.pvt.khudnitsky.payments.utils.PrincipalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
@@ -42,6 +45,8 @@ public class AdminController {
     private PagePathManager pagePathManager;
     @Autowired
     private MessageSource messageSource;
+    @Autowired
+    private PrincipalUtil principalUtil;
 
     @ModelAttribute("filter")
     public PaginationFilter createFilter(){
@@ -49,34 +54,23 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/main", method = RequestMethod.GET)
-    public String showAdminMainPage(){
+    public String showAdminMainPage(ModelMap model){
+        model.addAttribute(Parameters.USER, principalUtil.getPrincipal());
         return pagePathManager.getProperty(PagePath.ADMIN_PAGE_PATH);
     }
 
     @RequestMapping(value = "/clients", method = RequestMethod.GET)
     public String showClients(ModelMap model,
-                              Locale locale,
-                              HttpSession session) {
+                              Locale locale) {
         String pagePath;
-
-        //TODO исправить
-        AccessLevelType accessLevelType = (AccessLevelType) session.getAttribute(Parameters.USERTYPE);
-//        AccessLevelType accessLevelType = (AccessLevelType) model.get(Parameters.USER_ACCESS_LEVEL);
-        if(accessLevelType == AccessLevelType.ADMINISTRATOR){
-            try{
-                List<User> list = userService.getAll();
-                model.addAttribute(Parameters.USER_LIST, list);
-                pagePath = pagePathManager.getProperty(PagePath.ADMIN_SHOW_CLIENTS_PAGE);
-            }
-            catch (ServiceException e) {
-                model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
-                pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
-            }
+        try {
+            List<User> list = userService.getAll();
+            model.addAttribute(Parameters.USER_LIST, list);
+            pagePath = pagePathManager.getProperty(PagePath.ADMIN_SHOW_CLIENTS_PAGE);
         }
-        // TODO ПРОВверить, возможно отработает фильтр
-        else{
-            pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
-            session.invalidate();
+        catch (ServiceException e) {
+            model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
+            pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
         }
         return pagePath;
     }
@@ -84,39 +78,26 @@ public class AdminController {
     @RequestMapping(value = "/operations", method = {RequestMethod.GET, RequestMethod.POST})
     public String showOperations(ModelMap model,
                                  Locale locale,
-                                 /*@RequestParam(value = Parameters.CURRENT_PAGE, required = false) Integer currentPage,
-                                 @RequestParam(value = Parameters.RECORDS_PER_PAGE, required = false) Integer recordsPerPage,
-                                 @RequestParam(value = Parameters.ORDERING, required = false) String ordering,*/
-                                 @ModelAttribute ("filter") PaginationFilter filter,
-                                 HttpSession session) {
+                                 @ModelAttribute ("filter") PaginationFilter filter) {
         String pagePath;
         Integer currentPage = filter.getCurrentPage();
         Integer recordsPerPage = filter.getRecordsPerPage();
         String ordering = filter.getOrdering();
         String direction = filter.getDirection();
         filter = PaginationFilterUtil.defineParameters(ordering, direction, currentPage, recordsPerPage);
-        AccessLevelType accessLevelType = (AccessLevelType) session.getAttribute(Parameters.USERTYPE);
-        if(accessLevelType == AccessLevelType.ADMINISTRATOR){
-            try{
-                int numberOfPages = operationService.getNumberOfPages(filter.getRecordsPerPage());
-                String order = OrderingUtil.defineOrderingType(filter.getOrdering()) + OrderingUtil.defineOrderingDirection(filter.getDirection());
-                List<OperationDTO> list = operationService.getAllToPage(filter.getRecordsPerPage(), filter.getCurrentPage(), order);
-                model.addAttribute(Parameters.OPERATIONS_LIST, list);
-                model.addAttribute(Parameters.NUMBER_OF_PAGES, numberOfPages);
-//                model.addAttribute(Parameters.CURRENT_PAGE, filter.getCurrentPage());
-//                model.addAttribute(Parameters.RECORDS_PER_PAGE, filter.getRecordsPerPage());
-//                model.addAttribute(Parameters.ORDERING, ordering);
-                model.addAttribute("filter", filter);
-                pagePath = /*"redirect:" +*/ pagePathManager.getProperty(PagePath.ADMIN_SHOW_OPERATIONS_PAGE);
-            }
-            catch (ServiceException e) {
-                model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
-                pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
-            }
+
+        try {
+            int numberOfPages = operationService.getNumberOfPages(filter.getRecordsPerPage());
+            String order = OrderingUtil.defineOrderingType(filter.getOrdering()) + OrderingUtil.defineOrderingDirection(filter.getDirection());
+            List<OperationDTO> list = operationService.getAllToPage(filter.getRecordsPerPage(), filter.getCurrentPage(), order);
+            model.addAttribute(Parameters.OPERATIONS_LIST, list);
+            model.addAttribute(Parameters.NUMBER_OF_PAGES, numberOfPages);
+            model.addAttribute(Parameters.FILTER, filter);
+            pagePath = /*"redirect:" +*/ pagePathManager.getProperty(PagePath.ADMIN_SHOW_OPERATIONS_PAGE);
         }
-        else{
-            pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
-            session.invalidate();
+        catch (ServiceException e) {
+            model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
+            pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
         }
         return pagePath;
     }
@@ -126,58 +107,47 @@ public class AdminController {
                                   Locale locale,
                                   HttpSession session){
         String pagePath;
-        AccessLevelType accessLevelType = (AccessLevelType) session.getAttribute(Parameters.USERTYPE);
-        if(accessLevelType == AccessLevelType.ADMINISTRATOR){
-            try {
-                List<Account> list = accountService.getBlockedAccounts();
-                model.addAttribute(Parameters.ACCOUNTS_LIST, list);
-                pagePath = pagePathManager.getProperty(PagePath.ADMIN_UNBLOCK_PAGE);
-            }
-            catch (ServiceException e) {
-                model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
-                pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
-            }
+        try {
+            List<Account> list = accountService.getBlockedAccounts();
+            model.addAttribute(Parameters.ACCOUNTS_LIST, list);
+            //session.setAttribute(Parameters.ACCOUNTS_LIST, accountService.getBlockedAccounts());
+            pagePath = pagePathManager.getProperty(PagePath.ADMIN_UNBLOCK_PAGE);
         }
-        else{
-            pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
-            session.invalidate();
+        catch (ServiceException e) {
+            model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
+            pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
         }
         return pagePath;
     }
 
     @RequestMapping(value = "/unblock", method = RequestMethod.POST)
     public String unblockAccount(ModelMap model,
-                                 @RequestParam(value = Parameters.OPERATION_UNBLOCK) Long accountNumber,
-                                 @RequestParam(value = Parameters.ACCOUNTS_LIST) List<Account> accountList,
-                                 Locale locale,
-                                 HttpSession session){
+                                 @RequestParam(value = Parameters.OPERATION_UNBLOCK, required = false) Long accountNumber,
+                                 @RequestParam(value = Parameters.ACCOUNTS_LIST, required = false) List<Account> accountList,
+                                 Locale locale){
         String pagePath;
-        AccessLevelType accessLevelType = (AccessLevelType) session.getAttribute(Parameters.USERTYPE);
-        if(accessLevelType == AccessLevelType.ADMINISTRATOR){
-            try{
+        try {
+            if(accountNumber != null) {
                 accountService.updateAccountStatus(accountNumber, AccountStatusType.UNBLOCKED);
-                accountList = accountService.getBlockedAccounts();
+            }
+            else {
+                model.addAttribute(Parameters.ERROR_EMPTY_LIST, messageSource.getMessage("message.emptylist", null, locale));
+            }
+
+            accountList = accountService.getBlockedAccounts();
+
+            if (!accountList.isEmpty()) {
+                model.addAttribute(Parameters.ERROR_EMPTY_CHOICE, messageSource.getMessage("message.emptychoice", null, locale));
+            }
+            else{
                 model.addAttribute(Parameters.ACCOUNTS_LIST, accountList);
-                pagePath = pagePathManager.getProperty(PagePath.ADMIN_UNBLOCK_PAGE);
             }
-            catch(NumberFormatException e){
-                if(!accountList.isEmpty()){
-                    model.addAttribute(Parameters.ERROR_EMPTY_CHOICE, messageSource.getMessage("message.emptychoice", null, locale));
-                    pagePath = pagePathManager.getProperty(PagePath.ADMIN_UNBLOCK_PAGE);
-                }
-                else{
-                    model.addAttribute(Parameters.ERROR_EMPTY_LIST, messageSource.getMessage("message.emptylist", null, locale));
-                    pagePath = pagePathManager.getProperty(PagePath.ADMIN_UNBLOCK_PAGE);
-                }
-            }
-            catch (ServiceException e) {
-                model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
-                pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
-            }
+
+            pagePath = pagePathManager.getProperty(PagePath.ADMIN_UNBLOCK_PAGE);
         }
-        else{
-            pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
-            session.invalidate();
+        catch (ServiceException e) {
+            model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
+            pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
         }
         return pagePath;
     }

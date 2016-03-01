@@ -23,17 +23,21 @@
 
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>WEB-INF/dispatcher-servlet.xml</param-value>
+        <param-value>
+            WEB-INF/dispatcher-servlet.xml,
+            WEB-INF/security-context.xml
+        </param-value>
     </context-param>
 
-    <!--<filter>-->
-        <!--<filter-name>SessionClosing</filter-name>-->
-        <!--<filter-class>by.pvt.khudnitsky.payments.filters.SessionClosingFilter</filter-class>-->
-    <!--</filter>-->
-    <!--<filter-mapping>-->
-        <!--<filter-name>SessionClosing</filter-name>-->
-        <!--<servlet-name>dispatcher</servlet-name>-->
-    <!--</filter-mapping>-->
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
     <session-config>
         <session-timeout>10</session-timeout>

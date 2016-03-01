@@ -22,7 +22,7 @@ import java.util.List;
  * Time: 15:18
  */
 
-
+@Service("authenticationService")
 public class AuthenticationService implements UserDetailsService {
 
     @Autowired
@@ -35,14 +35,21 @@ public class AuthenticationService implements UserDetailsService {
         try {
             user = userService.getUserByLogin(login);
             if (user == null) {
-                throw new UsernameNotFoundException("Username not found");
+                throw new UsernameNotFoundException("User not found");
             }
         }
         catch (ServiceException e) {
             e.printStackTrace();
         }
-        return new org.springframework.security.core.userdetails.User(user.getLogin(), user.getPassword(),
-                true, true, true, true, getGrantedAuthorities(user));
+        return new org.springframework.security.core.userdetails.User(
+                user.getLogin(),
+                user.getPassword(),
+                true,
+                true,
+                true,
+                true,
+                getGrantedAuthorities(user)
+        );
     }
 
 

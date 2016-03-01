@@ -44,12 +44,12 @@
                     </td>
                 </tr>
             </table>
+            <input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}"><jsp:text/></input>
             <p align="center">
                 <s:message var="buttonName" code="page.home.button"/>
                 <input type="submit" value="${buttonName}" onClick="clearResult()"/>
             </p>
         </form>
         <br/>
-
     </div>
 </jsp:root>

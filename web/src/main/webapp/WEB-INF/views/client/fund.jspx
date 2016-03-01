@@ -13,8 +13,10 @@
             <s:message code="page.client.fund.banner"/> <br/>
             <input type="text" name="addFunds" value=""/><br/>
             <s:message var="button" code="page.client.fund.button"/>
-            <input type="submit" value="${button}"/> <br/>
             ${operationMessage} <br/>
+            <input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}"><jsp:text/></input>
+            <input type="submit" value="${button}"/> <br/>
+
         </form>
     </div>
 </jsp:root>

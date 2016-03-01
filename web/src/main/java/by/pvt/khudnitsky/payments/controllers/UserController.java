@@ -77,7 +77,7 @@ public class UserController {
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logoutUser(HttpSession session) {
-        String pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
+        String pagePath = "redirect: " + pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
         session.invalidate();
         return pagePath;
     }
@@ -127,3 +127,6 @@ public class UserController {
         return pagePath;
     }
 }
+
+
+//?useEncoding=yes&amp;characterEncoding=UTF-8

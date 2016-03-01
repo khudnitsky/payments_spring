@@ -71,7 +71,7 @@ public class User extends AbstractEntity {
     }
     private UserDetail userDetail;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public Set<Account> getAccounts() {
         return accounts;
     }
