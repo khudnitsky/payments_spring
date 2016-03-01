@@ -48,6 +48,7 @@ public class AccountDaoImplTest {
     private Serializable accountId;
     private Serializable userId;
     private Serializable currencyId;
+    private Long accountNumber;
 
     @Before
     public void setUp(){
@@ -55,7 +56,8 @@ public class AccountDaoImplTest {
         userDetail = EntityBuilder.buildUserDetail(address);
         user = EntityBuilder.buildUser("TEST", "TEST", "TEST", "TEST", userDetail, null, null);
         currency = EntityBuilder.buildCurrency(CurrencyType.BYR);
-        expectedAccount = EntityBuilder.buildAccount(1000L, 200D, AccountStatusType.UNBLOCKED, currency, user);
+        accountNumber = 1000L;
+        expectedAccount = EntityBuilder.buildAccount(accountNumber, 200D, AccountStatusType.UNBLOCKED, currency, user);
     }
 
     @Test
@@ -116,6 +118,14 @@ public class AccountDaoImplTest {
         expected = true;
         actual = accountDao.isAccountStatusBlocked((Long) accountId);
         Assert.assertEquals("isAccountStatusBlocked() method failed: ", expected, actual);
+    }
+
+    @Test
+    public void testGetByNumber() throws Exception {
+        persistEntities();
+        expectedAccount.setId((Long) accountId);
+        actualAccount = accountDao.getByNumber(accountNumber);
+        Assert.assertEquals("getByNumber() method failed: ", expectedAccount, actualAccount);
     }
 
     @Ignore

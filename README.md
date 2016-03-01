@@ -6,7 +6,7 @@ MANDATORY
     + 2. Transform Commands to Controllers
     + 3. Integrate Hibernate and Spring
     + 4. Tiles templates
-5. Spring security
+    + 5. Spring security
     + 6. Messages internalization
     + 7. Spring MVC
 
@@ -23,8 +23,7 @@ CLIENT
 ADMIN
 1. Operations page
     + 2. Pagination: select must be maintained
-3. Sorting ASC, DESC
-4. 
+    + 3. Sorting ASC, DESC
 
 OTHER
 1. Logging to file

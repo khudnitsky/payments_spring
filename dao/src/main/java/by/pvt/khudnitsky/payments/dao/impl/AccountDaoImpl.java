@@ -6,13 +6,11 @@ package by.pvt.khudnitsky.payments.dao.impl;
 import by.pvt.khudnitsky.payments.dao.AbstractDao;
 import by.pvt.khudnitsky.payments.dao.IAccountDao;
 import by.pvt.khudnitsky.payments.entities.Account;
+import by.pvt.khudnitsky.payments.entities.User;
 import by.pvt.khudnitsky.payments.enums.AccountStatusType;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
 import org.apache.log4j.Logger;
-import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -83,5 +81,24 @@ public class AccountDaoImpl extends AbstractDao<Account> implements IAccountDao{
             throw new DaoException(message, e);
         }
         return list;
+    }
+
+    @Override
+    public Account getByNumber(Long accountNumber) throws DaoException {
+        Account account = null;
+        try {
+            Session session = getCurrentSession();
+            Criteria criteria = session.createCriteria(Account.class);
+            criteria.add(Restrictions.eq("accountNumber", accountNumber));
+            if(criteria.uniqueResult() != null){
+                account = (Account) criteria.uniqueResult();
+            }
+        }
+        catch(HibernateException e){
+            message = "Unable to return user by login. Error was thrown in DAO: ";
+            logger.error(message + e);
+            throw new DaoException(message, e);
+        }
+        return account;
     }
 }

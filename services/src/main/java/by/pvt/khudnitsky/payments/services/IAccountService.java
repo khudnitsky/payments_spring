@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface IAccountService extends IService<Account>{
     List<Account> getBlockedAccounts() throws ServiceException;
-    void updateAccountStatus(Long id, AccountStatusType status) throws ServiceException;
+    void updateAccountStatus(Long accountNumber, AccountStatusType status) throws ServiceException;
     boolean checkAccountStatus(Long id) throws ServiceException;
     void addFunds(User user, String description, Double amount) throws ServiceException;
     void blockAccount(User user, String description) throws ServiceException;

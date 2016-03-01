@@ -123,7 +123,6 @@ public class AdminController {
     @RequestMapping(value = "/unblock", method = RequestMethod.POST)
     public String unblockAccount(ModelMap model,
                                  @RequestParam(value = Parameters.OPERATION_UNBLOCK, required = false) Long accountNumber,
-                                 @RequestParam(value = Parameters.ACCOUNTS_LIST, required = false) List<Account> accountList,
                                  Locale locale){
         String pagePath;
         try {
@@ -131,13 +130,13 @@ public class AdminController {
                 accountService.updateAccountStatus(accountNumber, AccountStatusType.UNBLOCKED);
             }
             else {
-                model.addAttribute(Parameters.ERROR_EMPTY_LIST, messageSource.getMessage("message.emptylist", null, locale));
+                model.addAttribute(Parameters.ERROR_EMPTY_CHOICE, messageSource.getMessage("message.emptychoice", null, locale));
             }
 
-            accountList = accountService.getBlockedAccounts();
+            List<Account> accountList = accountService.getBlockedAccounts();
 
-            if (!accountList.isEmpty()) {
-                model.addAttribute(Parameters.ERROR_EMPTY_CHOICE, messageSource.getMessage("message.emptychoice", null, locale));
+            if (accountList.isEmpty()) {
+                model.addAttribute(Parameters.ERROR_EMPTY_LIST, messageSource.getMessage("message.emptylist", null, locale));
             }
             else{
                 model.addAttribute(Parameters.ACCOUNTS_LIST, accountList);

@@ -66,9 +66,9 @@ public class AccountServiceImpl extends AbstractService<Account> implements IAcc
     }
 
     @Override
-    public void updateAccountStatus(Long id, AccountStatusType status) throws ServiceException {
+    public void updateAccountStatus(Long accountNumber, AccountStatusType status) throws ServiceException {
         try {
-            Account account = accountDao.getById(id);
+            Account account = accountDao.getByNumber(accountNumber);
             account.setAccountStatus(status);
             accountDao.update(account);
             logger.info(TRANSACTION_SUCCEEDED);
