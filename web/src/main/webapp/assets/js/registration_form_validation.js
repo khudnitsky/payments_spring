@@ -17,13 +17,25 @@ function validateForm()
 	var accountNumber = document.getElementById("accountNumber").value;
 	
 	var point = "*";
-	var emptyField = "Поле не заполнено";
-	var notEqualsPasswords = "Пароли не совпадают";
-	var invalidSymbols = "Недопустимые символы ";
+	var emptyField = "";
+	var notEqualsPasswords = "";
+	var invalidSymbols = "";
 
 	var templateNames = /^[a-zA-Zа-яА-Я ]{2,30}$/;
 	var templatePassword = /\w*/g;
 	var templateAccountNumber = /^[0-9]{1,10}$/;
+
+
+	if(getCookie('LocaleCookie') == 'ru'){
+		emptyField = "Поле не заполнено";
+		notEqualsPasswords = "Пароли не совпадают";
+		invalidSymbols = "Недопустимые символы ";
+	}
+	if(getCookie('LocaleCookie') == 'en'){
+		emptyField = "Fields are empty";
+		notEqualsPasswords = "Passwords mismatch";
+		invalidSymbols = "Invalid symbols";
+	}
 
 	// проверка заполненности полей
 	if (firstName == ""){
@@ -108,4 +120,9 @@ function validateForm()
 	}
 	
 	return flag;
+}
+
+function getCookie(name){
+	var matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
+	return matches ? decodeURIComponent(matches[1]) : undefined;
 }

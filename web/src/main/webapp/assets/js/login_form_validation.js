@@ -5,7 +5,15 @@ function validateForm()
 	var messagePassword = document.getElementById("emptyPassword");
 	var login = document.getElementById("login").value;
 	var password = document.getElementById("password").value;
-	var text = "Поле не заполнено" + "<br>";
+
+	var text = "" + "<br>";
+
+	if(getCookie('LocaleCookie') == 'ru'){
+		text = "Поле не заполнено";
+	}
+	if(getCookie('LocaleCookie') == 'en'){
+		text = "Field is empty";
+	}
 
 	// проверка заполненности полей
 	if (login == ""){
@@ -23,4 +31,9 @@ function validateForm()
 		messagePassword.innerHTML = "";
 	}
 	return flag;
+}
+
+function getCookie(name){
+	var matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
+	return matches ? decodeURIComponent(matches[1]) : undefined;
 }
