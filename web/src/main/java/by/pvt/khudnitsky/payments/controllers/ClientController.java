@@ -21,6 +21,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import javax.servlet.http.HttpSession;
+import java.util.DoubleSummaryStatistics;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Set;
@@ -82,10 +83,11 @@ public class ClientController {
 
     @RequestMapping(value = "funds", method = POST)
     public String addFund(ModelMap model,
-                          @RequestParam(value = Parameters.OPERATION_ADD_FUNDS, required = false) double amount,
+                          @RequestParam(value = Parameters.OPERATION_ADD_FUNDS, required = false) String addFunds,
                           Locale locale) {
         String pagePath;
         try {
+            double amount = Double.valueOf(addFunds);
             // TODO DTO
             User user = userService.getUserByLogin(principalUtil.getPrincipal());
             Set<Account> accounts = user.getAccounts();
@@ -96,7 +98,7 @@ public class ClientController {
             }
             if (!accountService.checkAccountStatus(accountId)) {
                 if (amount > 0) {
-                    String description = "Платеж"; // TODO вынести
+                    String description = "Пополнение счета"; // TODO вынести
                     accountService.addFunds(user, description, amount);
                     model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.successoperation", null, locale));
                     pagePath = pagePathManager.getProperty(PagePath.CLIENT_FUND_PAGE_PATH);
@@ -110,9 +112,61 @@ public class ClientController {
         } catch (ServiceException e) {
             model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
             pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
-        } catch (NumberFormatException e) {
+        }
+        catch(NumberFormatException e){
             model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.invalidnumberformat", null, locale));
             pagePath = pagePathManager.getProperty(PagePath.CLIENT_FUND_PAGE_PATH);
+        }
+        return pagePath;
+    }
+
+    @RequestMapping(value = "/payments", method = GET)
+    public String showPaymentsPage(){
+        return pagePathManager.getProperty(PagePath.CLIENT_PAYMENT_PAGE_PATH);
+    }
+
+    @RequestMapping(value = "/payments", method = POST)
+    public String payment(ModelMap model,
+                          @RequestParam(value = Parameters.OPERATION_PAYMENT, required = false) String payment,
+                          Locale locale) {
+        String pagePath;
+        try {
+            double amount = Double.valueOf(payment);
+            // TODO DTO
+            User user = userService.getUserByLogin(principalUtil.getPrincipal());
+            Set<Account> accounts = user.getAccounts();
+            Iterator<Account> iterator = accounts.iterator();
+            Long accountId = -1L;
+            while (iterator.hasNext()) {
+                accountId = iterator.next().getId();
+            }
+            if (!accountService.checkAccountStatus(accountId)) {
+                if (amount > 0) {
+                    Account account = accountService.getById(accountId);
+                    if (account.getDeposit() >= amount) {
+                        String description = "Платеж"; // TODO
+                        accountService.payment(user, description, amount);
+                        model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.successoperation", null, locale));
+                        pagePath = pagePathManager.getProperty(PagePath.CLIENT_PAYMENT_PAGE_PATH);
+                    } else {
+                        model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.failedoperation", null, locale));
+                        pagePath = pagePathManager.getProperty(PagePath.CLIENT_PAYMENT_PAGE_PATH);
+                    }
+                } else {
+                    model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.negativeoperator", null, locale));
+                    pagePath = pagePathManager.getProperty(PagePath.CLIENT_PAYMENT_PAGE_PATH);
+                }
+            }
+            else {
+                pagePath = pagePathManager.getProperty(PagePath.CLIENT_BLOCK_PAGE_PATH);
+            }
+        } catch (ServiceException e) {
+            model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
+            pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
+        }
+        catch (NumberFormatException e){
+            model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.invalidnumberformat", null, locale));
+            pagePath = pagePathManager.getProperty(PagePath.CLIENT_PAYMENT_PAGE_PATH);
         }
         return pagePath;
     }
@@ -141,54 +195,6 @@ public class ClientController {
         } catch (ServiceException e) {
             model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
             pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
-        }
-        return pagePath;
-    }
-
-    @RequestMapping(value = "/payments", method = GET)
-    public String showPaymentsPage(){
-        return pagePathManager.getProperty(PagePath.CLIENT_PAYMENT_PAGE_PATH);
-    }
-
-    @RequestMapping(value = "/payments", method = POST)
-    public String payment(ModelMap model,
-                          @RequestParam(value = Parameters.OPERATION_PAYMENT, required = false) double amount,
-                          Locale locale) {
-        String pagePath;
-        try {
-            // TODO DTO
-            User user = userService.getUserByLogin(principalUtil.getPrincipal());
-            Set<Account> accounts = user.getAccounts();
-            Iterator<Account> iterator = accounts.iterator();
-            Long accountId = -1L;
-            while (iterator.hasNext()) {
-                accountId = iterator.next().getId();
-            }
-            if (!accountService.checkAccountStatus(accountId)) {
-                if (amount > 0) {
-                    Account account = accountService.getById(accountId);
-                    if (account.getDeposit() >= amount) {
-                        String description = "Платеж"; // TODO
-                        accountService.payment(user, description, amount);
-                        model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.successoperation", null, locale));
-                        pagePath = pagePathManager.getProperty(PagePath.CLIENT_PAYMENT_PAGE_PATH);
-                    } else {
-                        model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.failedoperation", null, locale));
-                        pagePath = pagePathManager.getProperty(PagePath.CLIENT_PAYMENT_PAGE_PATH);
-                    }
-                } else {
-                    model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.negativeoperator", null, locale));
-                    pagePath = pagePathManager.getProperty(PagePath.CLIENT_PAYMENT_PAGE_PATH);
-                }
-            } else {
-                pagePath = pagePathManager.getProperty(PagePath.CLIENT_BLOCK_PAGE_PATH);
-            }
-        } catch (ServiceException e) {
-            model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
-            pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
-        } catch (NumberFormatException e) {
-            model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.invalidnumberformat", null, locale));
-            pagePath = pagePathManager.getProperty(PagePath.CLIENT_PAYMENT_PAGE_PATH);
         }
         return pagePath;
     }
