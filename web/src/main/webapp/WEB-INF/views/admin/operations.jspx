@@ -56,23 +56,31 @@
                  modelAttribute="filter">
             <table>
                 <tr>
+                    <td><label for="recordsPerPage"><s:message code="page.admin.operations.recordsperpage.title"/></label></td>
+                    <td><label for="ordering"><s:message code="page.admin.operations.ordering.title"/></label></td>
+                    <td><label for="direction"><s:message code="page.admin.operations.direction.title"/></label></td>
+                </tr>
+                <tr>
                     <td>
-                        <sf:input path="currentPage" value="" size="3"/>
-                    </td>
-                    <td>
-                        <sf:select path="recordsPerPage">
+                        <sf:select path="recordsPerPage" id="recordsPerPage">
                             <sf:option value="3">3</sf:option>
                             <sf:option value="5">5</sf:option>
                             <sf:option value="10">10</sf:option>
                         </sf:select>
                     </td>
                     <td>
-                        <sf:select path="ordering">
+                        <sf:select path="ordering" id="ordering">
                             <sf:option value="date"><s:message code="page.admin.operations.order.date"/></sf:option>
                             <sf:option value="description"><s:message code="page.admin.operations.order.description"/></sf:option>
                             <sf:option value="amount"><s:message code="page.admin.operations.order.amount"/></sf:option>
                             <sf:option value="client"><s:message code="page.admin.operations.order.client"/></sf:option>
                             <sf:option value="account"><s:message code="page.admin.operations.order.account"/></sf:option>
+                        </sf:select>
+                    </td>
+                    <td>
+                        <sf:select path="direction" id="direction">
+                            <sf:option value="asc"><s:message code="page.admin.operations.direction.asc"/></sf:option>
+                            <sf:option value="desc"><s:message code="page.admin.operations.direction.desc"/></sf:option>
                         </sf:select>
                     </td>
                 </tr>
