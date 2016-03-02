@@ -5,13 +5,11 @@ package by.pvt.khudnitsky.payments.dao;
 
 import by.pvt.khudnitsky.payments.entities.AbstractEntity;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
-import by.pvt.khudnitsky.payments.utils.HibernateUtil;
 import org.apache.log4j.Logger;
 import org.hibernate.*;
 import org.hibernate.criterion.Projection;
 import org.hibernate.criterion.Projections;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
 import java.util.List;
