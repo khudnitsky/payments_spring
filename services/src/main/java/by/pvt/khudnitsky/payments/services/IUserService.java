@@ -1,8 +1,7 @@
 package by.pvt.khudnitsky.payments.services;
 
-import by.pvt.khudnitsky.payments.entities.Account;
-import by.pvt.khudnitsky.payments.entities.User;
-import by.pvt.khudnitsky.payments.enums.AccessLevelType;
+import by.pvt.khudnitsky.payments.pojos.Account;
+import by.pvt.khudnitsky.payments.pojos.User;
 import by.pvt.khudnitsky.payments.exceptions.ServiceException;
 
 /**

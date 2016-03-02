@@ -1,9 +1,8 @@
 package by.pvt.khudnitsky.payments.utils;
 
-import by.pvt.khudnitsky.payments.authentication.CustomUser;
-import by.pvt.khudnitsky.payments.entities.User;
+import by.pvt.khudnitsky.payments.security.CustomUser;
+import by.pvt.khudnitsky.payments.pojos.User;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 /**

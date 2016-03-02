@@ -1,6 +1,6 @@
 package by.pvt.khudnitsky.payments.services;
 
-import by.pvt.khudnitsky.payments.entities.Currency;
+import by.pvt.khudnitsky.payments.pojos.Currency;
 
 /**
  * Created by: khudnitsky

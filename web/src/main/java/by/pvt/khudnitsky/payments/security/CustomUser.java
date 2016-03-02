@@ -1,7 +1,7 @@
-package by.pvt.khudnitsky.payments.authentication;
+package by.pvt.khudnitsky.payments.security;
 
-import by.pvt.khudnitsky.payments.entities.Account;
-import by.pvt.khudnitsky.payments.entities.User;
+import by.pvt.khudnitsky.payments.pojos.Account;
+import by.pvt.khudnitsky.payments.pojos.User;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;

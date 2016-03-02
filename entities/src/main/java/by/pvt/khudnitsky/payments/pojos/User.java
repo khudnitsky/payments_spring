@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2016, Khudnitsky. All rights reserved.
  */
-package by.pvt.khudnitsky.payments.entities;
+package by.pvt.khudnitsky.payments.pojos;
 
 import org.hibernate.annotations.*;
 import org.hibernate.annotations.Cache;
@@ -10,7 +10,6 @@ import javax.persistence.*;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**

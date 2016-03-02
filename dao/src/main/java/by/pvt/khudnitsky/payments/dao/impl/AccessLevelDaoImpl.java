@@ -2,7 +2,7 @@ package by.pvt.khudnitsky.payments.dao.impl;
 
 import by.pvt.khudnitsky.payments.dao.AbstractDao;
 import by.pvt.khudnitsky.payments.dao.IAccessLevelDao;
-import by.pvt.khudnitsky.payments.entities.AccessLevel;
+import by.pvt.khudnitsky.payments.pojos.AccessLevel;
 import by.pvt.khudnitsky.payments.enums.AccessLevelType;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
 import org.apache.log4j.Logger;

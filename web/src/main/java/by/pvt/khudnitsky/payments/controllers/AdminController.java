@@ -1,8 +1,8 @@
 package by.pvt.khudnitsky.payments.controllers;
 
 import by.pvt.khudnitsky.payments.dto.OperationDTO;
-import by.pvt.khudnitsky.payments.entities.Account;
-import by.pvt.khudnitsky.payments.entities.User;
+import by.pvt.khudnitsky.payments.pojos.Account;
+import by.pvt.khudnitsky.payments.pojos.User;
 import by.pvt.khudnitsky.payments.enums.*;
 import by.pvt.khudnitsky.payments.exceptions.ServiceException;
 import by.pvt.khudnitsky.payments.managers.PagePathManager;
@@ -15,8 +15,6 @@ import by.pvt.khudnitsky.payments.utils.OrderingUtil;
 import by.pvt.khudnitsky.payments.utils.PrincipalUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;

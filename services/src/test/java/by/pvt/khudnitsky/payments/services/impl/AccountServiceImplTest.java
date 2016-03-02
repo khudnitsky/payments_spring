@@ -1,28 +1,20 @@
 package by.pvt.khudnitsky.payments.services.impl;
 
-import by.pvt.khudnitsky.payments.dao.IOperationDao;
-import by.pvt.khudnitsky.payments.entities.*;
-import by.pvt.khudnitsky.payments.enums.AccessLevelType;
+import by.pvt.khudnitsky.payments.pojos.*;
 import by.pvt.khudnitsky.payments.enums.AccountStatusType;
-import by.pvt.khudnitsky.payments.dao.impl.AccountDaoImpl;
 import by.pvt.khudnitsky.payments.enums.CurrencyType;
 import by.pvt.khudnitsky.payments.services.IAccountService;
 import by.pvt.khudnitsky.payments.services.ICurrencyService;
 import by.pvt.khudnitsky.payments.services.IOperationService;
 import by.pvt.khudnitsky.payments.services.IUserService;
 import by.pvt.khudnitsky.payments.utils.EntityBuilder;
-import by.pvt.khudnitsky.payments.dao.impl.UserDaoImpl;
 import org.junit.*;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Copyright (c) 2016, Khudnitsky. All rights reserved.

@@ -1,4 +1,4 @@
-package by.pvt.khudnitsky.payments.entities;
+package by.pvt.khudnitsky.payments.pojos;
 
 import by.pvt.khudnitsky.payments.enums.AccessLevelType;
 

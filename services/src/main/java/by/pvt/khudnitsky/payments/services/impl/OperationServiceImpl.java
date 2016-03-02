@@ -1,25 +1,19 @@
 package by.pvt.khudnitsky.payments.services.impl;
 
 import by.pvt.khudnitsky.payments.dao.IOperationDao;
-import by.pvt.khudnitsky.payments.dao.impl.OperationDaoImpl;
-import by.pvt.khudnitsky.payments.entities.Operation;
+import by.pvt.khudnitsky.payments.pojos.Operation;
 import by.pvt.khudnitsky.payments.dto.OperationDTO;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
 import by.pvt.khudnitsky.payments.exceptions.ServiceException;
 import by.pvt.khudnitsky.payments.services.AbstractService;
 import by.pvt.khudnitsky.payments.services.IOperationService;
-import by.pvt.khudnitsky.payments.utils.TransactionUtil;
 import org.apache.log4j.Logger;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
-import java.io.Serializable;
-import java.sql.SQLException;
 import java.util.List;
 
 /**

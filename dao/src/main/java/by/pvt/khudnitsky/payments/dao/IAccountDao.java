@@ -1,6 +1,6 @@
 package by.pvt.khudnitsky.payments.dao;
 
-import by.pvt.khudnitsky.payments.entities.Account;
+import by.pvt.khudnitsky.payments.pojos.Account;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
 
 import java.util.List;

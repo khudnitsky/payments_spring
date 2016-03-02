@@ -1,9 +1,9 @@
 package by.pvt.khudnitsky.payments.controllers;
 
 import by.pvt.khudnitsky.payments.dto.UserDTO;
-import by.pvt.khudnitsky.payments.entities.Account;
-import by.pvt.khudnitsky.payments.entities.Currency;
-import by.pvt.khudnitsky.payments.entities.User;
+import by.pvt.khudnitsky.payments.pojos.Account;
+import by.pvt.khudnitsky.payments.pojos.Currency;
+import by.pvt.khudnitsky.payments.pojos.User;
 import by.pvt.khudnitsky.payments.enums.*;
 import by.pvt.khudnitsky.payments.exceptions.ServiceException;
 import by.pvt.khudnitsky.payments.managers.PagePathManager;
@@ -17,7 +17,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;

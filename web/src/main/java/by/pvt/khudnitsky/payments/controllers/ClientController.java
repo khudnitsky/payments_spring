@@ -1,8 +1,7 @@
 package by.pvt.khudnitsky.payments.controllers;
 
-import by.pvt.khudnitsky.payments.entities.Account;
-import by.pvt.khudnitsky.payments.entities.User;
-import by.pvt.khudnitsky.payments.enums.AccessLevelType;
+import by.pvt.khudnitsky.payments.pojos.Account;
+import by.pvt.khudnitsky.payments.pojos.User;
 import by.pvt.khudnitsky.payments.enums.PagePath;
 import by.pvt.khudnitsky.payments.enums.Parameters;
 import by.pvt.khudnitsky.payments.exceptions.ServiceException;
@@ -20,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
-import javax.servlet.http.HttpSession;
-import java.util.DoubleSummaryStatistics;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Set;

@@ -1,7 +1,5 @@
 package by.pvt.khudnitsky.payments.dto;
 
-import by.pvt.khudnitsky.payments.entities.Currency;
-
 import javax.validation.constraints.*;
 
 /**

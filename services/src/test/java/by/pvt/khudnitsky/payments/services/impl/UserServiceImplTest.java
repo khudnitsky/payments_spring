@@ -1,7 +1,6 @@
 package by.pvt.khudnitsky.payments.services.impl;
 
-import by.pvt.khudnitsky.payments.dao.impl.*;
-import by.pvt.khudnitsky.payments.entities.*;
+import by.pvt.khudnitsky.payments.pojos.*;
 import by.pvt.khudnitsky.payments.enums.AccessLevelType;
 import by.pvt.khudnitsky.payments.enums.AccountStatusType;
 import by.pvt.khudnitsky.payments.enums.CurrencyType;
@@ -12,12 +11,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Copyright (c) 2016, Khudnitsky. All rights reserved.

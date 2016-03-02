@@ -3,7 +3,7 @@
  */
 package by.pvt.khudnitsky.payments.utils;
 
-import by.pvt.khudnitsky.payments.entities.*;
+import by.pvt.khudnitsky.payments.pojos.*;
 import by.pvt.khudnitsky.payments.enums.AccessLevelType;
 import by.pvt.khudnitsky.payments.enums.AccountStatusType;
 import by.pvt.khudnitsky.payments.enums.CurrencyType;
@@ -12,7 +12,7 @@ import java.util.Calendar;
 import java.util.Set;
 
 /**
- * Utility class for entities buildings
+ * Utility class for pojos buildings
  * @author khudnitsky
  * @version 1.0
  */

@@ -3,7 +3,7 @@
  */
 package by.pvt.khudnitsky.payments.dao;
 
-import by.pvt.khudnitsky.payments.entities.AbstractEntity;
+import by.pvt.khudnitsky.payments.pojos.AbstractEntity;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
 import org.apache.log4j.Logger;
 import org.hibernate.*;

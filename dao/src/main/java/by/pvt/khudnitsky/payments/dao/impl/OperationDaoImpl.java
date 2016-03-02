@@ -7,7 +7,7 @@ import java.util.List;
 
 import by.pvt.khudnitsky.payments.dao.AbstractDao;
 import by.pvt.khudnitsky.payments.dao.IOperationDao;
-import by.pvt.khudnitsky.payments.entities.Operation;
+import by.pvt.khudnitsky.payments.pojos.Operation;
 import by.pvt.khudnitsky.payments.dto.OperationDTO;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
 import org.apache.log4j.Logger;

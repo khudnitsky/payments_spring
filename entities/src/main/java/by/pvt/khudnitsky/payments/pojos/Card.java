@@ -1,10 +1,9 @@
 /**
  * Copyright (c) 2016, Khudnitsky. All rights reserved.
  */
-package by.pvt.khudnitsky.payments.entities;
+package by.pvt.khudnitsky.payments.pojos;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.util.Calendar;
 
 /**

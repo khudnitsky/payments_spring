@@ -1,6 +1,6 @@
 package by.pvt.khudnitsky.payments.services;
 
-import by.pvt.khudnitsky.payments.entities.AccessLevel;
+import by.pvt.khudnitsky.payments.pojos.AccessLevel;
 
 /**
  * Created by: khudnitsky

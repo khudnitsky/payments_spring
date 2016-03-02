@@ -2,9 +2,7 @@ package by.pvt.khudnitsky.payments.dao.impl;
 
 import by.pvt.khudnitsky.payments.dao.AbstractDao;
 import by.pvt.khudnitsky.payments.dao.ICurrencyDao;
-import by.pvt.khudnitsky.payments.entities.AccessLevel;
-import by.pvt.khudnitsky.payments.entities.Currency;
-import by.pvt.khudnitsky.payments.enums.AccessLevelType;
+import by.pvt.khudnitsky.payments.pojos.Currency;
 import by.pvt.khudnitsky.payments.enums.CurrencyType;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
 import org.apache.log4j.Logger;

@@ -1,6 +1,6 @@
 package by.pvt.khudnitsky.payments.dao;
 
-import by.pvt.khudnitsky.payments.entities.UserDetail;
+import by.pvt.khudnitsky.payments.pojos.UserDetail;
 
 /**
  * Created by: khudnitsky

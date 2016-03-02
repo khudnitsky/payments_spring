@@ -1,6 +1,6 @@
 package by.pvt.khudnitsky.payments.dao;
 
-import by.pvt.khudnitsky.payments.entities.User;
+import by.pvt.khudnitsky.payments.pojos.User;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
 
 /**

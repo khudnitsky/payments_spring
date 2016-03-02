@@ -26,7 +26,7 @@
         <authentication-provider user-service-ref="authenticationService"/>
     </authentication-manager>
 
-    <beans:bean id="authenticationService" class="by.pvt.khudnitsky.payments.authentication.AuthenticationService"/>
-    <beans:bean id="authenticationSuccessHandler" class="by.pvt.khudnitsky.payments.authentication.AuthenticationSuccessHandlerImpl"/>
+    <beans:bean id="authenticationService" class="by.pvt.khudnitsky.payments.security.AuthenticationService"/>
+    <beans:bean id="authenticationSuccessHandler" class="by.pvt.khudnitsky.payments.security.AuthenticationSuccessHandlerImpl"/>
 
 </beans:beans>

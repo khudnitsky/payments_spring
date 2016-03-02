@@ -1,6 +1,6 @@
 package by.pvt.khudnitsky.payments.dao;
 
-import by.pvt.khudnitsky.payments.entities.Currency;
+import by.pvt.khudnitsky.payments.pojos.Currency;
 import by.pvt.khudnitsky.payments.enums.CurrencyType;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
 

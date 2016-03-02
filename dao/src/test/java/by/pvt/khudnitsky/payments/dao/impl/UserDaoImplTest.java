@@ -1,7 +1,7 @@
 package by.pvt.khudnitsky.payments.dao.impl;
 
 import by.pvt.khudnitsky.payments.dao.*;
-import by.pvt.khudnitsky.payments.entities.*;
+import by.pvt.khudnitsky.payments.pojos.*;
 import by.pvt.khudnitsky.payments.enums.AccessLevelType;
 import by.pvt.khudnitsky.payments.enums.AccountStatusType;
 import by.pvt.khudnitsky.payments.enums.CurrencyType;

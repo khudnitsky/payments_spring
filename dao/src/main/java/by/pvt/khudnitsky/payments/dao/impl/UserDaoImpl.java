@@ -7,8 +7,7 @@ import java.util.List;
 
 import by.pvt.khudnitsky.payments.dao.AbstractDao;
 import by.pvt.khudnitsky.payments.dao.IUserDao;
-import by.pvt.khudnitsky.payments.entities.User;
-import by.pvt.khudnitsky.payments.enums.AccessLevelType;
+import by.pvt.khudnitsky.payments.pojos.User;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;

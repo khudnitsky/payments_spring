@@ -1,6 +1,6 @@
 package by.pvt.khudnitsky.payments.services;
 
-import by.pvt.khudnitsky.payments.entities.AbstractEntity;
+import by.pvt.khudnitsky.payments.pojos.AbstractEntity;
 import by.pvt.khudnitsky.payments.exceptions.ServiceException;
 
 import java.io.Serializable;

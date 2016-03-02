@@ -1,6 +1,6 @@
 package by.pvt.khudnitsky.payments.services;
 
-import by.pvt.khudnitsky.payments.entities.Card;
+import by.pvt.khudnitsky.payments.pojos.Card;
 
 /**
  * Created by: khudnitsky

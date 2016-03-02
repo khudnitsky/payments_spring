@@ -1,4 +1,4 @@
-package by.pvt.khudnitsky.payments.authentication;
+package by.pvt.khudnitsky.payments.security;
 
 import org.apache.log4j.Logger;
 import org.springframework.security.core.Authentication;

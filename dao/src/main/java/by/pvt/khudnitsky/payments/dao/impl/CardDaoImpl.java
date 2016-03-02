@@ -5,7 +5,7 @@ package by.pvt.khudnitsky.payments.dao.impl;
 
 import by.pvt.khudnitsky.payments.dao.AbstractDao;
 import by.pvt.khudnitsky.payments.dao.ICardDao;
-import by.pvt.khudnitsky.payments.entities.Card;
+import by.pvt.khudnitsky.payments.pojos.Card;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

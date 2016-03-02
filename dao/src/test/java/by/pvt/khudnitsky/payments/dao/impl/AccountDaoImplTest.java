@@ -4,7 +4,7 @@ import by.pvt.khudnitsky.payments.dao.IAccountDao;
 import by.pvt.khudnitsky.payments.dao.ICurrencyDao;
 import by.pvt.khudnitsky.payments.dao.IUserDao;
 import by.pvt.khudnitsky.payments.dao.IUserDetailDao;
-import by.pvt.khudnitsky.payments.entities.*;
+import by.pvt.khudnitsky.payments.pojos.*;
 import by.pvt.khudnitsky.payments.enums.AccountStatusType;
 import by.pvt.khudnitsky.payments.enums.CurrencyType;
 import by.pvt.khudnitsky.payments.utils.EntityBuilder;

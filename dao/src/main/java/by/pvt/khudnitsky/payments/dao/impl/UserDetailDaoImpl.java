@@ -2,7 +2,7 @@ package by.pvt.khudnitsky.payments.dao.impl;
 
 import by.pvt.khudnitsky.payments.dao.AbstractDao;
 import by.pvt.khudnitsky.payments.dao.IUserDetailDao;
-import by.pvt.khudnitsky.payments.entities.UserDetail;
+import by.pvt.khudnitsky.payments.pojos.UserDetail;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;

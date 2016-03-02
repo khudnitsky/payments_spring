@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2016, Khudnitsky. All rights reserved.
  */
-package by.pvt.khudnitsky.payments.entities;
+package by.pvt.khudnitsky.payments.pojos;
 
 import org.hibernate.annotations.GenericGenerator;
 

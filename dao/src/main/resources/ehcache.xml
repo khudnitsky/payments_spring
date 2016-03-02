@@ -25,7 +25,7 @@
             eternal="true">
     </cache>
 
-    <cache name="by.pvt.khudnitsky.payments.entities.User"
+    <cache name="by.pvt.khudnitsky.payments.pojos.User"
            eternal="false"
            maxElementsInMemory="2"
            overflowToDisk="false"

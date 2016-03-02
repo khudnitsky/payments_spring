@@ -1,7 +1,7 @@
 package by.pvt.khudnitsky.payments.services;
 
 import by.pvt.khudnitsky.payments.dao.IDao;
-import by.pvt.khudnitsky.payments.entities.AbstractEntity;
+import by.pvt.khudnitsky.payments.pojos.AbstractEntity;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
 import by.pvt.khudnitsky.payments.exceptions.ServiceException;
 import org.apache.log4j.Logger;
