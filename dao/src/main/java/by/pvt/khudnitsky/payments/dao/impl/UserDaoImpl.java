@@ -45,7 +45,7 @@ public class UserDaoImpl extends AbstractDao<User> implements IUserDao{
         try {
             Session session = getCurrentSession();
             Query query = session.createQuery(GET_ALL_CLIENTS);
-            //query.setCacheable(true);
+            query.setCacheable(true);
             //query.setParameter("accessLevelType", AccessLevelType.CLIENT);
             results = query.list();
         }
