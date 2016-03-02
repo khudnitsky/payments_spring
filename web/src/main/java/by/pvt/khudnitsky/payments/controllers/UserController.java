@@ -42,42 +42,9 @@ public class UserController {
         return pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
     }
 
-//    @RequestMapping(value = "/login", method = RequestMethod.POST)
-//    public String loginUser(@RequestParam(Parameters.USER_LOGIN) String login,
-//                            @RequestParam(Parameters.USER_PASSWORD) String password,
-//                            Locale locale,
-//                            ModelMap model,
-//                            HttpSession session) {
-//        String pagePath;
-//        try {
-//            if(userService.checkUserAuthorization(login, password)){
-//                User user = userService.getUserByLogin(login);
-//                AccessLevelType accessLevelType = userService.checkAccessLevel(user);
-//                session.setAttribute(Parameters.USER, user);
-//                session.setAttribute(Parameters.USERTYPE, accessLevelType);       // TODO УБрать, там уже есть user
-//                if(AccessLevelType.CLIENT.equals(accessLevelType)){
-//                    pagePath = pagePathManager.getProperty(PagePath.CLIENT_PAGE_PATH);
-//                }
-//                else{
-//                    pagePath = pagePathManager.getProperty(PagePath.ADMIN_PAGE_PATH);
-//                }
-//            }
-//            else{
-//                model.addAttribute(Parameters.WRONG_LOGIN_OR_PASSWORD, messageSource.getMessage("message.loginerror", null, locale));
-//                pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
-//            }
-//        }
-//        catch (ServiceException e) {
-//            model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
-//            pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
-//        }
-//        return pagePath;
-//    }
-
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public String logoutUser(HttpSession session) {
+    public String logoutUser() {
         String pagePath = "redirect: " + pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
-        session.invalidate();
         return pagePath;
     }
 
