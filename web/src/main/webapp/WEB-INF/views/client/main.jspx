@@ -9,7 +9,7 @@
           version="2.0">
     <div class="content">
         <br/>
-        <h2 align="left">${user}</h2>
+        <h2 align="left">${user.firstName} ${user.lastName}</h2>
         <h3 align="left"><s:message code="page.client.main.banner"/> </h3>
     </div>
 </jsp:root>

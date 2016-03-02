@@ -8,7 +8,7 @@
           xmlns="http://www.w3.org/1999/xhtml"
           version="2.0" >
     <div class="content">
-        <h3>${user}</h3>
+        <h3>${user.firstName} ${user.lastName}</h3>
         <s:message code="page.client.block.banner"/>
     </div>
 </jsp:root>

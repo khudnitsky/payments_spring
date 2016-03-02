@@ -26,15 +26,16 @@ function validateForm()
 	var templateAccountNumber = /^[0-9]{1,10}$/;
 
 
-	if(getCookie('LocaleCookie') == 'ru'){
-		emptyField = "Поле не заполнено";
-		notEqualsPasswords = "Пароли не совпадают";
-		invalidSymbols = "Недопустимые символы ";
-	}
 	if(getCookie('LocaleCookie') == 'en'){
 		emptyField = "Fields are empty";
 		notEqualsPasswords = "Passwords mismatch";
 		invalidSymbols = "Invalid symbols";
+	}
+
+	else{
+		emptyField = "Поле не заполнено";
+		notEqualsPasswords = "Пароли не совпадают";
+		invalidSymbols = "Недопустимые символы ";
 	}
 
 	// проверка заполненности полей

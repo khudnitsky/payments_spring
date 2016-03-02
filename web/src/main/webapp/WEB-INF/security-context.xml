@@ -10,15 +10,15 @@
     <http auto-config="true">
         <intercept-url pattern="/" access="permitAll"/>
         <intercept-url pattern="/home" access="permitAll"/>
-        <intercept-url pattern="/login" access="permitAll"/>
         <intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMINISTRATOR')"/>
         <intercept-url pattern="/client/**" access="hasRole('ROLE_CLIENT')"/>
-        <form-login login-page="/"
+        <form-login login-page="/login"
                     username-parameter="login"
                     password-parameter="password"
-                    login-processing-url="/login"
                     authentication-success-handler-ref="authenticationSuccessHandler"
                     authentication-failure-url="/logout"/>
+        <logout logout-url="/logout"
+                invalidate-session="true"/>
         <csrf/>
     </http>
 

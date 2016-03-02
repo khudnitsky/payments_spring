@@ -7,9 +7,10 @@
           xmlns:s="http://www.springframework.org/tags"
           xmlns="http://www.w3.org/1999/xhtml"
           version="2.0">
+
     <div class="content">
         <br/>
-        <h2 align="left">${user}</h2>
+        <h2 align="left">${user.firstName} ${user.lastName}</h2>
         <h3 align="left"><s:message code="page.admin.main.banner"/></h3>
     </div>
 </jsp:root>

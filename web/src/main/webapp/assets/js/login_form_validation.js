@@ -8,11 +8,11 @@ function validateForm()
 
 	var text = "" + "<br>";
 
-	if(getCookie('LocaleCookie') == 'ru'){
-		text = "Поле не заполнено";
-	}
 	if(getCookie('LocaleCookie') == 'en'){
 		text = "Field is empty";
+	}
+	else {
+		text = "Поле не заполнено";
 	}
 
 	// проверка заполненности полей
