@@ -30,7 +30,7 @@ public class AuthenticationService implements UserDetailsService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
+    public CustomUser loadUserByUsername(String login) throws UsernameNotFoundException {
         User user = null;
         try {
             user = userService.getUserByLogin(login);
@@ -41,16 +41,10 @@ public class AuthenticationService implements UserDetailsService {
         catch (ServiceException e) {
             e.printStackTrace();
         }
-        return new org.springframework.security.core.userdetails.User(
-                user.getLogin(),
-                user.getPassword(),
-                true,
-                true,
-                true,
-                true,
-                getGrantedAuthorities(user)
-        );
+        return new CustomUser(user, true, true, true, true, getGrantedAuthorities(user));
     }
+
+
 
 
     private List<GrantedAuthority> getGrantedAuthorities(User user) {

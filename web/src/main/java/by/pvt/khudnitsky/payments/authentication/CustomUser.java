@@ -36,4 +36,8 @@ public class CustomUser extends org.springframework.security.core.userdetails.Us
     public Set<Account> getUserAccounts() {
         return user.getAccounts();
     }
+
+    public String getUserLogin(){
+        return user.getLogin();
+    }
 }

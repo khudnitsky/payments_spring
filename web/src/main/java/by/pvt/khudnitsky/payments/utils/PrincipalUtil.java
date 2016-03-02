@@ -1,5 +1,7 @@
 package by.pvt.khudnitsky.payments.utils;
 
+import by.pvt.khudnitsky.payments.authentication.CustomUser;
+import by.pvt.khudnitsky.payments.entities.User;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -12,15 +14,19 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PrincipalUtil {
-    public String getPrincipal(){
-        String userName;
+    public User getPrincipal(){
+        User user = new User();
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        if (principal instanceof UserDetails) {
-            userName = ((UserDetails)principal).getUsername();
+        if (principal instanceof CustomUser) {
+            user.setFirstName(((CustomUser) principal).getUserFirstName());
+            user.setLastName(((CustomUser) principal).getUserLastName());
+            user.setAccounts(((CustomUser) principal).getUserAccounts());
+            user.setLogin(((CustomUser) principal).getUserLogin());
         } else {
-            userName = principal.toString();
+            user = new User();
+            user.setFirstName("Anonymous");
         }
-        return userName;
+        return user;
     }
 }

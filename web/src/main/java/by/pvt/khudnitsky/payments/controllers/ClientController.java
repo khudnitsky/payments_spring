@@ -57,7 +57,7 @@ public class ClientController {
         String pagePath;
         try {
             // TODO DTO
-            User user = userService.getUserByLogin(principalUtil.getPrincipal());
+            User user = userService.getUserByLogin(principalUtil.getPrincipal().getLogin());
             Set<Account> accounts = user.getAccounts();
             Iterator<Account> iterator = accounts.iterator();
             Long accountId = -1L;
@@ -65,6 +65,7 @@ public class ClientController {
                 accountId = iterator.next().getId();
             }
             Account account = accountService.getById(accountId);
+            model.addAttribute(Parameters.USER, principalUtil.getPrincipal());
             model.addAttribute(Parameters.OPERATION_BALANCE, account.getDeposit());
             model.addAttribute(Parameters.ACCOUNT_CURRENCY, account.getCurrency().getCurrencyType());
             pagePath = pagePathManager.getProperty(PagePath.CLIENT_BALANCE_PAGE_PATH);
@@ -89,7 +90,7 @@ public class ClientController {
         try {
             double amount = Double.valueOf(addFunds);
             // TODO DTO
-            User user = userService.getUserByLogin(principalUtil.getPrincipal());
+            User user = userService.getUserByLogin(principalUtil.getPrincipal().getLogin());
             Set<Account> accounts = user.getAccounts();
             Iterator<Account> iterator = accounts.iterator();
             Long accountId = -1L;
@@ -133,7 +134,7 @@ public class ClientController {
         try {
             double amount = Double.valueOf(payment);
             // TODO DTO
-            User user = userService.getUserByLogin(principalUtil.getPrincipal());
+            User user = userService.getUserByLogin(principalUtil.getPrincipal().getLogin());
             Set<Account> accounts = user.getAccounts();
             Iterator<Account> iterator = accounts.iterator();
             Long accountId = -1L;
@@ -178,7 +179,7 @@ public class ClientController {
         String description = "Блокировка счета";   // TODO
         try {
             // TODO DTO
-            User user = userService.getUserByLogin(principalUtil.getPrincipal());
+            User user = userService.getUserByLogin(principalUtil.getPrincipal().getLogin());
             Set<Account> accounts = user.getAccounts();
             Iterator<Account> iterator = accounts.iterator();
             Long accountId = -1L;
@@ -187,6 +188,7 @@ public class ClientController {
             }
             if (!accountService.checkAccountStatus(accountId)) {
                 accountService.blockAccount(user, description);
+                model.addAttribute(Parameters.USER, principalUtil.getPrincipal());
                 model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.successoperation", null, locale));
                 pagePath = pagePathManager.getProperty(PagePath.CLIENT_BLOCK_PAGE_PATH);
             } else {
