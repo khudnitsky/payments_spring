@@ -89,7 +89,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registrateUser(@ModelAttribute("newUser") @Valid UserDTO userDTO,
+    public String registrateUser(@ModelAttribute(Parameters.NEW_USER) @Valid UserDTO userDTO,
                                  Locale locale,
                                  BindingResult bindingResult,
                                  ModelMap model) {
@@ -100,14 +100,10 @@ public class UserController {
                 User user = EntityBuilder.buildUser(userDTO.getFirstName(), userDTO.getLastName(), userDTO.getLogin(), userDTO.getPassword_1(), null, null, null);
                 Currency currency = EntityBuilder.buildCurrency(CurrencyType.valueOf(userDTO.getCurrency()));
                 Account account = EntityBuilder.buildAccount(userDTO.getAccountNumber(), 0D, AccountStatusType.UNBLOCKED, currency, user);
-                user.addAccount(account);
-                user.addAccessLevel(EntityBuilder.buildAccessLevel(AccessLevelType.CLIENT));
-
-                if (userService.checkIsNewUser(user.getLogin())) {
+                if (userService.checkIsNewUser(user.getLogin(), account.getAccountNumber())) {
                     userService.bookUser(user, account);
                     model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.successoperation", null, locale));
                     pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
-                    //pagePath = pagePathManager.getProperty(PagePath.REGISTRATION_PAGE_PATH);
                 } else {
                     model.addAttribute(Parameters.ERROR_USER_EXISTS, messageSource.getMessage("message.userexsistserror", null, locale));
                     pagePath = pagePathManager.getProperty(PagePath.REGISTRATION_PAGE_PATH);
@@ -127,6 +123,3 @@ public class UserController {
         return pagePath;
     }
 }
-
-
-//?useEncoding=yes&amp;characterEncoding=UTF-8

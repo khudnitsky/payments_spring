@@ -1,6 +1,8 @@
 package by.pvt.khudnitsky.payments.dao;
 
 import by.pvt.khudnitsky.payments.entities.Currency;
+import by.pvt.khudnitsky.payments.enums.CurrencyType;
+import by.pvt.khudnitsky.payments.exceptions.DaoException;
 
 /**
  * Created by: khudnitsky
@@ -8,4 +10,5 @@ import by.pvt.khudnitsky.payments.entities.Currency;
  * Time: 19:42
  */
 public interface ICurrencyDao extends IDao<Currency> {
+    Currency getByCurrencyType(CurrencyType currencyType) throws DaoException;
 }

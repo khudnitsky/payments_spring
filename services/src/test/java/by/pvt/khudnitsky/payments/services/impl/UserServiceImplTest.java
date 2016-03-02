@@ -50,6 +50,7 @@ public class UserServiceImplTest {
     private Serializable operationId;
     private Serializable userId;
     private Serializable currencyId;
+    private Long accountNumber;
 
     @Before
     public void setUp() throws Exception {
@@ -59,12 +60,9 @@ public class UserServiceImplTest {
         userDetail = EntityBuilder.buildUserDetail(address);
         expectedUser = EntityBuilder.buildUser("TEST", "TEST", "TEST", "TEST", userDetail, null, null);
 
-        expectedUser.addAccessLevel(accessLevel);
-        accessLevel.addUser(expectedUser);
-
         currency = EntityBuilder.buildCurrency(CurrencyType.BYR);
-        account = EntityBuilder.buildAccount(1000L, 200D, AccountStatusType.UNBLOCKED, currency, expectedUser);
-        expectedUser.addAccount(account);
+        accountNumber = 1000L;
+        account = EntityBuilder.buildAccount(accountNumber, 200D, AccountStatusType.UNBLOCKED, null, null);
 
         operation = EntityBuilder.buildOperation(200D, "TEST", Calendar.getInstance(), expectedUser, account);
         expectedUser.addOperation(operation);
@@ -135,7 +133,7 @@ public class UserServiceImplTest {
     @Test
     public void testCheckIsNewUser() throws Exception {
         boolean expected = false;
-        boolean actual = userService.checkIsNewUser(expectedUser.getLogin());
+        boolean actual = userService.checkIsNewUser(expectedUser.getLogin(), accountNumber);
         delete();
         Assert.assertEquals(new Boolean(expected), new Boolean(actual));
     }
@@ -161,6 +159,7 @@ public class UserServiceImplTest {
         operationId = null;
         userId = null;
         currencyId = null;
+        accountNumber = null;
     }
 
     private void persistEntities() throws Exception {

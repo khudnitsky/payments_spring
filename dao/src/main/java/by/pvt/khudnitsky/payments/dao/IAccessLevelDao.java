@@ -1,6 +1,8 @@
 package by.pvt.khudnitsky.payments.dao;
 
 import by.pvt.khudnitsky.payments.entities.AccessLevel;
+import by.pvt.khudnitsky.payments.enums.AccessLevelType;
+import by.pvt.khudnitsky.payments.exceptions.DaoException;
 
 /**
  * Created by: khudnitsky
@@ -8,4 +10,5 @@ import by.pvt.khudnitsky.payments.entities.AccessLevel;
  * Time: 19:42
  */
 public interface IAccessLevelDao extends IDao<AccessLevel> {
+    AccessLevel getByAccessLevelType(AccessLevelType accessLevelType) throws DaoException;
 }

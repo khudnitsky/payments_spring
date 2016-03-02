@@ -7,6 +7,7 @@ import by.pvt.khudnitsky.payments.dao.IUserDao;
 import by.pvt.khudnitsky.payments.dao.impl.AccessLevelDaoImpl;
 import by.pvt.khudnitsky.payments.dao.impl.CurrencyDaoImpl;
 import by.pvt.khudnitsky.payments.entities.AccessLevel;
+import by.pvt.khudnitsky.payments.entities.Currency;
 import by.pvt.khudnitsky.payments.enums.AccessLevelType;
 import by.pvt.khudnitsky.payments.dao.impl.AccountDaoImpl;
 import by.pvt.khudnitsky.payments.dao.impl.UserDaoImpl;
@@ -108,10 +109,12 @@ public class UserServiceImpl extends AbstractService<User> implements IUserServi
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-    public boolean checkIsNewUser(String login) throws ServiceException {
+    public boolean checkIsNewUser(String login, Long accountNumber) throws ServiceException {
         boolean isNew = false;
         try {
-            if((userDao.getByLogin(login) == null) /*& (user.getAccounts() == null)*/){
+            User user = userDao.getByLogin(login);
+            Account account = accountDao.getByNumber(accountNumber);
+            if((user == null) & (account == null)){
                 isNew = true;
             }
             logger.info(TRANSACTION_SUCCEEDED);
@@ -128,14 +131,16 @@ public class UserServiceImpl extends AbstractService<User> implements IUserServi
     @Override
     public void bookUser(User user, Account account) throws ServiceException {
         try {
-            AccessLevel accessLevel = new AccessLevel();
+            AccessLevel accessLevel = accessLevelDao.getByAccessLevelType(AccessLevelType.CLIENT);
+            Currency currency = currencyDao.getByCurrencyType(account.getCurrency().getCurrencyType());
+            currency.addAccount(account);
+            account.setCurrency(currency);
             user.addAccount(account);
             account.setUser(user);
-            accessLevel.setAccessLevelType(AccessLevelType.CLIENT);
             user.addAccessLevel(accessLevel);
             accessLevel.addUser(user);
             accessLevelDao.save(accessLevel);
-            currencyDao.save(account.getCurrency());
+            currencyDao.save(currency);
             userDao.save(user);
             accountDao.save(account);
             logger.info(TRANSACTION_SUCCEEDED);
@@ -144,7 +149,6 @@ public class UserServiceImpl extends AbstractService<User> implements IUserServi
         }
         catch (DaoException e) {
             logger.error(TRANSACTION_FAILED, e);
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(TRANSACTION_FAILED + e);
         }
     }
