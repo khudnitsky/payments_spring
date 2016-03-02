@@ -70,7 +70,7 @@
                     <tr>
                         <td><s:message code="page.common.currency"/></td>
                         <td>
-                            <sf:radiobutton path="currency" value="BYR"/>BYR
+                            <sf:radiobutton path="currency" value="BYR" checked="checked"/>BYR
                             <sf:radiobutton path="currency" value="USD"/>USD
                             <sf:radiobutton path="currency" value="EUR"/>EUR
                             <br/>

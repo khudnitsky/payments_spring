@@ -12,7 +12,7 @@
                 <tr>
                     <td style="padding: 5px;">
                         <a href="?locale=ru">
-                            <img src="../../../assets/img/locale_ru.png"
+                            <img src="${pageContext.request.contextPath}/assets/img/locale_ru.png"
                                  height="20"
                                  width="20"
                                  style="display:block;"
@@ -21,7 +21,7 @@
                     </td>
                     <td style="padding: 5px;">
                         <a href="?locale=en">
-                            <img src="../../../assets/img/locale_en.png"
+                            <img src="${pageContext.request.contextPath}/assets/img/locale_en.png"
                                  height="20"
                                  width="20"
                                  style="display:block;"
@@ -32,8 +32,8 @@
             </table>
         </div>
         <p align="center">
-            <a href="/home">
-                <img src="../../../assets/img/main_logo_3.png"
+            <a href="${pageContext.request.contextPath}/home">
+                <img src="${pageContext.request.contextPath}/assets/img/main_logo_3.png"
                      alt="logo"
                      name="Insert_logo"
                      height="120"

@@ -10,11 +10,11 @@
     <div class="sidebar">
         <br/>
         <ul class="nav">
-            <li><a href="/client/balance"><s:message code="page.client.sidebar.balance"/></a></li>
-            <li><a href="/client/payments"><s:message code="page.client.sidebar.payments"/></a></li>
-            <li><a href="/client/funds"><s:message code="page.client.sidebar.funds"/></a></li>
-            <li><a href="/client/block"><s:message code="page.client.sidebar.block"/></a></li>
-            <li><a href="/logout"><s:message code="page.common.sidebar.logout"/></a></li>
+            <li><a href="${pageContext.request.contextPath}/client/balance"><s:message code="page.client.sidebar.balance"/></a></li>
+            <li><a href="${pageContext.request.contextPath}/client/payments"><s:message code="page.client.sidebar.payments"/></a></li>
+            <li><a href="${pageContext.request.contextPath}/client/funds"><s:message code="page.client.sidebar.funds"/></a></li>
+            <li><a href="${pageContext.request.contextPath}/client/block"><s:message code="page.client.sidebar.block"/></a></li>
+            <li><a href="${pageContext.request.contextPath}/logout"><s:message code="page.common.sidebar.logout"/></a></li>
         </ul>
     </div>
 </jsp:root>

@@ -19,15 +19,23 @@
     <jsp:directive.page pageEncoding="UTF-8" contentType="text/html; UTF-8"/>
 
     <head>
-        <![CDATA[
-                <link href="../assets/css/index/page_style.css" rel="stylesheet" type="text/css">
-                <link href="../assets/css/logo_style.css" rel="stylesheet" type="text/css">
-                <link href="../assets/css/button_style.css" rel="stylesheet" type="text/css">
-                <link href="../assets/css/input_style.css" rel="stylesheet" type="text/css">
-                <link href="../assets/css/index/sidebar_style.css" rel="stylesheet" type="text/css">
-                <script type="text/javascript" src="../assets/js/login_form_validation.js"><jsp:text/></script>
-                <script type="text/javascript" src="../assets/js/clear_result.js"><jsp:text/></script>
-            ]]>
+        <link href="${pageContext.request.contextPath}/assets/css/index/page_style.css" rel="stylesheet" type="text/css"/>
+        <link href="${pageContext.request.contextPath}/assets/css/logo_style.css" rel="stylesheet" type="text/css"/>
+        <link href="${pageContext.request.contextPath}/assets/css/button_style.css" rel="stylesheet" type="text/css"/>
+        <link href="${pageContext.request.contextPath}/assets/css/input_style.css" rel="stylesheet" type="text/css"/>
+        <link href="${pageContext.request.contextPath}/assets/css/index/sidebar_style.css" rel="stylesheet" type="text/css"/>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/login_form_validation.js"><jsp:text/></script>
+        <script type="text/javascript" src="${pageContext.request.contextPath}/assets/js/clear_result.js"><jsp:text/></script>
+
+        <!--<![CDATA[-->
+                <!--<link href="../assets/css/index/page_style.css" rel="stylesheet" type="text/css">-->
+                <!--<link href="../assets/css/logo_style.css" rel="stylesheet" type="text/css">-->
+                <!--<link href="../assets/css/button_style.css" rel="stylesheet" type="text/css">-->
+                <!--<link href="../assets/css/input_style.css" rel="stylesheet" type="text/css">-->
+                <!--<link href="../assets/css/index/sidebar_style.css" rel="stylesheet" type="text/css">-->
+                <!--<script type="text/javascript" src="../assets/js/login_form_validation.js"><jsp:text/></script>-->
+                <!--<script type="text/javascript" src="../assets/js/clear_result.js"><jsp:text/></script>-->
+            <!--]]>-->
 
         <c:set var="title"><tiles:getAsString name="title"/></c:set>
         <title><s:message code="${title}"/> </title>

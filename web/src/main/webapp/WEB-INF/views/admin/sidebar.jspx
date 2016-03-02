@@ -10,10 +10,10 @@
     <div class="sidebar">
         <br/>
         <ul class="nav">
-            <li><a href="/admin/clients"><s:message code="page.admin.sidebar.clients"/></a></li>
-            <li><a href="/admin/operations"><s:message code="page.admin.sidebar.operations"/></a></li>
-            <li><a href="/admin/unblock"><s:message code="page.admin.sidebar.unblock"/></a></li>
-            <li><a href="/logout"><s:message code="page.common.sidebar.logout"/></a></li>
+            <li><a href="${pageContext.request.contextPath}/admin/clients"><s:message code="page.admin.sidebar.clients"/></a></li>
+            <li><a href="${pageContext.request.contextPath}/admin/operations"><s:message code="page.admin.sidebar.operations"/></a></li>
+            <li><a href="${pageContext.request.contextPath}/admin/unblock"><s:message code="page.admin.sidebar.unblock"/></a></li>
+            <li><a href="${pageContext.request.contextPath}/logout"><s:message code="page.common.sidebar.logout"/></a></li>
         </ul>
     </div>
 </jsp:root>

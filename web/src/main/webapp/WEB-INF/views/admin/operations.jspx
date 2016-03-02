@@ -42,7 +42,7 @@
                             <td>${i}</td>
                         </c:when>
                         <c:otherwise>
-                            <td><a href="/admin/operations?currentPage=${i}">${i}</a></td>
+                            <td><a href="${pageContext.request.contextPath}/admin/operations?currentPage=${i}">${i}</a></td>
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
