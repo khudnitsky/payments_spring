@@ -49,12 +49,14 @@ public class AccountServiceImplTest {
     private Serializable userId;
     private Serializable currencyId;
     private Serializable accountId;
+    private Long accountNumber;
 
     @Before
     public void setUp() throws Exception {
         user = EntityBuilder.buildUser("TEST", "TEST", "TEST", "TEST", null, null, null);
         currency = EntityBuilder.buildCurrency(CurrencyType.BYR);
-        expectedAccount = EntityBuilder.buildAccount(1000L, 200D, AccountStatusType.UNBLOCKED, currency, user);
+        accountNumber = 1000L;
+        expectedAccount = EntityBuilder.buildAccount(accountNumber, 200D, AccountStatusType.UNBLOCKED, currency, user);
         user.addAccount(expectedAccount);
         persistEntities();
     }
@@ -116,7 +118,7 @@ public class AccountServiceImplTest {
     @Test
     public void testUpdateAccountStatus() throws Exception {
         user.setId((Long) userId);
-        accountService.updateAccountStatus((Long) accountId, AccountStatusType.BLOCKED);
+        accountService.updateAccountStatus(accountNumber, AccountStatusType.BLOCKED);
         AccountStatusType expected = AccountStatusType.BLOCKED;
         AccountStatusType actual = accountService.getById((Long) accountId).getAccountStatus();
         delete();
@@ -148,6 +150,7 @@ public class AccountServiceImplTest {
         userId = null;
         currencyId = null;
         accountId = null;
+        accountNumber = null;
     }
 
     private void persistEntities() throws Exception {

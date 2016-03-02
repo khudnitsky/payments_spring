@@ -13,7 +13,7 @@ import by.pvt.khudnitsky.payments.exceptions.ServiceException;
 public interface IUserService extends IService<User>{
     boolean checkUserAuthorization(String login, String password) throws ServiceException;
     User getUserByLogin(String login) throws ServiceException;
-    AccessLevelType checkAccessLevel(User user) throws ServiceException;
+   //AccessLevelType checkAccessLevel(User user) throws ServiceException;
     boolean checkIsNewUser(String login, Long accountNumber) throws ServiceException;
     void bookUser(User user, Account account) throws ServiceException;
 }

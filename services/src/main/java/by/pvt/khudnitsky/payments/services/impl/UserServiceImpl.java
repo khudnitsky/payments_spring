@@ -88,24 +88,24 @@ public class UserServiceImpl extends AbstractService<User> implements IUserServi
         return user;
     }
 
-    @Override
-    @Transactional(propagation = Propagation.NEVER)
-    public AccessLevelType checkAccessLevel(User user) throws ServiceException{
-        AccessLevel accessLevel = new AccessLevel();
-        accessLevel.setAccessLevelType(AccessLevelType.CLIENT);
-        Set<AccessLevel> accessLevels = user.getAccessLevels();
-        Iterator<AccessLevel> iterator = accessLevels.iterator();
-        while (iterator.hasNext()) {
-            if((iterator.next()).getAccessLevelType().equals(AccessLevelType.CLIENT)){
-                accessLevel.setAccessLevelType(AccessLevelType.CLIENT);
-            }
-            else {
-                accessLevel.setAccessLevelType(AccessLevelType.ADMINISTRATOR);
-            }
-        }
-        return accessLevel.getAccessLevelType();
-        //TODO сделать множественность ролей
-    }
+//    @Override
+//    @Transactional(propagation = Propagation.NEVER)
+//    public AccessLevelType checkAccessLevel(User user) throws ServiceException{
+//        AccessLevel accessLevel = new AccessLevel();
+//        accessLevel.setAccessLevelType(AccessLevelType.CLIENT);
+//        Set<AccessLevel> accessLevels = user.getAccessLevels();
+//        Iterator<AccessLevel> iterator = accessLevels.iterator();
+//        while (iterator.hasNext()) {
+//            if((iterator.next()).getAccessLevelType().equals(AccessLevelType.CLIENT)){
+//                accessLevel.setAccessLevelType(AccessLevelType.CLIENT);
+//            }
+//            else {
+//                accessLevel.setAccessLevelType(AccessLevelType.ADMINISTRATOR);
+//            }
+//        }
+//        return accessLevel.getAccessLevelType();
+//        //TODO сделать множественность ролей
+//    }
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
