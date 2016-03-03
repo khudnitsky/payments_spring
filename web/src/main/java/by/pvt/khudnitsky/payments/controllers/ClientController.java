@@ -80,7 +80,7 @@ public class ClientController {
         return pagePathManager.getProperty(PagePath.CLIENT_FUND_PAGE_PATH);
     }
 
-    @RequestMapping(value = "funds", method = POST)
+    @RequestMapping(value = "/funds", method = POST)
     public String addFund(ModelMap model,
                           @RequestParam(value = Parameters.OPERATION_ADD_FUNDS, required = false) String addFunds,
                           Locale locale) {
