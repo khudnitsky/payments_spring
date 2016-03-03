@@ -61,6 +61,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
     protected String determineTargetUrl(Authentication authentication) {
         boolean isClient = false;
         boolean isAdmin = false;
+        boolean isSuperAdmin = false;
         String pagePath;
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
@@ -68,17 +69,22 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
             if (grantedAuthority.getAuthority().equals(WebConstants.ROLE_CLIENT)) {
                 isClient = true;
                 break;
-            } else if (grantedAuthority.getAuthority().equals(WebConstants.ROLE_ADMINISTRATOR)) {
+            }
+            else if (grantedAuthority.getAuthority().equals(WebConstants.ROLE_ADMINISTRATOR)) {
                 isAdmin = true;
                 break;
             }
+            else if (grantedAuthority.getAuthority().equals(WebConstants.ROLE_SUPER_ADMIN)) {
+                isSuperAdmin = true;
+                break;
+            }
+
         }
         if (isClient) {
             pagePath = "/" + pagePathManager.getProperty(PagePath.CLIENT_PAGE_PATH);
-        } else if (isAdmin) {
+        } else if (isAdmin || isSuperAdmin) {
             pagePath = "/" + pagePathManager.getProperty(PagePath.ADMIN_PAGE_PATH);
         } else {
-//            throw new IllegalStateException();
             pagePath = /*"/" + */pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
         }
         return pagePath;

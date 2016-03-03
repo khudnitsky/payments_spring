@@ -18,7 +18,7 @@ public class AccessLevel extends AbstractEntity {
     private static final long serialVersionUID = 8L;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "enum('CLIENT', 'ADMINISTRATOR', 'CLIENT_BLOCKED')")
+    @Column(columnDefinition = "enum('CLIENT', 'ADMINISTRATOR', 'SUPER_ADMIN', 'CLIENT_BLOCKED')")
     public AccessLevelType getAccessLevelType() {
         return accessLevelType;
     }

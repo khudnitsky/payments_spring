@@ -54,6 +54,22 @@ public class AccountServiceImpl extends AbstractService<Account> implements IAcc
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public Account getByAccountNumber(Long accountNumber) throws ServiceException {
+        Account account;
+        try {
+            account = accountDao.getByNumber(accountNumber);
+            logger.info(ServiceConstants.TRANSACTION_SUCCEEDED);
+            logger.info(account);
+        }
+        catch (DaoException e) {
+            logger.error(ServiceConstants.TRANSACTION_FAILED, e);
+            throw new ServiceException(ServiceConstants.TRANSACTION_FAILED + e);
+        }
+        return account;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public List<Account> getBlockedAccounts() throws ServiceException {
         List<Account> accounts;
         try {
@@ -63,7 +79,6 @@ public class AccountServiceImpl extends AbstractService<Account> implements IAcc
         }
         catch (DaoException e) {
             logger.error(ServiceConstants.TRANSACTION_FAILED, e);
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(ServiceConstants.TRANSACTION_FAILED + e);
         }
         return accounts;
@@ -89,7 +104,6 @@ public class AccountServiceImpl extends AbstractService<Account> implements IAcc
         }
         catch (DaoException e) {
             logger.error(ServiceConstants.TRANSACTION_FAILED, e);
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(ServiceConstants.TRANSACTION_FAILED + e);
         }
     }
@@ -104,7 +118,6 @@ public class AccountServiceImpl extends AbstractService<Account> implements IAcc
         }
         catch (DaoException e) {
             logger.error(ServiceConstants.TRANSACTION_FAILED, e);
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(ServiceConstants.TRANSACTION_FAILED + e);
         }
         return isBlocked;
@@ -128,7 +141,6 @@ public class AccountServiceImpl extends AbstractService<Account> implements IAcc
         }
         catch (DaoException e) {
             logger.error(ServiceConstants.TRANSACTION_FAILED, e);
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(ServiceConstants.TRANSACTION_FAILED + e);
         }
     }
@@ -155,7 +167,6 @@ public class AccountServiceImpl extends AbstractService<Account> implements IAcc
         }
         catch (DaoException e) {
             logger.error(ServiceConstants.TRANSACTION_FAILED, e);
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(ServiceConstants.TRANSACTION_FAILED + e);
         }
     }
@@ -178,7 +189,6 @@ public class AccountServiceImpl extends AbstractService<Account> implements IAcc
         }
         catch (DaoException e) {
             logger.error(ServiceConstants.TRANSACTION_FAILED, e);
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             throw new ServiceException(ServiceConstants.TRANSACTION_FAILED + e);
         }
     }

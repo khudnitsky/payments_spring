@@ -81,8 +81,22 @@ public class ClientController {
     }
 
     @RequestMapping(value = "/funds", method = GET)
-    public String showFundsPage(){
-        return pagePathManager.getProperty(PagePath.CLIENT_FUND_PAGE_PATH);
+    public String showFundsPage(ModelMap model,
+                                Locale locale){
+        String pagePath;
+        try {
+            User user = userService.getUserByLogin(principalUtil.getPrincipal().getLogin());
+            AccessLevel accessLevel = accessLevelService.getByAccessLevelType(AccessLevelType.CLIENT_BLOCKED);
+            if(!user.getAccessLevels().contains(accessLevel)){
+                pagePath = pagePathManager.getProperty(PagePath.CLIENT_FUND_PAGE_PATH);
+            } else {
+                pagePath = pagePathManager.getProperty(PagePath.CLIENT_BLOCK_PAGE_PATH);
+            }
+        } catch (ServiceException e) {
+            model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
+            pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
+        }
+        return pagePath;
     }
 
     @RequestMapping(value = "/funds", method = POST)
@@ -124,8 +138,22 @@ public class ClientController {
     }
 
     @RequestMapping(value = "/payments", method = GET)
-    public String showPaymentsPage(){
-        return pagePathManager.getProperty(PagePath.CLIENT_PAYMENT_PAGE_PATH);
+    public String showPaymentsPage(ModelMap model,
+                                   Locale locale){
+        String pagePath;
+        try {
+            User user = userService.getUserByLogin(principalUtil.getPrincipal().getLogin());
+            AccessLevel accessLevel = accessLevelService.getByAccessLevelType(AccessLevelType.CLIENT_BLOCKED);
+            if(!user.getAccessLevels().contains(accessLevel)){
+                pagePath = pagePathManager.getProperty(PagePath.CLIENT_PAYMENT_PAGE_PATH);
+            } else {
+                pagePath = pagePathManager.getProperty(PagePath.CLIENT_BLOCK_PAGE_PATH);
+            }
+        } catch (ServiceException e) {
+            model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
+            pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
+        }
+        return pagePath;
     }
 
     @RequestMapping(value = "/payments", method = POST)
@@ -195,32 +223,4 @@ public class ClientController {
         }
         return pagePath;
     }
-
-//    @RequestMapping(value = "/block", method = GET)
-//    public String blockAccount(ModelMap model,
-//                               Locale locale) {
-//        String pagePath;
-//        String description = WebConstants.OPERATION_BLOCK;
-//        try {
-//            User user = userService.getUserByLogin(principalUtil.getPrincipal().getLogin());
-//            Set<Account> accounts = user.getAccounts();
-//            Iterator<Account> iterator = accounts.iterator();
-//            Long accountId = -1L;
-//            while (iterator.hasNext()) {
-//                accountId = iterator.next().getId();
-//            }
-//            if (!accountService.checkAccountStatus(accountId)) {
-//                accountService.blockAccount(user, description);
-//                model.addAttribute(Parameters.USER, principalUtil.getPrincipal());
-//                model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.successoperation", null, locale));
-//                pagePath = pagePathManager.getProperty(PagePath.CLIENT_BLOCK_PAGE_PATH);
-//            } else {
-//                pagePath = pagePathManager.getProperty(PagePath.CLIENT_BLOCK_PAGE_PATH);
-//            }
-//        } catch (ServiceException e) {
-//            model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
-//            pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
-//        }
-//        return pagePath;
-//    }
 }

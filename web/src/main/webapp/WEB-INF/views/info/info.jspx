@@ -9,7 +9,6 @@
           version="2.0">
     <div class="content">
         <br/>
-        <p><s:message code="page.error.message"/></p>
-        <p>${errorDatabase} </p>
+        <p><s:message code="page.info.message"/></p>
     </div>
 </jsp:root>

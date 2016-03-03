@@ -9,6 +9,6 @@ package by.pvt.khudnitsky.payments.enums;
  * @version 1.0
  */
 public enum AccessLevelType {
-    CLIENT, ADMINISTRATOR, CLIENT_BLOCKED;
+    CLIENT, ADMINISTRATOR, CLIENT_BLOCKED, SUPER_ADMIN;
 }
 

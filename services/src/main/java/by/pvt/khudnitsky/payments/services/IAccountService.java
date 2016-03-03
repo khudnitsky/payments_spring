@@ -15,6 +15,14 @@ import java.util.List;
  */
 public interface IAccountService extends IService<Account>{
     /**
+     * Gets account by it's number
+     * @param accountNumber account number
+     * @return account
+     * @throws ServiceException
+     */
+    Account getByAccountNumber(Long accountNumber) throws ServiceException;
+
+    /**
      * Gets list of blocked accounts
      * @return list of blocked accounts
      * @throws ServiceException

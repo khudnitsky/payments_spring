@@ -5,6 +5,7 @@
 -->
 <jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
           xmlns:s="http://www.springframework.org/tags"
+          xmlns:sec="http://www.springframework.org/security/tags"
           xmlns="http://www.w3.org/1999/xhtml"
           version="2.0">
     <div class="sidebar">
@@ -12,7 +13,9 @@
         <ul class="nav">
             <li><a href="${pageContext.request.contextPath}/admin/clients"><s:message code="page.admin.sidebar.clients"/></a></li>
             <li><a href="${pageContext.request.contextPath}/admin/operations"><s:message code="page.admin.sidebar.operations"/></a></li>
-            <li><a href="${pageContext.request.contextPath}/admin/unblock"><s:message code="page.admin.sidebar.unblock"/></a></li>
+            <sec:authorize access="hasRole('ROLE_SUPER_ADMIN')">
+                <li><a href="${pageContext.request.contextPath}/admin/unblock"><s:message code="page.admin.sidebar.unblock"/></a></li>
+            </sec:authorize>
             <li><a href="${pageContext.request.contextPath}/logout"><s:message code="page.common.sidebar.logout"/></a></li>
         </ul>
     </div>

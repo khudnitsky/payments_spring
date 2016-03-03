@@ -95,6 +95,7 @@ public class AccountServiceImplTest {
         Assert.assertEquals(expected, actual, 0.01);
     }
 
+    @Ignore
     @Test
     public void testBlockAccount() throws Exception {
         user.setId((Long) userId);
@@ -124,12 +125,6 @@ public class AccountServiceImplTest {
         Boolean actual = accountService.checkAccountStatus((Long) accountId);
         delete();
         Assert.assertEquals(expected, actual);
-    }
-
-    @Ignore
-    @Test
-    public void testGetBlockedAccounts() throws Exception {
-
     }
 
     @After
