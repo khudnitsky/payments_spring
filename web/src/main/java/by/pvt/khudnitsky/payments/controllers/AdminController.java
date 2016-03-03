@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
+ * Admin Controller
  * Created by: khudnitsky
  * Date: 23.02.2016
  * Time: 14:13
@@ -102,13 +103,11 @@ public class AdminController {
 
     @RequestMapping(value = "/unblock", method = RequestMethod.GET)
     public String showUnblockPage(ModelMap model,
-                                  Locale locale,
-                                  HttpSession session){
+                                  Locale locale){
         String pagePath;
         try {
             List<Account> list = accountService.getBlockedAccounts();
             model.addAttribute(Parameters.ACCOUNTS_LIST, list);
-            //session.setAttribute(Parameters.ACCOUNTS_LIST, accountService.getBlockedAccounts());
             pagePath = pagePathManager.getProperty(PagePath.ADMIN_UNBLOCK_PAGE);
         }
         catch (ServiceException e) {

@@ -1,5 +1,6 @@
 package by.pvt.khudnitsky.payments.controllers;
 
+import by.pvt.khudnitsky.payments.constants.WebConstants;
 import by.pvt.khudnitsky.payments.pojos.Account;
 import by.pvt.khudnitsky.payments.pojos.User;
 import by.pvt.khudnitsky.payments.enums.PagePath;
@@ -24,6 +25,7 @@ import java.util.Locale;
 import java.util.Set;
 
 /**
+ * Client Controller
  * Created by: khudnitsky
  * Date: 23.02.2016
  * Time: 14:14
@@ -53,7 +55,6 @@ public class ClientController {
                               Locale locale) {
         String pagePath;
         try {
-            // TODO DTO
             User user = userService.getUserByLogin(principalUtil.getPrincipal().getLogin());
             Set<Account> accounts = user.getAccounts();
             Iterator<Account> iterator = accounts.iterator();
@@ -86,7 +87,6 @@ public class ClientController {
         String pagePath;
         try {
             double amount = Double.valueOf(addFunds);
-            // TODO DTO
             User user = userService.getUserByLogin(principalUtil.getPrincipal().getLogin());
             Set<Account> accounts = user.getAccounts();
             Iterator<Account> iterator = accounts.iterator();
@@ -96,7 +96,7 @@ public class ClientController {
             }
             if (!accountService.checkAccountStatus(accountId)) {
                 if (amount > 0) {
-                    String description = "Пополнение счета"; // TODO вынести
+                    String description = WebConstants.OPERATION_ADD_FUND;
                     accountService.addFunds(user, description, amount);
                     model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.successoperation", null, locale));
                     pagePath = pagePathManager.getProperty(PagePath.CLIENT_FUND_PAGE_PATH);
@@ -142,7 +142,7 @@ public class ClientController {
                 if (amount > 0) {
                     Account account = accountService.getById(accountId);
                     if (account.getDeposit() >= amount) {
-                        String description = "Платеж"; // TODO
+                        String description = WebConstants.OPERATION_PAYMENT;
                         accountService.payment(user, description, amount);
                         model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.successoperation", null, locale));
                         pagePath = pagePathManager.getProperty(PagePath.CLIENT_PAYMENT_PAGE_PATH);
@@ -173,9 +173,8 @@ public class ClientController {
     public String blockAccount(ModelMap model,
                                Locale locale) {
         String pagePath;
-        String description = "Блокировка счета";   // TODO
+        String description = WebConstants.OPERATION_BLOCK;
         try {
-            // TODO DTO
             User user = userService.getUserByLogin(principalUtil.getPrincipal().getLogin());
             Set<Account> accounts = user.getAccounts();
             Iterator<Account> iterator = accounts.iterator();

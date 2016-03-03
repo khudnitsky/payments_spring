@@ -15,6 +15,8 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
 /**
+ * Encoding filter
+ * Encodes into UTF-8
  * @author khudnitsky
  * @version 1.0
  *

@@ -1,6 +1,7 @@
 package by.pvt.khudnitsky.payments.utils;
 
 /**
+ * Defines request parameters
  * Created by: khudnitsky
  * Date: 23.02.2016
  * Time: 15:53

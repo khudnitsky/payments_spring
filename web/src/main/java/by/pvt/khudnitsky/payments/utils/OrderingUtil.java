@@ -1,6 +1,7 @@
 package by.pvt.khudnitsky.payments.utils;
 
 /**
+ * Fill the pagination filter
  * Created by: khudnitsky
  * Date: 27.02.2016
  * Time: 0:14
@@ -16,6 +17,11 @@ public class OrderingUtil {
 
     private OrderingUtil(){}
 
+    /**
+     * Defines ordering type
+     * @param ordering - ordering type
+     * @return order by string
+     */
     public static String defineOrderingType(String ordering){
         String oderBy;
         switch (ordering) {
@@ -37,6 +43,11 @@ public class OrderingUtil {
         return oderBy;
     }
 
+    /**
+     * Defines ordering direction
+     * @param direction - ordering direction
+     * @return order
+     */
     public static String defineOrderingDirection(String direction){
         String oderDirection;
         switch (direction) {

@@ -8,6 +8,8 @@ import java.util.Collection;
 import java.util.Set;
 
 /**
+ * Wrapper-class on User
+ * Added additional information about user
  * Created by: khudnitsky
  * Date: 02.03.2016
  * Time: 12:18

@@ -9,6 +9,7 @@ import by.pvt.khudnitsky.payments.enums.ConfigConstant;
 import org.springframework.stereotype.Component;
 
 /**
+ * PathPageManager
  * @author khudnitsky
  * @version 1.0
  *

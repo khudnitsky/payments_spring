@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.Collection;
 
 /**
+ * Success Authentication Handler
  * Created by: khudnitsky
  * Date: 01.03.2016
  * Time: 13:19

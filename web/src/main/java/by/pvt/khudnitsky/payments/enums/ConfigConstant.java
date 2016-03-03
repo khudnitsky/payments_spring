@@ -10,7 +10,6 @@ package by.pvt.khudnitsky.payments.enums;
  */
 public class ConfigConstant {
     public static final String CONFIGS_SOURCE = "configs";
-    public static final String MESSAGES_SOURCE = "messages";
 
     private ConfigConstant(){}
 }

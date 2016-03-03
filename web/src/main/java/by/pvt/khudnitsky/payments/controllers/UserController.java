@@ -23,6 +23,7 @@ import javax.validation.Valid;
 import java.util.Locale;
 
 /**
+ * User Controller
  * Created by: khudnitsky
  * Date: 22.02.2016
  * Time: 11:39
@@ -44,7 +45,7 @@ public class UserController {
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public String logoutUser() {
-        String pagePath = "redirect: " + pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
+        String pagePath = /*"redirect: " + */pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
         return pagePath;
     }
 
@@ -79,7 +80,7 @@ public class UserController {
                 model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
                 pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
             }
-            catch (NullPointerException e) {  // TODO исправить
+            catch (NullPointerException e) {
                 pagePath = pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
             }
         }

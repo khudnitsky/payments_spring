@@ -1,5 +1,6 @@
 package by.pvt.khudnitsky.payments.security;
 
+import by.pvt.khudnitsky.payments.constants.WebConstants;
 import by.pvt.khudnitsky.payments.pojos.AccessLevel;
 import by.pvt.khudnitsky.payments.pojos.User;
 import by.pvt.khudnitsky.payments.exceptions.ServiceException;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Authentication manager
  * Created by: khudnitsky
  * Date: 29.02.2016
  * Time: 15:18
@@ -34,7 +36,7 @@ public class AuthenticationService implements UserDetailsService {
         try {
             user = userService.getUserByLogin(login);
             if (user == null) {
-                throw new UsernameNotFoundException("User not found");
+                throw new UsernameNotFoundException(WebConstants.USER_NOT_FOUND);
             }
         }
         catch (ServiceException e) {
@@ -50,7 +52,7 @@ public class AuthenticationService implements UserDetailsService {
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         for (AccessLevel access : user.getAccessLevels()) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + access.getAccessLevelType().toString()));
+            authorities.add(new SimpleGrantedAuthority(WebConstants.ROLE_PREFIX + access.getAccessLevelType().toString()));
         }
         return authorities;
     }
