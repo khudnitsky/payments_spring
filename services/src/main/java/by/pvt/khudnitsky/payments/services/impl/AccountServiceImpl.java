@@ -1,8 +1,12 @@
 package by.pvt.khudnitsky.payments.services.impl;
 
 import by.pvt.khudnitsky.payments.constants.ServiceConstants;
+import by.pvt.khudnitsky.payments.dao.IAccessLevelDao;
 import by.pvt.khudnitsky.payments.dao.IAccountDao;
 import by.pvt.khudnitsky.payments.dao.IOperationDao;
+import by.pvt.khudnitsky.payments.dao.IUserDao;
+import by.pvt.khudnitsky.payments.enums.AccessLevelType;
+import by.pvt.khudnitsky.payments.pojos.AccessLevel;
 import by.pvt.khudnitsky.payments.pojos.Account;
 import by.pvt.khudnitsky.payments.pojos.Operation;
 import by.pvt.khudnitsky.payments.pojos.User;
@@ -36,6 +40,10 @@ public class AccountServiceImpl extends AbstractService<Account> implements IAcc
 
     @Autowired
     private IOperationDao operationDao;
+    @Autowired
+    private IUserDao userDao;
+    @Autowired
+    private IAccessLevelDao accessLevelDao;
     private IAccountDao accountDao;
 
     @Autowired
@@ -67,6 +75,16 @@ public class AccountServiceImpl extends AbstractService<Account> implements IAcc
             Account account = accountDao.getByNumber(accountNumber);
             account.setAccountStatus(status);
             accountDao.update(account);
+            AccessLevel accessLevel = accessLevelDao.getByAccessLevelType(AccessLevelType.CLIENT_BLOCKED);
+            User user = account.getUser();
+            Set<AccessLevel> accessLevels = user.getAccessLevels();
+            Iterator<AccessLevel> iterator = accessLevels.iterator();
+            while (iterator.hasNext()){
+                if(iterator.next().equals(accessLevel)){
+                    iterator.remove();
+                }
+            }
+            userDao.update(user);
             logger.info(ServiceConstants.TRANSACTION_SUCCEEDED);
         }
         catch (DaoException e) {
@@ -97,7 +115,6 @@ public class AccountServiceImpl extends AbstractService<Account> implements IAcc
         try {
             Operation operation = EntityBuilder.buildOperation(user, description, amount);
             operationDao.save(operation);
-            // TODO сделать множественность счетов
             Set<Account> accounts = user.getAccounts();
             Long accountId = 0L;
             Iterator<Account> iterator = accounts.iterator();
@@ -121,13 +138,16 @@ public class AccountServiceImpl extends AbstractService<Account> implements IAcc
         try {
             Operation operation = EntityBuilder.buildOperation(user, description, 0D);
             operationDao.save(operation);
-            // TODO сделать множественность счетов
             Set<Account> accounts = user.getAccounts();
             Long accountId = 0L;
             Iterator<Account> iterator = accounts.iterator();
             while (iterator.hasNext()){
                 accountId = iterator.next().getId();
             }
+            AccessLevel accessLevel = accessLevelDao.getByAccessLevelType(AccessLevelType.CLIENT_BLOCKED);
+            user.addAccessLevel(accessLevel);
+            userDao.update(user);
+
             Account account = accountDao.getById(accountId);
             account.setAccountStatus(AccountStatusType.BLOCKED);
             accountDao.update(account);
@@ -145,7 +165,6 @@ public class AccountServiceImpl extends AbstractService<Account> implements IAcc
         try {
             Operation operation = EntityBuilder.buildOperation(user, description, amount);
             operationDao.save(operation);
-            // TODO сделать множественность счетов
             Set<Account> accounts = user.getAccounts();
             Long accountId = 0L;
             Iterator<Account> iterator = accounts.iterator();

@@ -70,7 +70,7 @@ public class User extends AbstractEntity {
     }
     private UserDetail userDetail;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public Set<Account> getAccounts() {
         return accounts;
     }
@@ -88,7 +88,7 @@ public class User extends AbstractEntity {
     }
     private Set<Operation> operations;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(
             name = "T_USER_ACCESS_LEVEL",
             joinColumns = @JoinColumn(name = "F_USER_ID"),

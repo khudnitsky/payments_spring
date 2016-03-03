@@ -1,12 +1,15 @@
 package by.pvt.khudnitsky.payments.controllers;
 
 import by.pvt.khudnitsky.payments.constants.WebConstants;
+import by.pvt.khudnitsky.payments.enums.AccessLevelType;
+import by.pvt.khudnitsky.payments.pojos.AccessLevel;
 import by.pvt.khudnitsky.payments.pojos.Account;
 import by.pvt.khudnitsky.payments.pojos.User;
 import by.pvt.khudnitsky.payments.enums.PagePath;
 import by.pvt.khudnitsky.payments.enums.Parameters;
 import by.pvt.khudnitsky.payments.exceptions.ServiceException;
 import by.pvt.khudnitsky.payments.managers.PagePathManager;
+import by.pvt.khudnitsky.payments.services.IAccessLevelService;
 import by.pvt.khudnitsky.payments.services.IAccountService;
 import by.pvt.khudnitsky.payments.services.IUserService;
 import by.pvt.khudnitsky.payments.utils.PrincipalUtil;
@@ -37,6 +40,8 @@ public class ClientController {
     private IUserService userService;
     @Autowired
     private IAccountService accountService;
+    @Autowired
+    private IAccessLevelService accessLevelService;
     @Autowired
     private PagePathManager pagePathManager;
     @Autowired
@@ -175,13 +180,8 @@ public class ClientController {
         String description = WebConstants.OPERATION_BLOCK;
         try {
             User user = userService.getUserByLogin(principalUtil.getPrincipal().getLogin());
-            Set<Account> accounts = user.getAccounts();
-            Iterator<Account> iterator = accounts.iterator();
-            Long accountId = -1L;
-            while (iterator.hasNext()) {
-                accountId = iterator.next().getId();
-            }
-            if (!accountService.checkAccountStatus(accountId)) {
+            AccessLevel accessLevel = accessLevelService.getByAccessLevelType(AccessLevelType.CLIENT_BLOCKED);
+            if(!user.getAccessLevels().contains(accessLevel)){
                 accountService.blockAccount(user, description);
                 model.addAttribute(Parameters.USER, principalUtil.getPrincipal());
                 model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.successoperation", null, locale));
@@ -195,4 +195,32 @@ public class ClientController {
         }
         return pagePath;
     }
+
+//    @RequestMapping(value = "/block", method = GET)
+//    public String blockAccount(ModelMap model,
+//                               Locale locale) {
+//        String pagePath;
+//        String description = WebConstants.OPERATION_BLOCK;
+//        try {
+//            User user = userService.getUserByLogin(principalUtil.getPrincipal().getLogin());
+//            Set<Account> accounts = user.getAccounts();
+//            Iterator<Account> iterator = accounts.iterator();
+//            Long accountId = -1L;
+//            while (iterator.hasNext()) {
+//                accountId = iterator.next().getId();
+//            }
+//            if (!accountService.checkAccountStatus(accountId)) {
+//                accountService.blockAccount(user, description);
+//                model.addAttribute(Parameters.USER, principalUtil.getPrincipal());
+//                model.addAttribute(Parameters.OPERATION_MESSAGE, messageSource.getMessage("message.successoperation", null, locale));
+//                pagePath = pagePathManager.getProperty(PagePath.CLIENT_BLOCK_PAGE_PATH);
+//            } else {
+//                pagePath = pagePathManager.getProperty(PagePath.CLIENT_BLOCK_PAGE_PATH);
+//            }
+//        } catch (ServiceException e) {
+//            model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));
+//            pagePath = pagePathManager.getProperty(PagePath.ERROR_PAGE_PATH);
+//        }
+//        return pagePath;
+//    }
 }
