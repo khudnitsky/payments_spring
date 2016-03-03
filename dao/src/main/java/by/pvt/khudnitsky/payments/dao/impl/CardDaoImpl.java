@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
+ * DID NOT REALIZED
  * @author khudnitsky
  * @version 1.0
  *

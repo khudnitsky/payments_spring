@@ -7,6 +7,7 @@ import java.util.List;
 
 import by.pvt.khudnitsky.payments.dao.AbstractDao;
 import by.pvt.khudnitsky.payments.dao.IOperationDao;
+import by.pvt.khudnitsky.payments.dao.constants.Constants;
 import by.pvt.khudnitsky.payments.pojos.Operation;
 import by.pvt.khudnitsky.payments.dto.OperationDTO;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
@@ -18,26 +19,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
+ * Implementation of IOperationDao interface
  * @author khudnitsky
  * @version 1.0
- *
  */
 
 @Repository
 public class OperationDaoImpl extends AbstractDao<Operation> implements IOperationDao{
     private static Logger logger = Logger.getLogger(OperationDaoImpl.class);
-    private String message;
-    private final String DELETE_BY_ACCOUNT_ID = "delete from Operation as o where o.account.id = :accountId";
-    private final String GET_OPERATIONS = "select o.F_DATE as operationDate, " +
-                                        "o.F_DESCRIPTION as description, " +
-                                        "o.F_AMOUNT as amount, " +
-                                        "u.F_LASTNAME as userLastName, " +
-                                        "a.F_ACCOUNTNUMBER as accountNumber " +
-                                        "from t_operation as o " +
-                                        "inner join t_user as u " +
-                                        "on o.F_USER_ID=u.F_ID " +
-                                        "inner join t_account as a " +
-                                        "on o.F_ACCOUNT_ID=a.F_ID ";
 
     @Autowired
     private OperationDaoImpl(SessionFactory sessionFactory){
@@ -48,14 +37,13 @@ public class OperationDaoImpl extends AbstractDao<Operation> implements IOperati
     public void deleteByAccountId(Long id) throws DaoException {
         try {
             Session session = getCurrentSession();
-            Query query = session.createQuery(DELETE_BY_ACCOUNT_ID);
-            query.setParameter("accountId", id);
+            Query query = session.createQuery(Constants.HQL_DELETE_BY_ACCOUNT_ID);
+            query.setParameter(Constants.PARAMETER_ACCOUNT_ID, id);
             query.executeUpdate();
         }
         catch(HibernateException e){
-            message = "Unable to delete the operation. Error was thrown in DAO: ";
-            logger.error(message + e);
-            throw new DaoException(message, e);
+            logger.error(Constants.ERROR_OPERATION_DELETE + e);
+            throw new DaoException(Constants.ERROR_OPERATION_DELETE, e);
         }
     }
 
@@ -64,12 +52,12 @@ public class OperationDaoImpl extends AbstractDao<Operation> implements IOperati
         List<OperationDTO> list;
         try {
             Session session = getCurrentSession();
-            SQLQuery query = session.createSQLQuery(GET_OPERATIONS + sorting);
-            query.addScalar("operationDate", StandardBasicTypes.STRING);
-            query.addScalar("description", StandardBasicTypes.STRING);
-            query.addScalar("amount", StandardBasicTypes.DOUBLE);
-            query.addScalar("userLastName", StandardBasicTypes.STRING);
-            query.addScalar("accountNumber", StandardBasicTypes.LONG);
+            SQLQuery query = session.createSQLQuery(Constants.SQL_GET_OPERATIONS + sorting);
+            query.addScalar(Constants.PARAMETER_OPERATION_DATE, StandardBasicTypes.STRING);
+            query.addScalar(Constants.PARAMETER_OPERATION_DESCRIPTION, StandardBasicTypes.STRING);
+            query.addScalar(Constants.PARAMETER_OPERATION_AMOUNT, StandardBasicTypes.DOUBLE);
+            query.addScalar(Constants.PARAMETER_USER_LAST_NAME, StandardBasicTypes.STRING);
+            query.addScalar(Constants.PARAMETER_ACCOUNT_NUMBER, StandardBasicTypes.LONG);
             query.setResultTransformer(new ResultTransformer() {
                 @Override
                 public Object transformTuple(Object[] tuple, String[] aliases) {
@@ -91,9 +79,8 @@ public class OperationDaoImpl extends AbstractDao<Operation> implements IOperati
             query.setMaxResults(recordsPerPage);
             list = query.list();
         } catch (HibernateException e) {
-            message = "Unable to get list of operations. Error was thrown in DAO: ";
-            logger.error(message + e);
-            throw new DaoException(message, e);
+            logger.error(Constants.ERROR_OPERATIONS_LIST + e);
+            throw new DaoException(Constants.ERROR_OPERATIONS_LIST, e);
         }
         return list;
     }

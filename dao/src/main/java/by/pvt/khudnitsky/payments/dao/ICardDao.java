@@ -3,6 +3,7 @@ package by.pvt.khudnitsky.payments.dao;
 import by.pvt.khudnitsky.payments.pojos.Card;
 
 /**
+ * DID NOT REALIZED
  * Created by: khudnitsky
  * Date: 06.02.2016
  * Time: 18:55

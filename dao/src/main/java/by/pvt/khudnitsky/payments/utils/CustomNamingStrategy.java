@@ -3,6 +3,7 @@ package by.pvt.khudnitsky.payments.utils;
 import org.hibernate.cfg.DefaultNamingStrategy;
 
 /**
+ * Utilite class, used foe automatic naming of tables and columns in DB
  * Created by: khudnitsky
  * Date: 05.02.2016
  * Time: 16:22

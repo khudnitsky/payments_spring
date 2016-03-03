@@ -5,6 +5,7 @@ package by.pvt.khudnitsky.payments.dao.impl;
 
 import by.pvt.khudnitsky.payments.dao.AbstractDao;
 import by.pvt.khudnitsky.payments.dao.IAccountDao;
+import by.pvt.khudnitsky.payments.dao.constants.Constants;
 import by.pvt.khudnitsky.payments.pojos.Account;
 import by.pvt.khudnitsky.payments.enums.AccountStatusType;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
@@ -27,57 +28,44 @@ import java.util.List;
 @Repository
 public class AccountDaoImpl extends AbstractDao<Account> implements IAccountDao{
     private static Logger logger = Logger.getLogger(AccountDaoImpl.class);
-    private String message;
+    private Class persistenceClass = Account.class;
 
     @Autowired
     private AccountDaoImpl(SessionFactory sessionFactory){
         super(Account.class, sessionFactory);
     }
 
-    /**
-     * Checks if account is blocked
-     * @param id - account's id
-     * @return true - if account is blocked, false - otherwise
-     * @throws DaoException
-     */
     @Override
     public boolean isAccountStatusBlocked(Long id) throws DaoException {
         boolean isBlocked = false;
         try {
             Session session = getCurrentSession();
-            Criteria criteria = session.createCriteria(Account.class);
-            criteria.add(Restrictions.eq("id", id));
-            criteria.add(Restrictions.eq("accountStatus", AccountStatusType.BLOCKED));
+            Criteria criteria = session.createCriteria(persistenceClass);
+            criteria.add(Restrictions.eq(Constants.PARAMETER_ID, id));
+            criteria.add(Restrictions.eq(Constants.PARAMETER_ACCOUNT_STATUS, AccountStatusType.BLOCKED));
             if(criteria.uniqueResult() != null){
                 isBlocked = true;
             }
         }
         catch(HibernateException e){
-            message = "Unable to check account status. Error was thrown in DAO: ";
-            logger.error(message + e);
-            throw new DaoException(message, e);
+            logger.error(Constants.ERROR_ACCOUNT_STATUS + e);
+            throw new DaoException(Constants.ERROR_ACCOUNT_STATUS, e);
         }
         return isBlocked;
     }
 
-    /**
-     * Gets list of blocked accounts from the storage
-     * @return list of blocked accounts
-     * @throws DaoException
-     */
     @Override
     public List<Account> getBlockedAccounts() throws DaoException {
         List<Account> list;
         try {
             Session session = getCurrentSession();
-            Criteria criteria = session.createCriteria(Account.class);
-            criteria.add(Restrictions.eq("accountStatus", AccountStatusType.BLOCKED));
+            Criteria criteria = session.createCriteria(persistenceClass);
+            criteria.add(Restrictions.eq(Constants.PARAMETER_ACCOUNT_STATUS, AccountStatusType.BLOCKED));
             list = criteria.list();
         }
         catch(HibernateException e){
-            message = "Unable to return list of blocked accounts. Error was thrown in DAO: ";
-            logger.error(message + e);
-            throw new DaoException(message, e);
+            logger.error(Constants.ERROR_BLOCKED_ACCOUNT_LIST + e);
+            throw new DaoException(Constants.ERROR_BLOCKED_ACCOUNT_LIST, e);
         }
         return list;
     }
@@ -87,16 +75,15 @@ public class AccountDaoImpl extends AbstractDao<Account> implements IAccountDao{
         Account account = null;
         try {
             Session session = getCurrentSession();
-            Criteria criteria = session.createCriteria(Account.class);
-            criteria.add(Restrictions.eq("accountNumber", accountNumber));
+            Criteria criteria = session.createCriteria(persistenceClass);
+            criteria.add(Restrictions.eq(Constants.PARAMETER_ACCOUNT_NUMBER, accountNumber));
             if(criteria.uniqueResult() != null){
                 account = (Account) criteria.uniqueResult();
             }
         }
         catch(HibernateException e){
-            message = "Unable to return user by login. Error was thrown in DAO: ";
-            logger.error(message + e);
-            throw new DaoException(message, e);
+            logger.error(Constants.ERROR_USER_BY_LOGIN + e);
+            throw new DaoException(Constants.ERROR_USER_BY_LOGIN, e);
         }
         return account;
     }

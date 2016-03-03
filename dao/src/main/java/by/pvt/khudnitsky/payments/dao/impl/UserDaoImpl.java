@@ -7,6 +7,7 @@ import java.util.List;
 
 import by.pvt.khudnitsky.payments.dao.AbstractDao;
 import by.pvt.khudnitsky.payments.dao.IUserDao;
+import by.pvt.khudnitsky.payments.dao.constants.Constants;
 import by.pvt.khudnitsky.payments.pojos.User;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
 import org.apache.log4j.Logger;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
+ * Implementation of IUserDao interface
  * @author khudnitsky
  * @version 1.0
  *
@@ -26,32 +28,25 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserDaoImpl extends AbstractDao<User> implements IUserDao{
     private static Logger logger = Logger.getLogger(UserDaoImpl.class);
-    private String message;
-    private final String GET_ALL_CLIENTS = " from User" /* user  join user.accessLevels level where level.accessLevelType = :accessLevelType"*/;
-    private final String GET_BY_LOGIN = "from User where login = :login"; // TODO вынести в отдельный класс
-    private final String CHECK_AUTHORIZATION = "from User where login = :login and password = :password";
 
     @Autowired
     private UserDaoImpl(SessionFactory sessionFactory){
         super(User.class, sessionFactory);
     }
 
-    // TODO дописать тесты
-
     @Override
     public List<User> getAll() throws DaoException {
         List<User> results;
         try {
             Session session = getCurrentSession();
-            Query query = session.createQuery(GET_ALL_CLIENTS);
+            Query query = session.createQuery(Constants.HQL_GET_ALL_CLIENTS);
             query.setCacheable(true);
             //query.setParameter("accessLevelType", AccessLevelType.CLIENT);
             results = query.list();
         }
         catch(HibernateException e){
-            message = "Unable to return list of clients. Error was thrown in DAO: ";
-            logger.error(message + e);
-            throw new DaoException(message, e);
+            logger.error(Constants.ERROR_USERS_LIST + e);
+            throw new DaoException(Constants.ERROR_USERS_LIST, e);
         }
         return results;
     }
@@ -61,35 +56,14 @@ public class UserDaoImpl extends AbstractDao<User> implements IUserDao{
         User user;
         try {
             Session session = getCurrentSession();
-            Query query = session.createQuery(GET_BY_LOGIN);
-            query.setParameter("login", login);
+            Query query = session.createQuery(Constants.HQL_GET_BY_LOGIN);
+            query.setParameter(Constants.PARAMETER_USER_LOGIN, login);
             user = (User) query.uniqueResult();
         }
         catch(HibernateException e){
-            message = "Unable to return user by login. Error was thrown in DAO: ";
-            logger.error(message + e);
-            throw new DaoException(message, e);
+            logger.error(Constants.ERROR_USER_BY_LOGIN + e);
+            throw new DaoException(Constants.ERROR_USER_BY_LOGIN, e);
         }
         return user;
-    }
-
-    @Override
-    public boolean isAuthorized(String login, String password) throws DaoException {
-        boolean isLogIn = false;
-        try {
-            Session session = getCurrentSession();
-            Query query = session.createQuery(CHECK_AUTHORIZATION);
-            query.setParameter("login", login);
-            query.setParameter("password", password);
-            if(query.uniqueResult() != null){
-                isLogIn = true;
-            }
-        }
-        catch(HibernateException e){
-            message = "Unable to check authorization. Error was thrown in DAO: ";
-            logger.error(message + e);
-            throw new DaoException(message, e);
-        }
-        return isLogIn;
     }
 }

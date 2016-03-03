@@ -2,6 +2,7 @@ package by.pvt.khudnitsky.payments.dao.impl;
 
 import by.pvt.khudnitsky.payments.dao.AbstractDao;
 import by.pvt.khudnitsky.payments.dao.ICurrencyDao;
+import by.pvt.khudnitsky.payments.dao.constants.Constants;
 import by.pvt.khudnitsky.payments.pojos.Currency;
 import by.pvt.khudnitsky.payments.enums.CurrencyType;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
+ * Implementation of ICurrencyDao interface
  * Created by: khudnitsky
  * Date: 06.02.2016
  * Time: 19:45
@@ -22,8 +24,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class CurrencyDaoImpl extends AbstractDao<Currency> implements ICurrencyDao {
     private static Logger logger = Logger.getLogger(CurrencyDaoImpl.class);
-    private String message;
-    private final String GET_BY_CURRENCY_TYPE = "from Currency where currencyType = :currencyType";
 
     @Autowired
     private CurrencyDaoImpl(SessionFactory sessionFactory){
@@ -35,14 +35,13 @@ public class CurrencyDaoImpl extends AbstractDao<Currency> implements ICurrencyD
         Currency currency;
         try {
             Session session = getCurrentSession();
-            Query query = session.createQuery(GET_BY_CURRENCY_TYPE);
-            query.setParameter("currencyType", currencyType);
+            Query query = session.createQuery(Constants.HQL_GET_BY_CURRENCY_TYPE);
+            query.setParameter(Constants.PARAMETER_CURRENCY_TYPE, currencyType);
             currency = (Currency) query.uniqueResult();
         }
         catch(HibernateException e){
-            message = "Unable to return user by login. Error was thrown in DAO: ";
-            logger.error(message + e);
-            throw new DaoException(message, e);
+            logger.error(Constants.ERROR_CURRENCY_TYPE + e);
+            throw new DaoException(Constants.ERROR_CURRENCY_TYPE, e);
         }
         return currency;
     }

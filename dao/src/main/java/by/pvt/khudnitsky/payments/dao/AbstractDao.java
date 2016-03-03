@@ -3,6 +3,7 @@
  */
 package by.pvt.khudnitsky.payments.dao;
 
+import by.pvt.khudnitsky.payments.dao.constants.Constants;
 import by.pvt.khudnitsky.payments.pojos.AbstractEntity;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
 import org.apache.log4j.Logger;
@@ -21,9 +22,12 @@ import java.util.List;
  * @version 1.0
  */
 
-//@Repository
 public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
     private static Logger logger = Logger.getLogger(AbstractDao.class);
+
+    /**
+     * Classname of entity to persist
+     */
     private Class persistentClass;
 
     @Autowired
@@ -34,6 +38,10 @@ public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
         this.sessionFactory = sessionFactory;
     }
 
+    /**
+     * Gets current session from SessionFactory
+     * @return current session
+     */
     protected Session getCurrentSession(){
         return sessionFactory.getCurrentSession();
     }
@@ -47,7 +55,7 @@ public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
             id = session.getIdentifier(entity);
         }
         catch(HibernateException e) {
-            logger.error("Error was thrown in DAO: " + e);     // TODO вынести в message
+            logger.error(Constants.ERROR_DAO + e);
             throw new DaoException();
         }
         return id;
@@ -62,7 +70,7 @@ public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
             results = criteria.list();
         }
         catch(HibernateException e){
-            logger.error("Error was thrown in DAO: " + e);
+            logger.error(Constants.ERROR_DAO + e);
             throw new DaoException();
         }
         return results;
@@ -76,7 +84,7 @@ public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
             entity = (T)session.get(persistentClass, id);
         }
         catch(HibernateException e){
-            logger.error("Error was thrown in DAO: " + e);
+            logger.error(Constants.ERROR_DAO + e);
             throw new DaoException();
         }
         return entity;
@@ -89,7 +97,7 @@ public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
             session.merge(entity);
         }
         catch(HibernateException e) {
-            logger.error("Error was thrown in DAO: " + e);
+            logger.error(Constants.ERROR_DAO + e);
             throw new DaoException();
         }
     }
@@ -102,12 +110,11 @@ public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
             session.delete(entity);
         }
         catch(HibernateException e){
-            //TODO исправить
-            logger.error("Error was thrown in DAO: " + e);
+            logger.error(Constants.ERROR_DAO + e);
             throw new DaoException(e.getMessage());
         }
         catch(IllegalArgumentException e){
-            logger.error("Error was thrown in DAO: " + e);
+            logger.error(Constants.ERROR_DAO + e);
             throw new DaoException();
         }
     }
@@ -123,7 +130,7 @@ public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
             amount = (Long) criteria.uniqueResult();
         }
         catch(HibernateException e){
-            logger.error("Error was thrown in DAO: " + e);
+            logger.error(Constants.ERROR_DAO + e);
             throw new DaoException();
         }
         return amount;
@@ -139,7 +146,7 @@ public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
             results = criteria.list();
         }
         catch(HibernateException e){
-            logger.error("Error was thrown in DAO: " + e);
+            logger.error(Constants.ERROR_DAO + e);
             throw new DaoException();
         }
         return results;

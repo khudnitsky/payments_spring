@@ -2,6 +2,7 @@ package by.pvt.khudnitsky.payments.dao.impl;
 
 import by.pvt.khudnitsky.payments.dao.AbstractDao;
 import by.pvt.khudnitsky.payments.dao.IAccessLevelDao;
+import by.pvt.khudnitsky.payments.dao.constants.Constants;
 import by.pvt.khudnitsky.payments.pojos.AccessLevel;
 import by.pvt.khudnitsky.payments.enums.AccessLevelType;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
+ * Implementation of IAccessLevelDao interface
  * Created by: khudnitsky
  * Date: 06.02.2016
  * Time: 19:43
@@ -22,8 +24,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class AccessLevelDaoImpl extends AbstractDao<AccessLevel> implements IAccessLevelDao {
     private static Logger logger = Logger.getLogger(AccessLevelDaoImpl.class);
-    private String message;
-    private final String GET_BY_ACCESS_LEVEL = "from AccessLevel where accessLevelType = :accessLevelType";
 
     @Autowired
     private AccessLevelDaoImpl(SessionFactory sessionFactory){
@@ -35,14 +35,13 @@ public class AccessLevelDaoImpl extends AbstractDao<AccessLevel> implements IAcc
         AccessLevel accessLevel;
         try {
             Session session = getCurrentSession();
-            Query query = session.createQuery(GET_BY_ACCESS_LEVEL);
-            query.setParameter("accessLevelType", accessLevelType);
+            Query query = session.createQuery(Constants.HQL_GET_BY_ACCESS_LEVEL);
+            query.setParameter(Constants.PARAMETER_ACCESS_LEVEL_TYPE, accessLevelType);
             accessLevel = (AccessLevel) query.uniqueResult();
         }
         catch(HibernateException e){
-            message = "Unable to return user by login. Error was thrown in DAO: ";
-            logger.error(message + e);
-            throw new DaoException(message, e);
+            logger.error(Constants.ERROR_ACCESS_LEVEL_TYPE + e);
+            throw new DaoException(Constants.ERROR_ACCESS_LEVEL_TYPE, e);
         }
         return accessLevel;
     }
