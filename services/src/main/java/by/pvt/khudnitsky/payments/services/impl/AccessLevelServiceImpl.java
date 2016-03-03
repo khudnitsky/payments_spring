@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
+ * Implementation of interface IAccessLevelService
  * Created by: khudnitsky
  * Date: 07.02.2016
  * Time: 20:06

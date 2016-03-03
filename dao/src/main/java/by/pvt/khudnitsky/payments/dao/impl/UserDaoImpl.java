@@ -7,7 +7,7 @@ import java.util.List;
 
 import by.pvt.khudnitsky.payments.dao.AbstractDao;
 import by.pvt.khudnitsky.payments.dao.IUserDao;
-import by.pvt.khudnitsky.payments.dao.constants.Constants;
+import by.pvt.khudnitsky.payments.constants.DaoConstants;
 import by.pvt.khudnitsky.payments.pojos.User;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
 import org.apache.log4j.Logger;
@@ -39,14 +39,14 @@ public class UserDaoImpl extends AbstractDao<User> implements IUserDao{
         List<User> results;
         try {
             Session session = getCurrentSession();
-            Query query = session.createQuery(Constants.HQL_GET_ALL_CLIENTS);
+            Query query = session.createQuery(DaoConstants.HQL_GET_ALL_CLIENTS);
             query.setCacheable(true);
             //query.setParameter("accessLevelType", AccessLevelType.CLIENT);
             results = query.list();
         }
         catch(HibernateException e){
-            logger.error(Constants.ERROR_USERS_LIST + e);
-            throw new DaoException(Constants.ERROR_USERS_LIST, e);
+            logger.error(DaoConstants.ERROR_USERS_LIST + e);
+            throw new DaoException(DaoConstants.ERROR_USERS_LIST, e);
         }
         return results;
     }
@@ -56,13 +56,13 @@ public class UserDaoImpl extends AbstractDao<User> implements IUserDao{
         User user;
         try {
             Session session = getCurrentSession();
-            Query query = session.createQuery(Constants.HQL_GET_BY_LOGIN);
-            query.setParameter(Constants.PARAMETER_USER_LOGIN, login);
+            Query query = session.createQuery(DaoConstants.HQL_GET_BY_LOGIN);
+            query.setParameter(DaoConstants.PARAMETER_USER_LOGIN, login);
             user = (User) query.uniqueResult();
         }
         catch(HibernateException e){
-            logger.error(Constants.ERROR_USER_BY_LOGIN + e);
-            throw new DaoException(Constants.ERROR_USER_BY_LOGIN, e);
+            logger.error(DaoConstants.ERROR_USER_BY_LOGIN + e);
+            throw new DaoException(DaoConstants.ERROR_USER_BY_LOGIN, e);
         }
         return user;
     }

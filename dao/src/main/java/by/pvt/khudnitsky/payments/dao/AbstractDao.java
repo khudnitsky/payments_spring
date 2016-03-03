@@ -3,7 +3,7 @@
  */
 package by.pvt.khudnitsky.payments.dao;
 
-import by.pvt.khudnitsky.payments.dao.constants.Constants;
+import by.pvt.khudnitsky.payments.constants.DaoConstants;
 import by.pvt.khudnitsky.payments.pojos.AbstractEntity;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
 import org.apache.log4j.Logger;
@@ -55,7 +55,7 @@ public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
             id = session.getIdentifier(entity);
         }
         catch(HibernateException e) {
-            logger.error(Constants.ERROR_DAO + e);
+            logger.error(DaoConstants.ERROR_DAO + e);
             throw new DaoException();
         }
         return id;
@@ -70,7 +70,7 @@ public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
             results = criteria.list();
         }
         catch(HibernateException e){
-            logger.error(Constants.ERROR_DAO + e);
+            logger.error(DaoConstants.ERROR_DAO + e);
             throw new DaoException();
         }
         return results;
@@ -84,7 +84,7 @@ public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
             entity = (T)session.get(persistentClass, id);
         }
         catch(HibernateException e){
-            logger.error(Constants.ERROR_DAO + e);
+            logger.error(DaoConstants.ERROR_DAO + e);
             throw new DaoException();
         }
         return entity;
@@ -97,7 +97,7 @@ public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
             session.merge(entity);
         }
         catch(HibernateException e) {
-            logger.error(Constants.ERROR_DAO + e);
+            logger.error(DaoConstants.ERROR_DAO + e);
             throw new DaoException();
         }
     }
@@ -110,11 +110,11 @@ public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
             session.delete(entity);
         }
         catch(HibernateException e){
-            logger.error(Constants.ERROR_DAO + e);
+            logger.error(DaoConstants.ERROR_DAO + e);
             throw new DaoException(e.getMessage());
         }
         catch(IllegalArgumentException e){
-            logger.error(Constants.ERROR_DAO + e);
+            logger.error(DaoConstants.ERROR_DAO + e);
             throw new DaoException();
         }
     }
@@ -130,7 +130,7 @@ public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
             amount = (Long) criteria.uniqueResult();
         }
         catch(HibernateException e){
-            logger.error(Constants.ERROR_DAO + e);
+            logger.error(DaoConstants.ERROR_DAO + e);
             throw new DaoException();
         }
         return amount;
@@ -146,7 +146,7 @@ public abstract class AbstractDao<T extends AbstractEntity> implements IDao<T> {
             results = criteria.list();
         }
         catch(HibernateException e){
-            logger.error(Constants.ERROR_DAO + e);
+            logger.error(DaoConstants.ERROR_DAO + e);
             throw new DaoException();
         }
         return results;

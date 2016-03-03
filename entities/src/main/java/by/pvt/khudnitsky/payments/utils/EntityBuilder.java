@@ -9,6 +9,7 @@ import by.pvt.khudnitsky.payments.enums.AccountStatusType;
 import by.pvt.khudnitsky.payments.enums.CurrencyType;
 
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.Set;
 
 /**
@@ -55,6 +56,29 @@ public class EntityBuilder {
         operation.setDate(date);
         operation.setUser(user);
         operation.setAccount(account);
+        return operation;
+    }
+
+    /**
+     * Builds Operation entity
+     * @param user - user
+     * @param description - description of operation
+     * @param amount - the value of operation
+     * @return
+     */
+    public static Operation buildOperation(User user, String description, Double amount){
+        Operation operation = new Operation();
+        operation.setUser(user);
+        Set<Account> accounts = user.getAccounts();
+        Account account = null;
+        Iterator<Account> iterator = accounts.iterator();
+        while (iterator.hasNext()){
+            account = iterator.next();
+        }
+        operation.setAccount(account);
+        operation.setAmount(amount);
+        operation.setDescription(description);
+        operation.setDate(Calendar.getInstance());
         return operation;
     }
 

@@ -112,14 +112,6 @@ public class UserServiceImplTest {
         Assert.assertNull("delete() method failed: ", actualUser);
     }
 
-    @Test
-    public void testCheckUserAuthorization() throws Exception {
-        persistEntities();
-        Boolean expected = true;
-        Boolean actual = userService.checkUserAuthorization(expectedUser.getLogin(), expectedUser.getPassword());
-        delete();
-        Assert.assertEquals(expected, actual);
-    }
 
     @Test
     public void testGetUserByLogin() throws Exception {

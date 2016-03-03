@@ -1,5 +1,6 @@
 package by.pvt.khudnitsky.payments.services.impl;
 
+import by.pvt.khudnitsky.payments.constants.ServiceConstants;
 import by.pvt.khudnitsky.payments.dao.IAccountDao;
 import by.pvt.khudnitsky.payments.dao.IOperationDao;
 import by.pvt.khudnitsky.payments.pojos.Account;
@@ -10,6 +11,7 @@ import by.pvt.khudnitsky.payments.exceptions.DaoException;
 import by.pvt.khudnitsky.payments.exceptions.ServiceException;
 import by.pvt.khudnitsky.payments.services.AbstractService;
 import by.pvt.khudnitsky.payments.services.IAccountService;
+import by.pvt.khudnitsky.payments.utils.EntityBuilder;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
+ * Implementation of interface IAccountService
  * Copyright (c) 2016, Khudnitsky. All rights reserved.
  */
 
@@ -47,13 +50,13 @@ public class AccountServiceImpl extends AbstractService<Account> implements IAcc
         List<Account> accounts;
         try {
             accounts = accountDao.getBlockedAccounts();
-            logger.info(TRANSACTION_SUCCEEDED);
+            logger.info(ServiceConstants.TRANSACTION_SUCCEEDED);
             logger.info(accounts);
         }
         catch (DaoException e) {
-            logger.error(TRANSACTION_FAILED, e);
+            logger.error(ServiceConstants.TRANSACTION_FAILED, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            throw new ServiceException(TRANSACTION_FAILED + e);
+            throw new ServiceException(ServiceConstants.TRANSACTION_FAILED + e);
         }
         return accounts;
     }
@@ -64,12 +67,12 @@ public class AccountServiceImpl extends AbstractService<Account> implements IAcc
             Account account = accountDao.getByNumber(accountNumber);
             account.setAccountStatus(status);
             accountDao.update(account);
-            logger.info(TRANSACTION_SUCCEEDED);
+            logger.info(ServiceConstants.TRANSACTION_SUCCEEDED);
         }
         catch (DaoException e) {
-            logger.error(TRANSACTION_FAILED, e);
+            logger.error(ServiceConstants.TRANSACTION_FAILED, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            throw new ServiceException(TRANSACTION_FAILED + e);
+            throw new ServiceException(ServiceConstants.TRANSACTION_FAILED + e);
         }
     }
 
@@ -79,12 +82,12 @@ public class AccountServiceImpl extends AbstractService<Account> implements IAcc
         boolean isBlocked;
         try {
             isBlocked = accountDao.isAccountStatusBlocked(id);
-            logger.info(TRANSACTION_SUCCEEDED);
+            logger.info(ServiceConstants.TRANSACTION_SUCCEEDED);
         }
         catch (DaoException e) {
-            logger.error(TRANSACTION_FAILED, e);
+            logger.error(ServiceConstants.TRANSACTION_FAILED, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            throw new ServiceException(TRANSACTION_FAILED + e);
+            throw new ServiceException(ServiceConstants.TRANSACTION_FAILED + e);
         }
         return isBlocked;
     }
@@ -92,7 +95,7 @@ public class AccountServiceImpl extends AbstractService<Account> implements IAcc
     @Override
     public void addFunds(User user, String description, Double amount) throws ServiceException{
         try {
-            Operation operation = buildOperation(user, description, amount);
+            Operation operation = EntityBuilder.buildOperation(user, description, amount);
             operationDao.save(operation);
             // TODO сделать множественность счетов
             Set<Account> accounts = user.getAccounts();
@@ -104,19 +107,19 @@ public class AccountServiceImpl extends AbstractService<Account> implements IAcc
             Account account = accountDao.getById(accountId);
             account.setDeposit(account.getDeposit() + amount);
             accountDao.update(account);
-            logger.info(TRANSACTION_SUCCEEDED);
+            logger.info(ServiceConstants.TRANSACTION_SUCCEEDED);
         }
         catch (DaoException e) {
-            logger.error(TRANSACTION_FAILED, e);
+            logger.error(ServiceConstants.TRANSACTION_FAILED, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            throw new ServiceException(TRANSACTION_FAILED + e);
+            throw new ServiceException(ServiceConstants.TRANSACTION_FAILED + e);
         }
     }
 
     @Override
     public void blockAccount(User user, String description) throws ServiceException {
         try {
-            Operation operation = buildOperation(user, description, 0D);
+            Operation operation = EntityBuilder.buildOperation(user, description, 0D);
             operationDao.save(operation);
             // TODO сделать множественность счетов
             Set<Account> accounts = user.getAccounts();
@@ -128,19 +131,19 @@ public class AccountServiceImpl extends AbstractService<Account> implements IAcc
             Account account = accountDao.getById(accountId);
             account.setAccountStatus(AccountStatusType.BLOCKED);
             accountDao.update(account);
-            logger.info(TRANSACTION_SUCCEEDED);
+            logger.info(ServiceConstants.TRANSACTION_SUCCEEDED);
         }
         catch (DaoException e) {
-            logger.error(TRANSACTION_FAILED, e);
+            logger.error(ServiceConstants.TRANSACTION_FAILED, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            throw new ServiceException(TRANSACTION_FAILED + e);
+            throw new ServiceException(ServiceConstants.TRANSACTION_FAILED + e);
         }
     }
 
     @Override
     public void payment(User user, String description, Double amount) throws ServiceException {
         try {
-            Operation operation = buildOperation(user, description, amount);
+            Operation operation = EntityBuilder.buildOperation(user, description, amount);
             operationDao.save(operation);
             // TODO сделать множественность счетов
             Set<Account> accounts = user.getAccounts();
@@ -152,29 +155,12 @@ public class AccountServiceImpl extends AbstractService<Account> implements IAcc
             Account account = accountDao.getById(accountId);
             account.setDeposit(account.getDeposit() - amount);
             accountDao.update(account);
-            logger.info(TRANSACTION_SUCCEEDED);
+            logger.info(ServiceConstants.TRANSACTION_SUCCEEDED);
         }
         catch (DaoException e) {
-            logger.error(TRANSACTION_FAILED, e);
+            logger.error(ServiceConstants.TRANSACTION_FAILED, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            throw new ServiceException(TRANSACTION_FAILED + e);
+            throw new ServiceException(ServiceConstants.TRANSACTION_FAILED + e);
         }
-    }
-
-    // TODO EntityBuilder ???
-    private Operation buildOperation(User user, String description, Double amount){
-        Operation operation = new Operation();
-        operation.setUser(user);
-        Set<Account> accounts = user.getAccounts();
-        Account account = null;
-        Iterator<Account> iterator = accounts.iterator();
-        while (iterator.hasNext()){
-            account = iterator.next();
-        }
-        operation.setAccount(account);
-        operation.setAmount(amount);
-        operation.setDescription(description);
-        operation.setDate(Calendar.getInstance());
-        return operation;
     }
 }

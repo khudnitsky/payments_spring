@@ -1,5 +1,6 @@
 package by.pvt.khudnitsky.payments.services.impl;
 
+import by.pvt.khudnitsky.payments.constants.ServiceConstants;
 import by.pvt.khudnitsky.payments.dao.IOperationDao;
 import by.pvt.khudnitsky.payments.pojos.Operation;
 import by.pvt.khudnitsky.payments.dto.OperationDTO;
@@ -17,6 +18,7 @@ import org.springframework.transaction.interceptor.TransactionAspectSupport;
 import java.util.List;
 
 /**
+ * Implementation of interface IOperationService
  * Copyright (c) 2016, Khudnitsky. All rights reserved.
  */
 
@@ -36,12 +38,12 @@ public class OperationServiceImpl extends AbstractService<Operation> implements 
     public void deleteByAccountId(Long id) throws ServiceException {
         try {
             operationDao.deleteByAccountId(id);
-            logger.info(TRANSACTION_SUCCEEDED);
+            logger.info(ServiceConstants.TRANSACTION_SUCCEEDED);
         }
         catch (DaoException e) {
-            logger.error(TRANSACTION_FAILED, e);
+            logger.error(ServiceConstants.TRANSACTION_FAILED, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            throw new ServiceException(TRANSACTION_FAILED + e);
+            throw new ServiceException(ServiceConstants.TRANSACTION_FAILED + e);
         }
     }
 
@@ -52,12 +54,12 @@ public class OperationServiceImpl extends AbstractService<Operation> implements 
         try {
             Long numberOfRecords = operationDao.getAmount();
             numberOfPages = (int) Math.ceil(numberOfRecords * 1.0 / recordsPerPage);
-            logger.info(TRANSACTION_SUCCEEDED);
+            logger.info(ServiceConstants.TRANSACTION_SUCCEEDED);
         }
         catch (DaoException e) {
-            logger.error(TRANSACTION_FAILED, e);
+            logger.error(ServiceConstants.TRANSACTION_FAILED, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            throw new ServiceException(TRANSACTION_FAILED + e);
+            throw new ServiceException(ServiceConstants.TRANSACTION_FAILED + e);
         }
         return numberOfPages;
     }
@@ -68,12 +70,12 @@ public class OperationServiceImpl extends AbstractService<Operation> implements 
         List<OperationDTO> results;
         try {
             results = operationDao.getOperations(recordsPerPage, pageNumber, sorting);
-            logger.info(TRANSACTION_SUCCEEDED);
+            logger.info(ServiceConstants.TRANSACTION_SUCCEEDED);
         }
         catch (DaoException e) {
-            logger.error(TRANSACTION_FAILED, e);
+            logger.error(ServiceConstants.TRANSACTION_FAILED, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            throw new ServiceException(TRANSACTION_FAILED + e);
+            throw new ServiceException(ServiceConstants.TRANSACTION_FAILED + e);
         }
         return results;
     }

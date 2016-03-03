@@ -1,4 +1,4 @@
-package by.pvt.khudnitsky.payments.dao.constants;
+package by.pvt.khudnitsky.payments.constants;
 
 /**
  * Utility class
@@ -7,7 +7,7 @@ package by.pvt.khudnitsky.payments.dao.constants;
  * Date: 03.03.2016
  * Time: 8:46
  */
-public class Constants {
+public class DaoConstants {
     public static final String ERROR_DAO = "Error was thrown in DAO: ";
     public static final String ERROR_ACCESS_LEVEL_TYPE = "Unable to return access level type. Error was thrown in DAO: ";
     public static final String ERROR_ACCOUNT_STATUS = "Unable to check account status. Error was thrown in DAO: ";
@@ -47,5 +47,5 @@ public class Constants {
     public static final String HQL_GET_BY_LOGIN = "from User where login = :login";
 
 
-    private Constants(){}
+    private DaoConstants(){}
 }

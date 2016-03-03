@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
+ * Describes interface IService
  * Copyright (c) 2016, Khudnitsky. All rights reserved.
  */
 public interface IService<T extends AbstractEntity> {

@@ -2,7 +2,7 @@ package by.pvt.khudnitsky.payments.dao.impl;
 
 import by.pvt.khudnitsky.payments.dao.AbstractDao;
 import by.pvt.khudnitsky.payments.dao.IAccessLevelDao;
-import by.pvt.khudnitsky.payments.dao.constants.Constants;
+import by.pvt.khudnitsky.payments.constants.DaoConstants;
 import by.pvt.khudnitsky.payments.pojos.AccessLevel;
 import by.pvt.khudnitsky.payments.enums.AccessLevelType;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
@@ -35,13 +35,13 @@ public class AccessLevelDaoImpl extends AbstractDao<AccessLevel> implements IAcc
         AccessLevel accessLevel;
         try {
             Session session = getCurrentSession();
-            Query query = session.createQuery(Constants.HQL_GET_BY_ACCESS_LEVEL);
-            query.setParameter(Constants.PARAMETER_ACCESS_LEVEL_TYPE, accessLevelType);
+            Query query = session.createQuery(DaoConstants.HQL_GET_BY_ACCESS_LEVEL);
+            query.setParameter(DaoConstants.PARAMETER_ACCESS_LEVEL_TYPE, accessLevelType);
             accessLevel = (AccessLevel) query.uniqueResult();
         }
         catch(HibernateException e){
-            logger.error(Constants.ERROR_ACCESS_LEVEL_TYPE + e);
-            throw new DaoException(Constants.ERROR_ACCESS_LEVEL_TYPE, e);
+            logger.error(DaoConstants.ERROR_ACCESS_LEVEL_TYPE + e);
+            throw new DaoException(DaoConstants.ERROR_ACCESS_LEVEL_TYPE, e);
         }
         return accessLevel;
     }

@@ -7,7 +7,7 @@ import java.util.List;
 
 import by.pvt.khudnitsky.payments.dao.AbstractDao;
 import by.pvt.khudnitsky.payments.dao.IOperationDao;
-import by.pvt.khudnitsky.payments.dao.constants.Constants;
+import by.pvt.khudnitsky.payments.constants.DaoConstants;
 import by.pvt.khudnitsky.payments.pojos.Operation;
 import by.pvt.khudnitsky.payments.dto.OperationDTO;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
@@ -37,13 +37,13 @@ public class OperationDaoImpl extends AbstractDao<Operation> implements IOperati
     public void deleteByAccountId(Long id) throws DaoException {
         try {
             Session session = getCurrentSession();
-            Query query = session.createQuery(Constants.HQL_DELETE_BY_ACCOUNT_ID);
-            query.setParameter(Constants.PARAMETER_ACCOUNT_ID, id);
+            Query query = session.createQuery(DaoConstants.HQL_DELETE_BY_ACCOUNT_ID);
+            query.setParameter(DaoConstants.PARAMETER_ACCOUNT_ID, id);
             query.executeUpdate();
         }
         catch(HibernateException e){
-            logger.error(Constants.ERROR_OPERATION_DELETE + e);
-            throw new DaoException(Constants.ERROR_OPERATION_DELETE, e);
+            logger.error(DaoConstants.ERROR_OPERATION_DELETE + e);
+            throw new DaoException(DaoConstants.ERROR_OPERATION_DELETE, e);
         }
     }
 
@@ -52,12 +52,12 @@ public class OperationDaoImpl extends AbstractDao<Operation> implements IOperati
         List<OperationDTO> list;
         try {
             Session session = getCurrentSession();
-            SQLQuery query = session.createSQLQuery(Constants.SQL_GET_OPERATIONS + sorting);
-            query.addScalar(Constants.PARAMETER_OPERATION_DATE, StandardBasicTypes.STRING);
-            query.addScalar(Constants.PARAMETER_OPERATION_DESCRIPTION, StandardBasicTypes.STRING);
-            query.addScalar(Constants.PARAMETER_OPERATION_AMOUNT, StandardBasicTypes.DOUBLE);
-            query.addScalar(Constants.PARAMETER_USER_LAST_NAME, StandardBasicTypes.STRING);
-            query.addScalar(Constants.PARAMETER_ACCOUNT_NUMBER, StandardBasicTypes.LONG);
+            SQLQuery query = session.createSQLQuery(DaoConstants.SQL_GET_OPERATIONS + sorting);
+            query.addScalar(DaoConstants.PARAMETER_OPERATION_DATE, StandardBasicTypes.STRING);
+            query.addScalar(DaoConstants.PARAMETER_OPERATION_DESCRIPTION, StandardBasicTypes.STRING);
+            query.addScalar(DaoConstants.PARAMETER_OPERATION_AMOUNT, StandardBasicTypes.DOUBLE);
+            query.addScalar(DaoConstants.PARAMETER_USER_LAST_NAME, StandardBasicTypes.STRING);
+            query.addScalar(DaoConstants.PARAMETER_ACCOUNT_NUMBER, StandardBasicTypes.LONG);
             query.setResultTransformer(new ResultTransformer() {
                 @Override
                 public Object transformTuple(Object[] tuple, String[] aliases) {
@@ -79,8 +79,8 @@ public class OperationDaoImpl extends AbstractDao<Operation> implements IOperati
             query.setMaxResults(recordsPerPage);
             list = query.list();
         } catch (HibernateException e) {
-            logger.error(Constants.ERROR_OPERATIONS_LIST + e);
-            throw new DaoException(Constants.ERROR_OPERATIONS_LIST, e);
+            logger.error(DaoConstants.ERROR_OPERATIONS_LIST + e);
+            throw new DaoException(DaoConstants.ERROR_OPERATIONS_LIST, e);
         }
         return list;
     }

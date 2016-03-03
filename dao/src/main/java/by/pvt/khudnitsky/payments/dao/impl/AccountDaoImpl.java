@@ -5,7 +5,7 @@ package by.pvt.khudnitsky.payments.dao.impl;
 
 import by.pvt.khudnitsky.payments.dao.AbstractDao;
 import by.pvt.khudnitsky.payments.dao.IAccountDao;
-import by.pvt.khudnitsky.payments.dao.constants.Constants;
+import by.pvt.khudnitsky.payments.constants.DaoConstants;
 import by.pvt.khudnitsky.payments.pojos.Account;
 import by.pvt.khudnitsky.payments.enums.AccountStatusType;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
@@ -41,15 +41,15 @@ public class AccountDaoImpl extends AbstractDao<Account> implements IAccountDao{
         try {
             Session session = getCurrentSession();
             Criteria criteria = session.createCriteria(persistenceClass);
-            criteria.add(Restrictions.eq(Constants.PARAMETER_ID, id));
-            criteria.add(Restrictions.eq(Constants.PARAMETER_ACCOUNT_STATUS, AccountStatusType.BLOCKED));
+            criteria.add(Restrictions.eq(DaoConstants.PARAMETER_ID, id));
+            criteria.add(Restrictions.eq(DaoConstants.PARAMETER_ACCOUNT_STATUS, AccountStatusType.BLOCKED));
             if(criteria.uniqueResult() != null){
                 isBlocked = true;
             }
         }
         catch(HibernateException e){
-            logger.error(Constants.ERROR_ACCOUNT_STATUS + e);
-            throw new DaoException(Constants.ERROR_ACCOUNT_STATUS, e);
+            logger.error(DaoConstants.ERROR_ACCOUNT_STATUS + e);
+            throw new DaoException(DaoConstants.ERROR_ACCOUNT_STATUS, e);
         }
         return isBlocked;
     }
@@ -60,12 +60,12 @@ public class AccountDaoImpl extends AbstractDao<Account> implements IAccountDao{
         try {
             Session session = getCurrentSession();
             Criteria criteria = session.createCriteria(persistenceClass);
-            criteria.add(Restrictions.eq(Constants.PARAMETER_ACCOUNT_STATUS, AccountStatusType.BLOCKED));
+            criteria.add(Restrictions.eq(DaoConstants.PARAMETER_ACCOUNT_STATUS, AccountStatusType.BLOCKED));
             list = criteria.list();
         }
         catch(HibernateException e){
-            logger.error(Constants.ERROR_BLOCKED_ACCOUNT_LIST + e);
-            throw new DaoException(Constants.ERROR_BLOCKED_ACCOUNT_LIST, e);
+            logger.error(DaoConstants.ERROR_BLOCKED_ACCOUNT_LIST + e);
+            throw new DaoException(DaoConstants.ERROR_BLOCKED_ACCOUNT_LIST, e);
         }
         return list;
     }
@@ -76,14 +76,14 @@ public class AccountDaoImpl extends AbstractDao<Account> implements IAccountDao{
         try {
             Session session = getCurrentSession();
             Criteria criteria = session.createCriteria(persistenceClass);
-            criteria.add(Restrictions.eq(Constants.PARAMETER_ACCOUNT_NUMBER, accountNumber));
+            criteria.add(Restrictions.eq(DaoConstants.PARAMETER_ACCOUNT_NUMBER, accountNumber));
             if(criteria.uniqueResult() != null){
                 account = (Account) criteria.uniqueResult();
             }
         }
         catch(HibernateException e){
-            logger.error(Constants.ERROR_USER_BY_LOGIN + e);
-            throw new DaoException(Constants.ERROR_USER_BY_LOGIN, e);
+            logger.error(DaoConstants.ERROR_USER_BY_LOGIN + e);
+            throw new DaoException(DaoConstants.ERROR_USER_BY_LOGIN, e);
         }
         return account;
     }

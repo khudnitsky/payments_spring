@@ -1,5 +1,6 @@
 package by.pvt.khudnitsky.payments.services;
 
+import by.pvt.khudnitsky.payments.constants.ServiceConstants;
 import by.pvt.khudnitsky.payments.dao.IDao;
 import by.pvt.khudnitsky.payments.pojos.AbstractEntity;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
@@ -15,18 +16,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Describes Abstract Service
  * Copyright (c) 2016, Khudnitsky. All rights reserved.
  */
 public abstract class AbstractService<T extends AbstractEntity> implements IService<T>{
     private static Logger logger = Logger.getLogger(AbstractService.class);
-    protected final String TRANSACTION_SUCCEEDED = "Transaction succeeded";
-    protected final String TRANSACTION_FAILED = "Error was thrown in service: ";
     private IDao<T> dao;
 
     @Autowired
     protected TransactionTemplate transactionTemplate;
 
-    //@Autowired
     protected AbstractService(IDao<T> dao){
         this.dao = dao;
     }
@@ -38,19 +37,17 @@ public abstract class AbstractService<T extends AbstractEntity> implements IServ
             public Void doInTransaction(TransactionStatus transactionStatus){
                 try {
                     dao.delete(id);
-                    logger.info(TRANSACTION_SUCCEEDED);
-                    logger.info("Deleted entity #" + id);
+                    logger.info(ServiceConstants.TRANSACTION_SUCCEEDED);
+                    logger.info(ServiceConstants.MESSAGE_DELETE + id);
                 }
                 catch (DaoException e) {
-                    logger.error(TRANSACTION_FAILED, e);
+                    logger.error(ServiceConstants.TRANSACTION_FAILED, e);
                     transactionStatus.setRollbackOnly();
-                    //throw new ServiceException(TRANSACTION_FAILED + e);
                 }
                 return null;
             }
         });
     }
-
 
     @Override
     public List<T> getAll() throws ServiceException {
@@ -60,13 +57,12 @@ public abstract class AbstractService<T extends AbstractEntity> implements IServ
                 List<T> list = new ArrayList<T>();
                 try {
                     list = dao.getAll();
-                    logger.info(TRANSACTION_SUCCEEDED);
+                    logger.info(ServiceConstants.TRANSACTION_SUCCEEDED);
                     logger.info(list);
                 }
                 catch (DaoException e) {
-                    logger.error(TRANSACTION_FAILED, e);
+                    logger.error(ServiceConstants.TRANSACTION_FAILED, e);
                     transactionStatus.setRollbackOnly();
-                    //throw new ServiceException(TRANSACTION_FAILED + e);
                 }
                 return list;
             }
@@ -81,12 +77,12 @@ public abstract class AbstractService<T extends AbstractEntity> implements IServ
                 T entity = null;
                 try {
                     entity = (T) dao.getById(id);
+                    logger.info(ServiceConstants.TRANSACTION_SUCCEEDED);
                     logger.info(entity);
                 }
                 catch (DaoException e) {
-                    logger.error(TRANSACTION_FAILED, e);
+                    logger.error(ServiceConstants.TRANSACTION_FAILED, e);
                     transactionStatus.setRollbackOnly();
-                    //throw new ServiceException(TRANSACTION_FAILED + e);
                 }
                 return entity;
             }
@@ -102,13 +98,12 @@ public abstract class AbstractService<T extends AbstractEntity> implements IServ
                 Serializable id = null;
                 try {
                     id = dao.save(entity);
-                    logger.info(TRANSACTION_SUCCEEDED);
+                    logger.info(ServiceConstants.TRANSACTION_SUCCEEDED);
                     logger.info(entity);
                 }
                 catch (DaoException e) {
-                    logger.error(TRANSACTION_FAILED, e);
+                    logger.error(ServiceConstants.TRANSACTION_FAILED, e);
                     transactionStatus.setRollbackOnly();
-                    //throw new ServiceException(TRANSACTION_FAILED + e);
                 }
                 return id;
             }
@@ -122,12 +117,11 @@ public abstract class AbstractService<T extends AbstractEntity> implements IServ
             public Void doInTransaction(TransactionStatus transactionStatus) {
                 try {
                     dao.update(entity);
-                    logger.info(TRANSACTION_SUCCEEDED);
+                    logger.info(ServiceConstants.TRANSACTION_SUCCEEDED);
                     logger.info(entity);
                 } catch (DaoException e) {
-                    logger.error(TRANSACTION_FAILED, e);
+                    logger.error(ServiceConstants.TRANSACTION_FAILED, e);
                     transactionStatus.setRollbackOnly();
-                    //throw new ServiceException(TRANSACTION_FAILED + e);
                 }
                 return null;
             }

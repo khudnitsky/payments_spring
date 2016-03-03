@@ -2,7 +2,7 @@ package by.pvt.khudnitsky.payments.dao.impl;
 
 import by.pvt.khudnitsky.payments.dao.AbstractDao;
 import by.pvt.khudnitsky.payments.dao.ICurrencyDao;
-import by.pvt.khudnitsky.payments.dao.constants.Constants;
+import by.pvt.khudnitsky.payments.constants.DaoConstants;
 import by.pvt.khudnitsky.payments.pojos.Currency;
 import by.pvt.khudnitsky.payments.enums.CurrencyType;
 import by.pvt.khudnitsky.payments.exceptions.DaoException;
@@ -35,13 +35,13 @@ public class CurrencyDaoImpl extends AbstractDao<Currency> implements ICurrencyD
         Currency currency;
         try {
             Session session = getCurrentSession();
-            Query query = session.createQuery(Constants.HQL_GET_BY_CURRENCY_TYPE);
-            query.setParameter(Constants.PARAMETER_CURRENCY_TYPE, currencyType);
+            Query query = session.createQuery(DaoConstants.HQL_GET_BY_CURRENCY_TYPE);
+            query.setParameter(DaoConstants.PARAMETER_CURRENCY_TYPE, currencyType);
             currency = (Currency) query.uniqueResult();
         }
         catch(HibernateException e){
-            logger.error(Constants.ERROR_CURRENCY_TYPE + e);
-            throw new DaoException(Constants.ERROR_CURRENCY_TYPE, e);
+            logger.error(DaoConstants.ERROR_CURRENCY_TYPE + e);
+            throw new DaoException(DaoConstants.ERROR_CURRENCY_TYPE, e);
         }
         return currency;
     }

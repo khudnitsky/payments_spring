@@ -1,5 +1,6 @@
 package by.pvt.khudnitsky.payments.services.impl;
 
+import by.pvt.khudnitsky.payments.constants.ServiceConstants;
 import by.pvt.khudnitsky.payments.dao.IAccessLevelDao;
 import by.pvt.khudnitsky.payments.dao.IAccountDao;
 import by.pvt.khudnitsky.payments.dao.ICurrencyDao;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 /**
+ * Implementation of interface IUserService
  * Copyright (c) 2016, Khudnitsky. All rights reserved.
  */
 
@@ -45,54 +47,19 @@ public class UserServiceImpl extends AbstractService<User> implements IUserServi
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
-    public boolean checkUserAuthorization(String login, String password) throws ServiceException {
-        boolean isAuthorized;
-        try {
-            isAuthorized = userDao.isAuthorized(login, password);
-            logger.info(TRANSACTION_SUCCEEDED);
-            logger.info("User " + login + " is authorized");
-        }
-        catch (DaoException e) {
-            logger.error(TRANSACTION_FAILED, e);
-            TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            throw new ServiceException(TRANSACTION_FAILED + e);
-        }
-        return isAuthorized;
-    }
-
-    @Override
-    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
     public User getUserByLogin(String login) throws ServiceException {
         User user;
         try {
             user = userDao.getByLogin(login);
         }
         catch (DaoException e) {
-            logger.error(TRANSACTION_FAILED, e);
+            logger.error(ServiceConstants.TRANSACTION_FAILED, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            throw new ServiceException(TRANSACTION_FAILED + e);
+            throw new ServiceException(ServiceConstants.TRANSACTION_FAILED + e);
         }
         return user;
     }
 
-//    @Override
-//    @Transactional(propagation = Propagation.NEVER)
-//    public AccessLevelType checkAccessLevel(User user) throws ServiceException{
-//        AccessLevel accessLevel = new AccessLevel();
-//        accessLevel.setAccessLevelType(AccessLevelType.CLIENT);
-//        Set<AccessLevel> accessLevels = user.getAccessLevels();
-//        Iterator<AccessLevel> iterator = accessLevels.iterator();
-//        while (iterator.hasNext()) {
-//            if((iterator.next()).getAccessLevelType().equals(AccessLevelType.CLIENT)){
-//                accessLevel.setAccessLevelType(AccessLevelType.CLIENT);
-//            }
-//            else {
-//                accessLevel.setAccessLevelType(AccessLevelType.ADMINISTRATOR);
-//            }
-//        }
-//        return accessLevel.getAccessLevelType();
-//        //TODO сделать множественность ролей
-//    }
 
     @Override
     @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -104,13 +71,13 @@ public class UserServiceImpl extends AbstractService<User> implements IUserServi
             if((user == null) & (account == null)){
                 isNew = true;
             }
-            logger.info(TRANSACTION_SUCCEEDED);
+            logger.info(ServiceConstants.TRANSACTION_SUCCEEDED);
             logger.info("User with login " + login + " is new");
         }
         catch (DaoException e) {
-            logger.error(TRANSACTION_FAILED, e);
+            logger.error(ServiceConstants.TRANSACTION_FAILED, e);
             TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
-            throw new ServiceException(TRANSACTION_FAILED + e);
+            throw new ServiceException(ServiceConstants.TRANSACTION_FAILED + e);
         }
         return isNew;
     }
@@ -130,13 +97,13 @@ public class UserServiceImpl extends AbstractService<User> implements IUserServi
             currencyDao.save(currency);
             userDao.save(user);
             accountDao.save(account);
-            logger.info(TRANSACTION_SUCCEEDED);
+            logger.info(ServiceConstants.TRANSACTION_SUCCEEDED);
             logger.info(user);
             logger.info(account);
         }
         catch (DaoException e) {
-            logger.error(TRANSACTION_FAILED, e);
-            throw new ServiceException(TRANSACTION_FAILED + e);
+            logger.error(ServiceConstants.TRANSACTION_FAILED, e);
+            throw new ServiceException(ServiceConstants.TRANSACTION_FAILED + e);
         }
     }
 }
