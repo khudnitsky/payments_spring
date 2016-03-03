@@ -130,7 +130,6 @@ public class ClientController {
         String pagePath;
         try {
             double amount = Double.valueOf(payment);
-            // TODO DTO
             User user = userService.getUserByLogin(principalUtil.getPrincipal().getLogin());
             Set<Account> accounts = user.getAccounts();
             Iterator<Account> iterator = accounts.iterator();
