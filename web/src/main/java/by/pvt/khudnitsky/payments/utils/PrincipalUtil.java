@@ -26,7 +26,7 @@ public class PrincipalUtil {
             user.setLogin(((CustomUser) principal).getUserLogin());
         } else {
             user = new User();
-            user.setFirstName(WebConstants.ANONYMOUS);
+            user.setFirstName(WebConstants.ANONYMOUS_USER);
         }
         return user;
     }

@@ -92,7 +92,7 @@ public class AdminController {
             model.addAttribute(Parameters.OPERATIONS_LIST, list);
             model.addAttribute(Parameters.NUMBER_OF_PAGES, numberOfPages);
             model.addAttribute(Parameters.FILTER, filter);
-            pagePath = /*"redirect:" +*/ pagePathManager.getProperty(PagePath.ADMIN_SHOW_OPERATIONS_PAGE);
+            pagePath = pagePathManager.getProperty(PagePath.ADMIN_SHOW_OPERATIONS_PAGE);
         }
         catch (ServiceException e) {
             model.addAttribute(Parameters.ERROR_DATABASE, messageSource.getMessage("message.databaseerror", null, locale));

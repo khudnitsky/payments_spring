@@ -1,10 +1,8 @@
 # payments_spring
 Payments system (3'rd module project)
 
-1. JavaDoc
 2. Validation
 3. Client functions
-4. Logging
 
 MANDATORY
 1. JavaDoc

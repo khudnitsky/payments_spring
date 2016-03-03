@@ -1,6 +1,12 @@
 package by.pvt.khudnitsky.payments.security;
 
+import by.pvt.khudnitsky.payments.constants.WebConstants;
+import by.pvt.khudnitsky.payments.enums.PagePath;
+import by.pvt.khudnitsky.payments.enums.Parameters;
+import by.pvt.khudnitsky.payments.managers.PagePathManager;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -27,6 +33,12 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
     private Logger logger = Logger.getLogger(this.getClass());
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
+    @Autowired
+    private PagePathManager pagePathManager;
+
+    @Autowired
+    private MessageSource messageSource;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response, Authentication authentication) throws IOException {
@@ -39,33 +51,37 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
         String targetUrl = determineTargetUrl(authentication);
 
         if (response.isCommitted()) {
-            logger.info("Response has already been committed. Unable to redirect to " + targetUrl);
+            logger.info(WebConstants.UNABLE_TO_REDIRECT + targetUrl);
             return;
         }
-
+        request.getSession().setAttribute(Parameters.WRONG_LOGIN_OR_PASSWORD, messageSource.getMessage("message.loginerror", null, request.getLocale()));
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }
 
     protected String determineTargetUrl(Authentication authentication) {
-        boolean isUser = false;
+        boolean isClient = false;
         boolean isAdmin = false;
+        String pagePath;
+
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
         for (GrantedAuthority grantedAuthority : authorities) {
-            if (grantedAuthority.getAuthority().equals("ROLE_CLIENT")) {
-                isUser = true;
+            if (grantedAuthority.getAuthority().equals(WebConstants.ROLE_CLIENT)) {
+                isClient = true;
                 break;
-            } else if (grantedAuthority.getAuthority().equals("ROLE_ADMINISTRATOR")) {
+            } else if (grantedAuthority.getAuthority().equals(WebConstants.ROLE_ADMINISTRATOR)) {
                 isAdmin = true;
                 break;
             }
         }
-        if (isUser) {
-            return "/client/main";
+        if (isClient) {
+            pagePath = "/" + pagePathManager.getProperty(PagePath.CLIENT_PAGE_PATH);
         } else if (isAdmin) {
-            return "/admin/main";
+            pagePath = "/" + pagePathManager.getProperty(PagePath.ADMIN_PAGE_PATH);
         } else {
-            throw new IllegalStateException();
+//            throw new IllegalStateException();
+            pagePath = /*"/" + */pagePathManager.getProperty(PagePath.HOME_PAGE_PATH);
         }
+        return pagePath;
     }
 
     protected void clearAuthenticationAttributes(HttpServletRequest request) {
