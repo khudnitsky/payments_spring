@@ -3,6 +3,7 @@ package by.pvt.khudnitsky.payments.pojos;
 import javax.persistence.*;
 
 /**
+ * Describes the entity <b>UserDetail</b>
  * Created by: khudnitsky
  * Date: 06.02.2016
  * Time: 11:56

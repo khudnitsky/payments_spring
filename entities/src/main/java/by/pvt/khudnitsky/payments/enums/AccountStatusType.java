@@ -4,6 +4,7 @@
 package by.pvt.khudnitsky.payments.enums;
 
 /**
+ * Contains enums that describe types of account status
  * @author khudnitsky
  * @version 1.0
  *

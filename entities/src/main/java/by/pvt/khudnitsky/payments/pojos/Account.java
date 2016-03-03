@@ -129,6 +129,10 @@ public class Account extends AbstractEntity {
                 '}';
     }
 
+    /**
+     * Secured adding into set
+     * @param card - entity of Card
+     */
     public void addCard(Card card){
         if(cards == null){
             cards = new HashSet<>();
@@ -136,6 +140,10 @@ public class Account extends AbstractEntity {
         cards.add(card);
     }
 
+    /**
+     * Secured adding into set
+     * @param operation - entity of Operation
+     */
     public void addOperation(Operation operation){
         if(operations == null){
             operations = new HashSet<>();

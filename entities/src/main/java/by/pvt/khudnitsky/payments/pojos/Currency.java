@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * Wrapper-class on CurrencyType
  * Created by: khudnitsky
  * Date: 06.02.2016
  * Time: 17:16
@@ -64,6 +65,10 @@ public class Currency extends AbstractEntity{
                 '}';
     }
 
+    /**
+     * Secured adding into set
+     * @param account - entity of Account
+     */
     public void addAccount(Account account){
         if(accounts == null){
             accounts = new HashSet<>();

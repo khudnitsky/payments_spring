@@ -5,6 +5,7 @@ import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 /**
+ * Component, that stored in storage like columns
  * Created by: khudnitsky
  * Date: 06.02.2016
  * Time: 12:03

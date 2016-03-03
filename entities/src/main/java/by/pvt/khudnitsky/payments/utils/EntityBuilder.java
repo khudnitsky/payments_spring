@@ -20,6 +20,15 @@ import java.util.Set;
 public class EntityBuilder {
     private EntityBuilder(){}
 
+    /**
+     * Builds Account entity
+     * @param accountNumber - account's number
+     * @param deposit - account's deposit
+     * @param accountStatus - account's status
+     * @param currency - currency
+     * @param user - user
+     * @return Account entity
+     */
     public static Account buildAccount(Long accountNumber, Double deposit, AccountStatusType accountStatus, Currency currency, User user){
         Account account = new Account();
         account.setAccountNumber(accountNumber);
@@ -30,6 +39,15 @@ public class EntityBuilder {
         return account;
     }
 
+    /**
+     * Builds Operation entity
+     * @param amount - the value of operation
+     * @param description - description of operation
+     * @param date - date
+     * @param user - user
+     * @param account - account
+     * @return Operation entity
+     */
     public static Operation buildOperation(Double amount, String description, Calendar date, User user, Account account){
         Operation operation = new Operation();
         operation.setAmount(amount);
@@ -40,6 +58,17 @@ public class EntityBuilder {
         return operation;
     }
 
+    /**
+     * Builds User entity
+     * @param firstName - name of user
+     * @param lastName - surname of user
+     * @param login - user's login
+     * @param password - user's password
+     * @param userDetail - user's details
+     * @param accounts - set of accounts
+     * @param accessLevels - set of access levels
+     * @return User entity
+     */
     public static User buildUser(String firstName, String lastName, String login, String password, UserDetail userDetail, Set<Account> accounts, Set<AccessLevel> accessLevels){
         User user = new User();
         user.setFirstName(firstName);
@@ -61,18 +90,35 @@ public class EntityBuilder {
         throw new UnsupportedOperationException();
     }
 
+    /**
+     * Builds Currency entity
+     * @param currencyType - value of enum CurrencyType
+     * @return Currency entity
+     */
     public static Currency buildCurrency(CurrencyType currencyType){
         Currency currency = new Currency();
         currency.setCurrencyType(currencyType);
         return currency;
     }
 
+    /**
+     * Builds UserDetail entity
+     * @param address - address
+     * @return UserDetail entity
+     */
     public static UserDetail buildUserDetail(Address address){
         UserDetail userDetail = new UserDetail();
         userDetail.setAddress(address);
         return userDetail;
     }
 
+    /**
+     * Builds Address entity
+     * @param city - city
+     * @param street - street
+     * @param zipCode - postal code
+     * @return Address entity
+     */
     public static Address buildAddress (String city, String street, String zipCode){
         Address address = new Address();
         address.setCity(city);
@@ -81,6 +127,11 @@ public class EntityBuilder {
         return address;
     }
 
+    /**
+     * Builds AccessLevel entity
+     * @param accessLevelType - value of enum AccessLevelType
+     * @return AccessLevel entity
+     */
     public static AccessLevel buildAccessLevel(AccessLevelType accessLevelType){
         AccessLevel accessLevel = new AccessLevel();
         accessLevel.setAccessLevelType(accessLevelType);

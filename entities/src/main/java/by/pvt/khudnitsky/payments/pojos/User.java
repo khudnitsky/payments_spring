@@ -141,6 +141,10 @@ public class User extends AbstractEntity {
                 '}';
     }
 
+    /**
+     * Secured adding into set
+     * @param accessLevel - entity of AccessLevel
+     */
     public void addAccessLevel(AccessLevel accessLevel){
         if(accessLevels == null){
             accessLevels = new HashSet<>();
@@ -148,6 +152,10 @@ public class User extends AbstractEntity {
         accessLevels.add(accessLevel);
     }
 
+    /**
+     * Secured adding into set
+     * @param account - entity of Account
+     */
     public void addAccount(Account account){
         if(accounts == null){
             accounts = new HashSet<>();
@@ -155,6 +163,10 @@ public class User extends AbstractEntity {
         accounts.add(account);
     }
 
+    /**
+     * Secured adding into set
+     * @param operation - entity of Operation
+     */
     public void addOperation(Operation operation){
         if(operations == null){
             operations = new HashSet<>();

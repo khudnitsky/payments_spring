@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
+ * Wrapper-class on AccessLevelType
  * Created by: khudnitsky
  * Date: 06.02.2016
  * Time: 12:20
@@ -17,7 +18,7 @@ public class AccessLevel extends AbstractEntity {
     private static final long serialVersionUID = 8L;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "enum('CLIENT', 'ADMINISTRATOR')")
+    @Column(columnDefinition = "enum('CLIENT', 'ADMINISTRATOR', 'SUPER')")
     public AccessLevelType getAccessLevelType() {
         return accessLevelType;
     }

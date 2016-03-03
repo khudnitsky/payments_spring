@@ -5,6 +5,11 @@ package by.pvt.khudnitsky.payments.dto;
  * Date: 09.02.2016
  * Time: 9:33
  */
+
+/**
+ * Data transfer object OperationDTO
+ * Used to simplify output on view
+ */
 public class OperationDTO {
     private String operationDate;
     private String description;
@@ -38,6 +43,17 @@ public class OperationDTO {
         result = 31 * result + (userLastName != null ? userLastName.hashCode() : 0);
         result = 31 * result + (accountNumber != null ? accountNumber.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "OperationDTO{" +
+                "accountNumber=" + accountNumber +
+                ", operationDate='" + operationDate + '\'' +
+                ", description='" + description + '\'' +
+                ", amount=" + amount +
+                ", userLastName='" + userLastName + '\'' +
+                '}';
     }
 
     public Long getAccountNumber() {

@@ -8,6 +8,7 @@ import java.util.Calendar;
 
 /**
  * Describes the entity <b>Card</b>
+ * NOT USED
  * @author khudnitsky
  * @version 1.0
  *

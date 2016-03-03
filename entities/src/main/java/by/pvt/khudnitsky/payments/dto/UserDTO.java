@@ -7,6 +7,12 @@ import javax.validation.constraints.*;
  * Date: 23.02.2016
  * Time: 11:52
  */
+
+/**
+ * Data transfer object UserDTO
+ * Used for combine fields of Account, User and Currency
+ * pojos into one object
+ */
 public class UserDTO {
     @Size(min = 2, max = 20, message = "First name should be between 2 and 20 characters long") // TODO локализация
     @Pattern(regexp = "^[a-zA-Zа-яА-Я0-9]+$", message = "First name should be alphanumeric with no spaces")
@@ -14,7 +20,7 @@ public class UserDTO {
     private String firstName;
 
     @Size(min = 3, max = 50, message = "Last name should be between 3 and 50 characters long")
-    @Pattern(regexp = "^[a-zA-Zа-яА-Я0-9-/s]+$", message = "First name should be alphanumeric with no spaces") // TODO добавить пробелы и тире
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я0-9-/s]+$", message = "First name should be alphanumeric with no spaces")
     @NotNull(message = "Last name cannot be empty")
     private String lastName;
 
@@ -70,6 +76,19 @@ public class UserDTO {
         result = 31 * result + (accountNumber != null ? accountNumber.hashCode() : 0);
         result = 31 * result + (currency != null ? currency.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "accountNumber=" + accountNumber +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", login='" + login + '\'' +
+                ", password_1='" + password_1 + '\'' +
+                ", password_2='" + password_2 + '\'' +
+                ", currency='" + currency + '\'' +
+                '}';
     }
 
     public Long getAccountNumber() {
