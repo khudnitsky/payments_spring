@@ -46,6 +46,5 @@ public class DaoConstants {
     public static final String HQL_GET_ALL_CLIENTS = " from User" /* user  join user.accessLevels level where level.accessLevelType = :accessLevelType"*/;
     public static final String HQL_GET_BY_LOGIN = "from User where login = :login";
 
-
     private DaoConstants(){}
 }
